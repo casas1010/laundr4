@@ -1,0 +1,145 @@
+npm install axios
+
+
+npm info "eslint-config-airbnb@latest" peerDependencies
+installing shims/polyfills in your app, with airbnb-browser-shims or the equivalent.
+
+add css
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+
+jquery
+npm install jquery
+
+enzyme: testing for react
+npm install --save enzyme enzyme-adapter-react-XX,    check package.json for version number       "react": "^XX.13.1",
+npm run test
+
+npm install --save axios redux-promise moxios
+
+react-redux
+npm install --save redux react-redux;
+
+
+validation: take data, json schema and validate data
+npm install --save tv4
+
+
+SERVER COMMANDS!
+
+- create json file
+npm init
+
+- create empty package jason
+npm init -y
+
+- something
+npm install --save express mongoose morgan body-parser   
+
+
+
+SERVER
+
+How to run the server
+node index.js 
+
+Watches the project directory for changes, if there are changes it will update the server by resettin it!
+npm install --save nodemon
+npm run dev   (requires you to change the json file!)
+
+start mongo
+mongod
+
+
+
+
+npm install json-server ngrok
+
+
+
+
+
+
+nodemon: used to restart a server when new data is added, so you dont have to manually start it
+
+
+
+JSON SERVER
+CREATE A JSON PACKAGE
+1. create folder A for server
+mkdir NAME
+2. go into folder, run the following
+npm init
+npm install json-server
+run npm install json-server ngrok .(optional) 
+
+--INSIDE OF FOLDER A
+1. to initiate the server 
+npm run db
+2. to initiate ngrok
+npm run tunnel
+
+STYLE-LING REACT NATIVE
+https://react-native-elements.github.io/react-native-elements/
+
+npm install react-native-elements
+
+
+
+
+
+
+
+***** REACT NATIVE *****
+
+-Start react-native project---------------------------
+
+TRY THIS:  npx create-react-native-app
+https://docs.expo.io/bare/installing-unimodules/
+
+npm install expo-cli --global
+npm install -g expo-cli
+npx expo-cli init pName
+
+OR 
+
+expo init pName
+
+------------------------------------------------------
+-Redux------------------------------------------------
+npm install --save redux react-redux 
+
+async action creators
+npm install redux-thunk
+
+------------------------------------------------------
+
+-debugger---------------------------------------------
+brew update && brew cask install react-native-debugger
+npm install --save redux-devtools-extension
+
+
+------------------------------------------------------
+
+
+
+
+
+
+
+Install React Navigation
+npm install react-navigation
+
+Install Dependencies
+expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+
+Install React Navigation Stack
+npm install react-navigation-stack @react-native-community/masked-view
+
+Start the app and clear cache with
+ expo r -c
+
+
+* CSS semantic ui *
+npm i semantic-ui-react semantic-ui-css
+import 'semantic-ui-css/semantic.min.css'
+

@@ -1,0 +1,195 @@
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+*GITHUB*
+
+
+VOCAB AND INFO
+repo: container for a project you want to track with GIT. Can be local or remote
+
+
+STAGES OF FILES
+
+1 modified: changed files, Not commited
+2 staging: add any changed files to staging that you want to commit
+3 committed: any files in the staging area are added to the commit when we make open
+4 GITHUB
+
+
+(2) STAGING STAGE  :  https://www.youtube.com/watch?v=KngvG8WzYLU&list=PL4cUxeGkcC9goXbgTDQ0n_4TBzOO0ocPR&index=5
+
+How to find which files are in the staging stage and which files have been changed?
+git status
+
+How to add file NAME to the staging stage?
+git add NAME
+
+How to add all files to the staging stage?
+git add .
+
+How to remove file NAME from the staging stage?
+git rm --cached NAME
+
+How to add files to GITHUB?
+git push REPO_URL branchName
+
+How to remove all files from staging stage?
+git reset
+
+
+(3) COMMITED STAGE  :  https://www.youtube.com/watch?v=Fhgga2s_RmM&list=PL4cUxeGkcC9goXbgTDQ0n_4TBzOO0ocPR&index=6
+
+How to add files to the comit stage?
+git commit -m "describe the change"       must be in double quote
+
+How to see a history of the commits?
+git log
+
+
+
+UNDOING THINGS  :  https://www.youtube.com/watch?v=RIYrfkZjWmA&list=PL4cUxeGkcC9goXbgTDQ0n_4TBzOO0ocPR&index=7
+
+- Checkout commit (safe)
+shows you the code at some point in time.
+changes made are not saved
+
+- Rever commit (semi-safe)
+deleting a set of changes/commit
+
+- Reset commit (unsafe)
+permantly take you back in time to a per
+
+
+
+BRANCHES  :  https://www.youtube.com/watch?v=QV0kVNvkMxc&list=PL4cUxeGkcC9goXbgTDQ0n_4TBzOO0ocPR&index=8
+
+How to see all the branches
+git  branch -a
+-note: the branch with the asteric is the branch you are currently working on
+
+How to create a new branch and switch into it
+git checkout -b NAME
+
+How to create a new branch 
+git branch NAME
+
+How to change into another branch
+git checkout NAME
+
+How to delete a branch
+git branch -d NAME
+git branch -D NAME
+
+
+
+MERGING BRANCHES  :  https://www.youtube.com/watch?v=XX-Kct0PfFc&list=PL4cUxeGkcC9goXbgTDQ0n_4TBzOO0ocPR&index=9
+
+How to merge branches
+(1) You wanna be on the branch that you want to branch stuff into
+git checkout NAME
+(2) Merge the name of the branch you want to branch in
+git merge NAME
+ 
+
+
+CONFLICT 
+
+(0) Branch A is created, new content is on file B
+(1) Someone edits the master branch on file B
+(2) Branch A is merged into the master branch
+CONFLICT (content): merge conflics in fileName
+Automatic merge fail; fix the conflics and then commit the result.
+
+<<<<<<<HEAD
+code in the main branch
+>>>>>>>feature
+code in the other branch
+
+git add . 
+git commit
+:
+
+
+
+GITHUB : https://www.youtube.com/watch?v=fQLK8Ib_SKk&list=PL4cUxeGkcC9goXbgTDQ0n_4TBzOO0ocPR&index=10
+
+How to add files to GITHUB?
+git add .
+git commit -m 'message'
+git push REPO_URL branchName
+
+How to setup alias for REPO_URL?
+git remote add NAME REPO_URL
+ where NAME is usually called origin, but it can be whatever name you want
+ ex: git remote add origin https://github.com/casas1010/gym-app2.git
+
+How to clone a reposatory
+note: be on the file where you want the info to be
+git clone REPO_URL
+
+How to find which remote repo we have as default?
+git remote -v
+
+
+
+GITHUB COLLABORATION : https://www.youtube.com/watch?v=MnUd31TvBoU&list=PL4cUxeGkcC9goXbgTDQ0n_4TBzOO0ocPR&index=11
+
+usual workflow
+(1) clone remote reposatory
+git clone REPO_URL
+
+(2) verify that you are on the master branch
+
+(3) merge the remote reposatory to us
+git pull origin master
+
+(4) make a new branch
+git checkout -b NAME
+
+(5) make changes on the branch, save work
+
+(6) get files ready to be pushed
+git add .
+git commit -m 'message'
+
+(7) push files to a branch to be reviewed
+git push origin NAME
+
+(8) on the github.com reposatory, press 'compare & pull request'
+- add information 
+- press 'create pull request': this means you want to merge your bracnh into
+the main branch
+- devs get ping to review your code
+
+(9) once team agrees on code, click 'merge pull request', then 'confirm merge'
+
+
+FORKING : https://www.youtube.com/watch?v=HbSjyU2vf6Y&list=PL4cUxeGkcC9goXbgTDQ0n_4TBzOO0ocPR&index=12
+
+
+
+
+
+
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+*COMMAND*
+
+
+mkdir NAME
+- make new folder with name NAME
+
+pwd
+- def: print current directory
+- address to current location
+
+cd NAME 
+- def: change directory
+- open file NAME
+
+touch NAME
+- creates file with the name NAME
+
+rm NAME
+- delete file NAME
+
+
+node NAME.js
+-run the file NAME.js

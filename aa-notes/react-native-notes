@@ -1,0 +1,91 @@
+What are the methods of creating a react native app?
+
+-React Native CLI
+-Expo XDE
+expo init pName
+-Expo CLI
+
+-Create react native app
+-Sketch
+
+
+
+---------------------------------------------------------------------------
+NAVIGATION
+
+import React from "react";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+import { createBottomTabNavigator } from "react-navigation-tabs";
+
+import WelcomScreen from "./screens/WelcomScreen";
+import AuthScreen from "./screens/AuthScreen";
+import MapScreen from "./screens/MapScreen";
+import DeckScreen from './screens/DeckScreen'
+import SettingsScreen from './screens/SettingsScreen'
+import ReviewScreen from "./screens/ReviewScreen";
+
+const MainNavigator = createBottomTabNavigator(
+  {
+    welcome: { screen: WelcomScreen },
+    auth: { screen: AuthScreen },
+    main: {
+      screen: createBottomTabNavigator({
+        map: { screen: MapScreen },
+        deck: { screen: DeckScreen },
+        review: {
+          screen: createStackNavigator({
+            review: { screen: ReviewScreen },
+            settings: { screen: SettingsScreen },
+          }),
+        },
+      }),
+    },
+  },
+  {
+    defaultNavigationOptions: {
+      tabBarVisible: false
+    },
+    navigationOptions: {
+      lazy: true
+    }
+  }
+);
+
+
+const App = createAppContainer(MainNavigator);
+
+
+import { Provider } from "react-redux";
+import store from './store'
+
+export default () => {
+  return (
+      <App />
+  );
+};
+
+___________________________________________________________________________
+AsyncStorage:react-native
+
+(1)SMALL DATA
+- AsyncStorage: object/function that allows us to store small data to the users phone
+- if a user restarts application, all the data is dumped. This is why we use AsyncStorage, so we dont have that issue.
+- AsyncStorage returns a promise
+
+- How to use it?
+import import { AsyncStorage } from 'react-native';
+AsyncStorage.setItem('tokenName',token);
+AsyncStorage.getItem('tokenName');
+
+
+
+-AsyncStorage:react-native-------------
+
+-eslint----------
+
+npm info "eslint-config-airbnb@latest" peerDependencies
+installing shims/polyfills in your app, with airbnb-browser-shims or the equivalent.
+
+
+-eslint----------

@@ -1,0 +1,179 @@
+SETUP ONLY___________________________________________________________________________
+
+- package required
+npm install --save redux react-redux redux-thunk
+
+
+----REDUCERS----
+- create a folder called reducers, create a file index.js, this is where 
+you will import all the reducers and combine them.
+- create a dummy reducer to allow set up
+import { combineReducers } from "redux";
+
+// NOTE: reducer must define an none undefined value... in other words 
+// it cant return undefined
+export default combineReducers({
+  auth: () => {
+    return {};
+  },
+});
+
+
+----STORE----
+- create a folder called store, create a file called index.js, add the following:
+import {createStore, compose, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
+import reducers from '../reducers'
+
+const store = createStore(
+    reducers,                   //reducers
+    {},                         //default state
+    compose(
+        applyMiddleware(thunk)       
+        )
+);
+
+export default store;
+
+
+----MAIN----
+- Make appropiate imports, wrap App with <Provider> and export it
+import { Provider } from "react-redux";
+import store from './src/store'
+
+export default () => {
+  return (
+    <Provider store={store}>
+      <App/>
+    </Provider>
+  );
+};
+
+----ACTION CREATORS----
+- create a folder called actions
+- create file name types.js . 
+- create the types with the following format
+export const TYPE_TEXT = 'type_text';
+
+- create a actions file that describes the actions it will encompass such as 
+auth_actions.js
+
+// regular syntax
+const actionName =(text)=> {
+  // perform action
+  return {
+    type: TYPE_TEXT,
+    payload: // ...
+  }
+}
+
+// async syntax using redux thunk
+export const actionName = () => async (dispatch) => {
+  // perform action
+    dispatch({ 
+      type: , 
+      payload:  
+      });
+};
+
+- create a index.js file
+- export all the functions from the other file(s). Example below is only showing 
+1 file as an example
+export * from './auth_actions';
+
+
+END OF SETUP___________________________________________________________________________
+
+USING ACTION CREATORS
+
+- import connect function at the top
+import {connect} from 'react-redux';
+
+- import actions or the specific function at the top
+// all actions
+import * as actions from '../actions';
+// specific function
+import {functionName} from '../actions';
+
+- connect at the bottom of file, at the export statement
+export default connect(null,actions)(nameOfFile);
+
+- envoke the action by calling props.actionName or this.props.actionName
+
+
+
+USING REDUCERS_______________
+- in the reducers folder, create a reducer.js file.  The example below is for handling authentication
+
+import {
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOG_OUT
+} from "../actions/types";
+
+const authReducer = (state = {}, action) => {
+  switch (action.type) {
+    case LOGIN_SUCCESS:
+      return { token: action.payload };
+
+    case LOGIN_FAIL:
+      return { token: null };
+
+    case LOG_OUT:
+      return { token: null };
+
+    default:
+      return state;
+  }
+};
+
+export default authReducer;
+
+
+
+- in the index.js inside the reducers file, export all the files using the following format
+
+import { combineReducers } from "redux";
+import auth from './auth_reducer'
+
+// this is exporting the authReducer as auth
+export default combineReducers({
+    auth
+  });
+
+
+
+USING DATA FROM STORE---------
+- import connect
+import {connect} from 'react-redux';
+
+-create a the function mapStateToProps, pass as an argument the name of the reducer that holds the
+information that you want.
+-return an object with a key-value pair, that should reference the reducer
+function mapStateToProps({ auth }) {
+  return { token: auth.token };
+}
+
+- connect at the bottom of file, at the export statement
+export default connect(mapStateToProps)(AuthScreen);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
