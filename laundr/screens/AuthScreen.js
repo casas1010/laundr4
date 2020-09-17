@@ -1,6 +1,5 @@
-import React, { Component, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
-  Button,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -10,46 +9,119 @@ import {
   TouchableWithoutFeedback,
   View,
   TouchableOpacity,
+  Dimensions,
   Image,
+  Animated,
+  AsyncStorage,
 } from "react-native";
+// import jwtDecode from "jwt-decode";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import RNPickerSelect from "react-native-picker-select";
+import axios from "axios";
 
-const ITEMS = [
+const WIDTH = Dimensions.get("window").width;
+const USERTYPES = [
   { label: "User", value: "User" },
   { label: "Washer", value: "Washer" },
   { label: "Driver", value: "Driver" },
 ];
 
+// NOTES
+// not sure how to add font Calmer Bold
+
 const AuthScreen = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("jcasasmail@gmail.com");
+  const [password, setPassword] = useState("yCxGRcgJ7C9JdY2");
   const [userType, setUserType] = useState();
+  const [isWasher, setIsWasher] = useState();
+  const [isDriver, setIsDriver] = useState();
+  const [isAdmin, setIsAdmin] = useState();
 
-  const logInFlow = () => {
-    console.log(`login initiated with the following:`);
-    console.log(`email: ${email}`);
-    console.log(`password: ${password}`);
-    console.log(`userType: ${userType}`);
-
-    // PERFORM API CALL
+  // ANIMATION
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const fadeIn = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1900,
+      useNativeDriver: true,
+    }).start();
   };
+
+  useEffect(() => {
+    fadeIn();
+  }, []);
+
+  // ANIMATION
+
+  // LOG IN FLOW
+  const handleLogin = async (event) => {
+    // console.log(`login initiated with the following:`);
+    // console.log(`email: ${email}`);
+    // console.log(`password: ${password}`);
+    // console.log(`userType: ${userType}`);
+
+    // this.handleInputValidation()
+    if (true) {
+      try {
+        const response = await axios.post("/api/user/login", {
+          email: email.toLowerCase(),
+          password: password,
+        });
+
+        if (response.data.success) {
+          const token = response.data.token;
+          await AsyncStorage.setItem("email_token", token);
+
+          localStorage.setItem("email_token", token);
+
+          const data = jwtDecode(token);
+
+          setIsWasher(data.isWasher);
+          setIsDriver(data.isDriver);
+          setIsAdmin(data.isAdmin);
+        } else {
+          // this.context.showAlert(response.data.message);
+          console.log("else:(");
+        }
+      } catch (error) {
+        // showConsoleError("logging in", error);
+        // this.context.showAlert(caughtError("logging in", error, 99));
+        console.log("error!");
+      }
+    }
+  };
+  // LOG IN FLOW
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : null}
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
       <View style={styles.masterContainer}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
-            <Image style={styles.logo} source={require("../assets/logo.png")} />
+            <View style={styles.logo}>
+              <Image
+                style={{ height: 130, width: WIDTH * 0.85 }}
+                resizeMode="contain"
+                source={require("../assets/Launch_Logo.png")}
+              />
+            </View>
+
+            <Animated.View
+              style={{
+                opacity: fadeAnim,
+                alignItems: "center",
+              }}
+            >
+              <Text style={styles.animatedText}>Explore More. Stress Less</Text>
+            </Animated.View>
 
             <RNPickerSelect
               placeholder={{}}
               onValueChange={(value) => setUserType(value)}
-              items={ITEMS}
+              items={USERTYPES}
               style={pickerSelectStyles}
             />
 
@@ -86,18 +158,20 @@ const AuthScreen = (props) => {
               </View>
             </View>
             <View style={styles.buttonsContainer}>
-              <TouchableOpacity style={styles.button} onPress={logInFlow}>
+              <TouchableOpacity style={styles.button} onPress={handleLogin}>
                 <Text style={styles.buttonText}>LOG IN</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => console.log(props.navigation.navigate("signUp"))}
+                onPress={() => props.navigation.navigate("signUpDetails")}
               >
                 <Text style={styles.buttonText}>SIGN UP</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate("forgotPassword")}
+              >
                 <Text style={styles.buttonText}>Forgot Password?</Text>
               </TouchableOpacity>
             </View>
@@ -121,17 +195,22 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   logo: {
-    marginTop: 35,
-    marginBottom: 30,
+    marginTop: 10,
+    alignItems: "center",
   },
-  formContainer:{
+  animatedText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 5,
+    // fontFamily:'Calmer Bold'
+  },
+  formContainer: {
     borderColor: "white",
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderWidth: 1,
     borderRadius: 15,
     paddingTop: 20,
-    paddingBottom:20
-
+    paddingBottom: 20,
   },
   userTypeBox: {
     borderColor: "red",
@@ -153,8 +232,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     width: 200,
+    paddingLeft: 5,
   },
-
   icon: {
     height: 30,
     width: 30,
