@@ -2,11 +2,11 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import DrawerNavigator from "./DrawerNavigator";
 
-import AuthScreen from "../screens/AuthScreen";
-import City from "../screens/City";
-import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
-import Password from "../screens/Password";
-import SignUpDetailsScreen from "../screens/SignUpDetailsScreen";
+import AuthScreen from "../screens/SignInScreens/AuthScreen";
+import City from "../screens/SignInScreens/City";
+import ForgotPasswordScreen from "../screens/SignInScreens/ForgotPasswordScreen";
+import Password from "../screens/SignInScreens/Password";
+import SignUpDetailsScreen from "../screens/SignInScreens/SignUpDetailsScreen";
 
 // FUTURE IMPROVEMENT: figure out how to hide all tab screens from Tab.Navigator   // https://reactnavigation.org/docs/bottom-tab-navigator/
 // NOTE: CHANGE INITIAL ROUTE

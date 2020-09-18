@@ -17,7 +17,7 @@ import {
 } from "react-native";
 
 import City from "./City.js";
-import SignUpCard from "../components/SignUpCard";
+import SignUpCard from "../../components/SignUpCard";
 import Password from "./Password.js";
 
 const WIDTH = Dimensions.get("window").width;

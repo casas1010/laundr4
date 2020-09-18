@@ -106,7 +106,7 @@ const AuthScreen = (props) => {
               <Image
                 style={{ height: 130, width: WIDTH * 0.85 }}
                 resizeMode="contain"
-                source={require("../assets/Launch_Logo.png")}
+                source={require("../../assets/Launch_Logo.png")}
               />
             </View>
 
