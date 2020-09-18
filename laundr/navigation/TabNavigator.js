@@ -40,5 +40,4 @@ const BottomTabNavigator = ({ navigation }) => {
     </Tab.Navigator>
   );
 };
-BottomTabNavigator.tabBarVisible = false;
 export default BottomTabNavigator;

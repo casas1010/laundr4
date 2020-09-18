@@ -40,7 +40,6 @@ const HomeScreen = (props) => {
   // gets position code
   useEffect(() => {
     getCurrentLocation();
-    // props.navigation.openDrawer();
   }, [initialRegion]);
 
   const getCurrentLocation = async () => {
