@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import MapView from "react-native-maps";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 
 // ask if change is desired
 // https://docs.google.com/presentation/d/1V6_v9CR0jllyZVvGvCurM8qi4h8t2iv6e1NlW3EGPRA/edit#slide=id.p
@@ -39,6 +40,7 @@ const HomeScreen = (props) => {
   // gets position code
   useEffect(() => {
     getCurrentLocation();
+    // props.navigation.openDrawer();
   }, [initialRegion]);
 
   const getCurrentLocation = async () => {
@@ -81,19 +83,23 @@ const HomeScreen = (props) => {
         onMapReady={goToInitialLocation}
         initialRegion={initialRegion}
       />
-      <View style={styles.searchBoxContainer}>
-        <FontAwesome5
-          name="search-location"
-          size={20}
-          color="black"
-          style={styles.icon}
-        />
-        <TextInput
-          value={address}
-          onChangeText={(address) => setAddress(address)}
-          placeholder="Address"
-          style={styles.addressTextInput}
-        />
+      <View style={styles.topInputs_ButtonContainer}>
+        <Entypo name="menu" size={30} color="black" style={styles.menuIcon} onPress={props.navigation.openDrawer} />
+
+        <View style={styles.searchBoxContainer}>
+          <FontAwesome5
+            name="search-location"
+            size={20}
+            color="black"
+            style={styles.icon}
+          />
+          <TextInput
+            value={address}
+            onChangeText={(address) => setAddress(address)}
+            placeholder="Address"
+            style={styles.addressTextInput}
+          />
+        </View>
       </View>
       <View style={styles.bottomButtonsContainer}>
         <View style={styles.newOrderButton}>
@@ -123,10 +129,18 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
-  searchBoxContainer: {
-    flexDirection: "row",
+  topInputs_ButtonContainer: {
+  
+    backgroundColor: "transparent",
     position: "absolute",
-    top: HEIGHT * 0.15,
+    top: 22,
+  },
+  menuIcon: {
+    paddingLeft:15
+  },
+  searchBoxContainer: {
+
+    flexDirection: "row",
     paddingLeft: 15,
     paddingRight: 15,
     height: 50,
