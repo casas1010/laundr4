@@ -1,8 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import { MainStackNavigator, ContactStackNavigator } from "./StackNavigator";
 import DrawerNavigator from "./DrawerNavigator";
-
 
 import AuthScreen from "../screens/AuthScreen";
 import City from "../screens/City";
@@ -10,17 +8,37 @@ import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import Password from "../screens/Password";
 import SignUpDetailsScreen from "../screens/SignUpDetailsScreen";
 
+// FUTURE IMPROVEMENT: figure out how to hide all tab screens from Tab.Navigator   // https://reactnavigation.org/docs/bottom-tab-navigator/
+// NOTE: CHANGE INITIAL ROUTE
+
 const Tab = createBottomTabNavigator();
 
-const BottomTabNavigator = () => {
+const BottomTabNavigator = ({ navigation }) => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="auth" component={AuthScreen} />
-      <Tab.Screen name="signUpDetails" component={SignUpDetailsScreen} />
-      <Tab.Screen name="forgotPassword" component={ForgotPasswordScreen} />
-       <Tab.Screen name="drawer" component={DrawerNavigator} />
+      <Tab.Screen
+        options={{ tabBarVisible: false }}
+        name="drawer"
+        component={DrawerNavigator}
+      />
+
+      <Tab.Screen
+        options={{ tabBarVisible: false }}
+        name="auth"
+        component={AuthScreen}
+      />
+      <Tab.Screen
+        options={{ tabBarVisible: false }}
+        name="signUpDetails"
+        component={SignUpDetailsScreen}
+      />
+      <Tab.Screen
+        options={{ tabBarVisible: false }}
+        name="forgotPassword"
+        component={ForgotPasswordScreen}
+      />
     </Tab.Navigator>
   );
 };
-
+BottomTabNavigator.tabBarVisible = false;
 export default BottomTabNavigator;
