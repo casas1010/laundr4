@@ -99,8 +99,8 @@ const AuthScreen = (props) => {
       behavior={Platform.OS == "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
-      <View style={styles.masterContainer}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.masterContainer}>
           <View style={styles.inner}>
             <View style={styles.logo}>
               <Image
@@ -179,8 +179,8 @@ const AuthScreen = (props) => {
 
             <View style={{ flex: 1 }} />
           </View>
-        </TouchableWithoutFeedback>
-      </View>
+        </View>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 };

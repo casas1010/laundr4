@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
+  SafeAreaView,
   Text,
   TextInput,
   TouchableWithoutFeedback,
@@ -13,6 +14,7 @@ import {
   Image,
   Dimensions,
 } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
 import Header from "../../components/Header";
 
@@ -28,84 +30,131 @@ const AccountScreen = (props) => {
   const [state, setState] = useState();
   const [city, setCity] = useState();
   const [address, setAddress] = useState();
-  const [editable, setEditable] = useState(false);
   const [number, setNumber] = useState();
+  //
+  const [editable, setEditable] = useState(true);
+  const [lock, setLock] = useState(true);
+  const [textColor, setTextColor] = useState("#990000");
+  const [lockColor, setLockColor] = useState("#990000");
+
   useEffect(() => {
     console.log("AccountScreen loaded");
   }, []);
 
+  useEffect(() => {
+    setEditable(!editable);
+    lock ? setTextColor("#990000") : setTextColor("black");
+    lock ? setLockColor("#990000") : setLockColor("black");
+  }, [lock]);
+
   return (
-    <View style={styles.container}>
-      <Header openDrawer={props.navigation.openDrawer} name="account" />
-      <View style={styles.formContainer}>
-        <View style={styles.title_InputContainer}>
-          <Text style={styles.inputTitle}>Name</Text>
+    <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : null}
+      style={{ flex: 1 }}
+    >
+      <View style={styles.container}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.inner}>
+            <Header openDrawer={props.navigation.openDrawer} name="account" />
 
-          <TextInput
-            editable={editable}
-            value={name}
-            onChangeText={(name) => setName(name)}
-            placeholder=" Name"
-            style={styles.inputBox}
-          />
-        </View>
+            <TouchableOpacity
+              style={[styles.lockButton, { backgroundColor: lockColor }]}
+              onPress={() => setLock(!lock)}
+            >
+              {lock ? (
+                <MaterialIcons name="lock" size={50} color="white" />
+              ) : (
+                <MaterialIcons name="lock-open" size={50} color="white" />
+              )}
+            </TouchableOpacity>
 
-        <View style={styles.title_InputContainer}>
-          <Text style={styles.inputTitle}>Email</Text>
-          <TextInput
-            editable={editable}
-            value={name}
-            onChangeText={(email) => setEmail(email)}
-            placeholder=" Email"
-            style={styles.inputBox}
-          />
-        </View>
+            <View style={styles.formContainer}>
+              <View style={styles.title_InputContainer}>
+                <Text style={[styles.inputTitle, { color: textColor }]}>
+                  Name
+                </Text>
 
-        <View style={styles.title_InputContainer}>
-          <Text style={styles.inputTitle}>Number</Text>
-          <TextInput
-            editable={editable}
-            value={number}
-            onChangeText={(number) => setNumber(number)}
-            placeholder=" Number"
-            style={styles.inputBox}
-          />
-        </View>
+                <TextInput
+                  editable={editable}
+                  value={name}
+                  onChangeText={(name) => setName(name)}
+                  placeholder=" Name"
+                  style={styles.inputBox}
+                />
+              </View>
 
-        <View style={styles.title_InputContainer}>
-          <Text style={styles.inputTitle}>Country</Text>
-        </View>
+              <View style={styles.title_InputContainer}>
+                <Text style={[styles.inputTitle, { color: textColor }]}>
+                  Email
+                </Text>
+                <TextInput
+                  editable={editable}
+                  value={email}
+                  onChangeText={(email) => setEmail(email)}
+                  placeholder=" Email"
+                  style={styles.inputBox}
+                />
+              </View>
 
-        <View style={styles.title_InputContainer}>
-          <Text style={styles.inputTitle}>State</Text>
-        </View>
+              <View style={styles.title_InputContainer}>
+                <Text style={[styles.inputTitle, { color: textColor }]}>
+                  Number
+                </Text>
+                <TextInput
+                  editable={editable}
+                  value={number}
+                  onChangeText={(number) => setNumber(number)}
+                  placeholder=" Number"
+                  style={styles.inputBox}
+                />
+              </View>
 
-        <View style={styles.title_InputContainer}>
-          <Text style={styles.inputTitle}>City</Text>
-        </View>
+              <View style={styles.title_InputContainer}>
+                <Text style={[styles.inputTitle, { color: textColor }]}>
+                  Country
+                </Text>
+              </View>
 
-        <View style={styles.title_InputContainer}>
-          <Text style={styles.inputTitle}>Address</Text>
-          <TextInput
-            editable={editable}
-            value={name}
-            onChangeText={(address) => setAddress(address)}
-            placeholder=" Address"
-            style={styles.inputBox}
-          />
-        </View>
+              <View style={styles.title_InputContainer}>
+                <Text style={[styles.inputTitle, { color: textColor }]}>
+                  State
+                </Text>
+              </View>
+
+              <View style={styles.title_InputContainer}>
+                <Text style={[styles.inputTitle, { color: textColor }]}>
+                  City
+                </Text>
+              </View>
+
+              <View style={styles.title_InputContainer}>
+                <Text style={[styles.inputTitle, { color: textColor }]}>
+                  Address
+                </Text>
+                <TextInput
+                  editable={editable}
+                  value={name}
+                  onChangeText={(address) => setAddress(address)}
+                  placeholder=" Address"
+                  style={styles.inputBox}
+                />
+              </View>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
       </View>
-      <View style={styles.lockContainer}>
-        <TouchableOpacity style={styles.lockButton}></TouchableOpacity>
-      </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#f4f4f4",
     flex: 1,
+  },
+  inner: {
+    paddingBottom: 24,
+    flex: 1,
+    justifyContent: "flex-end",
   },
   formContainer: {
     backgroundColor: "white",
@@ -124,6 +173,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: FONTSIZE,
     fontWeight: "bold",
+    // color:'red'
   },
   inputBox: {
     width: "100%",
@@ -140,10 +190,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   lockButton: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+    right: 0,
+    top: HEIGHT * 0.1,
+    zIndex: 2,
     height: 80,
     width: 80,
     borderRadius: 80,
-    backgroundColor: "green",
+    backgroundColor: "black",
   },
 });
 
