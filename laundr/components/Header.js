@@ -40,7 +40,7 @@ const Header = (props) => {
         </TouchableOpacity>
 
         <View style={styles.textContainer}>
-          <Text style={styles.textStyle}>{props.name.toUpperCase()}</Text>
+          <Text style={styles.textStyle}>{props.name}</Text>
         </View>
       </View>
     </View>

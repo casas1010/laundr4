@@ -69,6 +69,7 @@ const AccountScreen = (props) => {
             </TouchableOpacity>
 
             <View style={styles.formContainer}>
+              
               <View style={styles.title_InputContainer}>
                 <Text style={[styles.inputTitle, { color: textColor }]}>
                   Name

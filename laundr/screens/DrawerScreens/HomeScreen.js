@@ -83,7 +83,13 @@ const HomeScreen = (props) => {
         initialRegion={initialRegion}
       />
       <View style={styles.topInputs_ButtonContainer}>
-        <Entypo name="menu" size={30} color="black" style={styles.menuIcon} onPress={props.navigation.openDrawer} />
+        <Entypo
+          name="menu"
+          size={30}
+          color="black"
+          style={styles.menuIcon}
+          onPress={props.navigation.openDrawer}
+        />
 
         <View style={styles.searchBoxContainer}>
           <FontAwesome5
@@ -129,16 +135,14 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height,
   },
   topInputs_ButtonContainer: {
-  
     backgroundColor: "transparent",
     position: "absolute",
     top: 22,
   },
   menuIcon: {
-    paddingLeft:15
+    paddingLeft: 15,
   },
   searchBoxContainer: {
-
     flexDirection: "row",
     paddingLeft: 15,
     paddingRight: 15,

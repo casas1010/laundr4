@@ -21,7 +21,6 @@ const BottomTabNavigator = ({ navigation }) => {
         name="drawer"
         component={DrawerNavigator}
       />
-
       <Tab.Screen
         options={{ tabBarVisible: false }}
         name="auth"

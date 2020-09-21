@@ -16,7 +16,15 @@ export function DrawerContent(props) {
           <View style={styles.drawerSection}>
             <DrawerItem
               icon={({ color, size }) => (
-                <Icon name="home-outline" color={color} size={size} />
+                <Icon
+                  name="home-outline"
+                  color={color}
+                  size={size}
+                  style={{
+                    height: size,
+                    width: size,
+                  }}
+                />
               )}
               label="Home"
               onPress={() => {
@@ -25,7 +33,15 @@ export function DrawerContent(props) {
             />
             <DrawerItem
               icon={({ color, size }) => (
-                <Icon name="account-outline" color={color} size={size} />
+                <Icon
+                  name="account-outline"
+                  color={color}
+                  size={size}
+                  style={{
+                    height: size,
+                    width: size,
+                  }}
+                />
               )}
               label="Account"
               onPress={() => {
@@ -34,8 +50,16 @@ export function DrawerContent(props) {
             />
             <DrawerItem
               icon={({ color, size }) => (
-                // <Icon name="bookmark-outline" color={color} size={size} />
-                <FontAwesome name="history" size={size} color={color} />
+                <FontAwesome
+                  name="history"
+                  size={size}
+                  style={{
+                    height: size,
+                    width: size,
+                    paddingLeft: 2,
+                  }}
+                  color={color}
+                />
               )}
               label="History"
               onPress={() => {
@@ -44,8 +68,16 @@ export function DrawerContent(props) {
             />
             <DrawerItem
               icon={({ color, size }) => (
-                <Ionicons name="ios-notifications" size={size} color={color} />
-                // <Icon name="settings-outline" color={color} size={size} />
+                <Ionicons
+                  name="ios-notifications"
+                  size={size}
+                  style={{
+                    height: size,
+                    width: size,
+                    paddingLeft: 4,
+                  }}
+                  color={color}
+                />
               )}
               label="Notifications"
               onPress={() => {
@@ -54,7 +86,15 @@ export function DrawerContent(props) {
             />
             <DrawerItem
               icon={({ color, size }) => (
-                <Icon name="account-check-outline" color={color} size={size} />
+                <Icon
+                  name="account-check-outline"
+                  color={color}
+                  size={size}
+                  style={{
+                    height: size,
+                    width: size,
+                  }}
+                />
               )}
               label="Referrals"
               onPress={() => {
@@ -63,8 +103,15 @@ export function DrawerContent(props) {
             />
             <DrawerItem
               icon={({ color, size }) => (
-                // <Icon name="account-check-outline" color={color} size={size} />
-                <MaterialIcons name="payment" size={size} color={color} />
+                <MaterialIcons
+                  name="payment"
+                  size={size}
+                  style={{
+                    height: size,
+                    width: size,
+                  }}
+                  color={color}
+                />
               )}
               label="Payment"
               onPress={() => {
@@ -73,8 +120,15 @@ export function DrawerContent(props) {
             />
             <DrawerItem
               icon={({ color, size }) => (
-                // <Icon name="account-check-outline" color={color} size={size} />
-                <FontAwesome name="newspaper-o" size={size} color={color} />
+                <FontAwesome
+                  name="newspaper-o"
+                  size={size}
+                  style={{
+                    height: size,
+                    width: size,
+                  }}
+                  color={color}
+                />
               )}
               label="Subscriptions"
               onPress={() => {
@@ -83,8 +137,15 @@ export function DrawerContent(props) {
             />
             <DrawerItem
               icon={({ color, size }) => (
-                // <Icon name="account-check-outline" color={color} size={size} />
-                <Entypo name="help" size={size} color={color} />
+                <Entypo
+                  name="help"
+                  size={size}
+                  style={{
+                    height: size,
+                    width: size,
+                  }}
+                  color={color}
+                />
               )}
               label="Help"
               onPress={() => {
@@ -97,7 +158,17 @@ export function DrawerContent(props) {
       <View style={styles.bottomDrawerSection}>
         <DrawerItem
           icon={({ color, size }) => (
-            <Icon name="exit-to-app" color={color} size={size} />
+            <Icon
+              name="exit-to-app"
+              color={color}
+              size={size}
+              style={{
+                height: size,
+                width: size,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            />
           )}
           label="Sign Out"
           onPress={() => {
