@@ -52,7 +52,7 @@ Header.defaultProps = {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    height: HEIGHT * 0.13,
+    height: HEIGHT * 0.12,
     width: WIDTH,
     // backgroundColor: "red",
     position: "relative",

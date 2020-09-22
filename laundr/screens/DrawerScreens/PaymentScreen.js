@@ -12,15 +12,18 @@ import {
   View,
   TouchableOpacity,
   Image,
-  //   Picker,
+  Modal,
+  Picker,
   Dimensions,
-  ScrollView
+  ScrollView,
+  FlatList,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Header from "../../components/Header";
 // import { Picker } from "@react-native-community/picker";
-// import RNPickerSelect from "react-native-picker-select";
-import DropDownPicker from "react-native-dropdown-picker";
+
+import MenuModal from "../../components/MenuModal";
+// import DropDownPicker from "react-native-dropdown-picker";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -36,30 +39,38 @@ const CARDS = [
 const PaymentScreen = (props) => {
   const [cardHName, setCardHName] = useState();
   const [cardNum, setCardNum] = useState();
-  const [cardType, setCardType] = useState("uk");
+  const [cardType, setCardType] = useState("js");
   const [ccvNum, setccvNum] = useState();
   const [month, setMonth] = useState();
   const [year, setYear] = useState();
+  const [modalView, setModalView] = useState(false);
 
   useEffect(() => {
     console.log("AccountScreen loaded");
   }, []);
 
-  return (
-      <View style={{height:HEIGHT*2,backgroundColor:'red'}}>
+  const showModal = () => {
+    setModalView(!modalView);
+  };
 
-      
-    <ScrollView >
-      <KeyboardAvoidingView
-        // behavior={Platform.OS == "ios" ? "padding" : null}
-        behavior="position"
-        enabled={true}
-        style={{ flex: 1 }}
-      >
-        <Header openDrawer={props.navigation.openDrawer} name="Payments" />
-        <View style={styles.container}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+  const setCardTypeHelper = (item) => {
+    // console.log("before:: cardType: ", cardType);
+    setCardType(item);
+    showModal();
+  };
+
+  return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : null}
+      style={{ flex: 1 }}
+    >
+      <SafeAreaView style={styles.container}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.inner}>
+            <Header openDrawer={props.navigation.openDrawer} name="Payment" />
             <View style={styles.formContainer}>
+              {/*  */}
+
               <View style={styles.title_InputContainer}>
                 <Text style={styles.inputTitle}>Card Holder Name</Text>
 
@@ -81,67 +92,23 @@ const PaymentScreen = (props) => {
                   style={styles.inputBox}
                 />
               </View>
-
-              <>
-                <Text style={styles.inputTitle}>Card Type</Text>
-                <View
-                  style={{
-                    // The solution: Apply zIndex to any device except Android
-                    ...(Platform.OS !== "android" && {
-                      zIndex: 10,
-                    }),
-                  }}
-                >
-                  <DropDownPicker
-                    items={CARDS}
-                    placeholder="Select a country"
-                    containerStyle={{ height: 40 }}
-                    style={{ backgroundColor: "#ffffff" }}
-                    dropDownStyle={{ backgroundColor: "white" }}
-                  />
-                </View>
-              </>
-
-              <View style={styles.title_InputContainer}>
-                <Text style={styles.inputTitle}>CVV Number</Text>
-
-                <TextInput
-                  value={cardHName}
-                  onChangeText={(txt) => setccvNum(txt)}
-                  placeholder="CVV"
-                  style={styles.inputBox}
+              <View>
+                <Button title="modalView" onPress={showModal} />
+                <MenuModal
+                  setCardTypeHelper={setCardTypeHelper}
+                  showModal={showModal}
+                  modalView={modalView}
+                  data={CARDS}
                 />
               </View>
 
-              <View style={styles.title_InputContainer}>
-                <Text style={styles.inputTitle}>Month</Text>
-              </View>
-
-              <>
-                <Text style={styles.inputTitle}>Year</Text>
-                <View
-                  style={{
-                    // The solution: Apply zIndex to any device except Android
-                    ...(Platform.OS !== "android" && {
-                      zIndex: 10,
-                    }),
-                  }}
-                >
-                  <DropDownPicker
-                    items={CARDS}
-                    placeholder="Select a country"
-                    containerStyle={{ height: 40 }}
-                    style={{ backgroundColor: "#ffffff" }}
-                    dropDownStyle={{ backgroundColor: "white" }}
-                  />
-                </View>
-              </>
+              {/*  */}
             </View>
-          </TouchableWithoutFeedback>
-        </View>
-      </KeyboardAvoidingView>
-    </ScrollView>
-    </View>
+            <View style={{ flex: 1 }} />
+          </View>
+        </TouchableWithoutFeedback>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -216,3 +183,169 @@ const styles = StyleSheet.create({
 });
 
 export default PaymentScreen;
+
+// import React, { Component, useEffect, useState } from "react";
+// import {
+//   Button,
+//   Keyboard,
+//   KeyboardAvoidingView,
+//   Platform,
+//   SafeAreaView,
+//   StyleSheet,
+//   Text,
+//   TextInput,
+//   TouchableWithoutFeedback,
+//   View,
+// } from "react-native";
+
+// const PaymentScreen = () => {
+//   useEffect(() => {
+//     console.log("AccountScreen loaded");
+//   }, []);
+
+//   const [cardHName, setCardHName] = useState();
+//   const [cardNum, setCardNum] = useState();
+//   const [cardType, setCardType] = useState("uk");
+//   const [ccvNum, setccvNum] = useState();
+//   const [month, setMonth] = useState();
+//   const [year, setYear] = useState();
+
+//   return (
+//     <KeyboardAvoidingView
+//       behavior={Platform.OS === "ios" ? "padding" : "height"}
+//       style={{ flex: 1 }}
+//     >
+//       <View style={styles.container}>
+//         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+//           <View style={styles.inner}>
+
+//           <View style={styles.title_InputContainer}>
+//                 <Text style={styles.inputTitle}>Card Holder Name</Text>
+
+//                 <TextInput
+//                   value={cardHName}
+//                   onChangeText={(txt) => setCardHName(txt)}
+//                   placeholder="Card Holder Name"
+//                   style={styles.inputBox}
+//                 />
+//               </View>
+
+//             <View style={{ flex: 1 }} />
+//           </View>
+//         </TouchableWithoutFeedback>
+//       </View>
+//     </KeyboardAvoidingView>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//   },
+//   inner: {
+//     padding: 24,
+//     flex: 1,
+//     justifyContent: "flex-end",
+//   },
+//   header: {
+//     fontSize: 36,
+//     marginBottom: 48,
+//   },
+//   input: {
+//     height: 40,
+//     borderColor: "#000000",
+//     borderBottomWidth: 1,
+//     marginBottom: 36,
+//   },
+//   btnContainer: {
+//     backgroundColor: "white",
+//     marginTop: 12,
+//   },
+//     title_InputContainer: {
+//     marginTop: 10,
+//     marginBottom: 10,
+//   },
+// });
+
+// export default PaymentScreen;
+
+// <View style={styles.title_InputContainer}>
+// <Text style={styles.inputTitle}>Card Holder Name</Text>
+
+// <TextInput
+//   value={cardHName}
+//   onChangeText={(txt) => setCardHName(txt)}
+//   placeholder="Card Holder Name"
+//   style={styles.inputBox}
+// />
+// </View>
+
+{
+  /* <View style={styles.title_InputContainer}>
+<Text style={styles.inputTitle}>Card Number</Text>
+
+<TextInput
+  value={cardHName}
+  onChangeText={(txt) => setCardNum(txt)}
+  placeholder="Card Number"
+  style={styles.inputBox}
+/>
+</View> */
+}
+
+{
+  /* <>
+<Text style={styles.inputTitle}>Card Type</Text>
+<View
+  style={{
+    // The solution: Apply zIndex to any device except Android
+    ...(Platform.OS !== "android" && {
+      zIndex: 10,
+    }),
+  }}
+>
+  <DropDownPicker
+    items={CARDS}
+    placeholder="Select a country"
+    containerStyle={{ height: 40 }}
+    style={{ backgroundColor: "#ffffff" }}
+    dropDownStyle={{ backgroundColor: "white" }}
+  />
+</View>
+</> */
+}
+
+// <View style={styles.title_InputContainer}>
+// <Text style={styles.inputTitle}>CVV Number</Text>
+
+// <TextInput
+//   value={cardHName}
+//   onChangeText={(txt) => setccvNum(txt)}
+//   placeholder="CVV"
+//   style={styles.inputBox}
+// />
+// </View>
+
+// <View style={styles.title_InputContainer}>
+// <Text style={styles.inputTitle}>Month</Text>
+// </View>
+
+// <>
+// <Text style={styles.inputTitle}>Year</Text>
+// <View
+//   style={{
+//     // The solution: Apply zIndex to any device except Android
+//     ...(Platform.OS !== "android" && {
+//       zIndex: 10,
+//     }),
+//   }}
+// >
+//   <DropDownPicker
+//     items={CARDS}
+//     placeholder="Select a country"
+//     containerStyle={{ height: 40 }}
+//     style={{ backgroundColor: "#ffffff" }}
+//     dropDownStyle={{ backgroundColor: "white" }}
+//   />
+// </View>
+// </>
