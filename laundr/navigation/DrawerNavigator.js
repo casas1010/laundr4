@@ -10,6 +10,7 @@ import ReferralScreen from "../screens/DrawerScreens/ReferralScreen";
 import PaymentScreen from "../screens/DrawerScreens/PaymentScreen";
 import SubscriptionsScreen from "../screens/DrawerScreens/SubscriptionsScreen";
 import HelpScreen from "../screens/DrawerScreens/HelpScreen";
+import OrderDetailsScreen from "../screens/DrawerScreens/OrderDetailsScreen";
 
 import { DrawerContent } from "../screens/DrawerScreens/DrawerContent";
 
@@ -20,6 +21,7 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="home" component={HomeScreen} />
       <Drawer.Screen name="Account" component={AccountScreen} />
       <Drawer.Screen name="History" component={HistoryScreen} />
+      <Drawer.Screen name="Order Details" component={OrderDetailsScreen} />
       <Drawer.Screen name="Notifications" component={NotificationsScreen} />
       <Drawer.Screen name="Referrals" component={ReferralScreen} />
       <Drawer.Screen name="Payment" component={PaymentScreen} />

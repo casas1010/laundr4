@@ -42,7 +42,9 @@ const HelpScreen = (props) => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.formContainer}>
           <View style={styles.headerTextContainer}>
-            <Text style={{fontWeight:'bold',color:'#585858'}}>Report an Issue</Text>
+            <Text style={{ fontWeight: "bold", color: "#585858" }}>
+              Report an Issue
+            </Text>
           </View>
           <TextInput
             value={issue}
@@ -90,7 +92,7 @@ const styles = StyleSheet.create({
   headerTextContainer: {
     alignItems: "center",
     justifyContent: "center",
-    paddingBottom:10
+    paddingBottom: 10,
   },
   inputBox: {
     width: "100%",

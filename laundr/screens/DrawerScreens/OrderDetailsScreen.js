@@ -22,13 +22,24 @@ import Header from "../../components/Header";
 
 const DATA = [
   {
-    team: {
-      driverPicture: "../../assets/Launch_Logo.png",
-      driverName: "name",
-      washerPicture: "../../assets/Launch_Logo.png",
-      washerName: "name",
-    },
     orderId: "1307",
+    orderDate: "09/18/2020",
+    status: "Cancelled",
+    address: {
+      street: "978 SW 2n Ave",
+      city: "Gainsville",
+      state: "FL",
+      zipCode: "32601",
+      country: "USA",
+    },
+    pickUpData: { date: "09/18/2020", time: "7:34:29 PM" },
+    deliveryTime: "",
+    preference: "Delicates",
+    weight: "30.00 lbs",
+    card: { cardType: "Visa", charge: "$3.00" },
+  },
+  {
+    orderId: "999",
     orderDate: "09/18/2020",
     status: "Cancelled",
     address: {
@@ -54,7 +65,7 @@ const DIVIDER = () => {
   );
 };
 
-const HistoryScreen = (props) => {
+const OrderDetailsScreen = (props) => {
   return (
     <View>
       <Header openDrawer={props.navigation.openDrawer} name="History" />
@@ -245,4 +256,4 @@ const styles = StyleSheet.create({
     backgroundColor: "grey",
   },
 });
-export default HistoryScreen;
+export default OrderDetailsScreen;

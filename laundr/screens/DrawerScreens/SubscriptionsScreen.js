@@ -142,7 +142,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
   },
-  innerFooter: {},
+  innerFooter: {
+    
+  },
   footerTitle: {
     fontWeight: "bold",
     color: "white",
