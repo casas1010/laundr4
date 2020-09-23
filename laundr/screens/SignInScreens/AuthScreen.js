@@ -23,7 +23,6 @@ import GlobalStyles from "../../components/GlobalStyles";
 import Container from "../../components/Container";
 import MenuModal from "../../components/MenuModal";
 
-// import RNPickerSelect from "react-native-picker-select";
 import axios from "axios";
 
 const WIDTH = Dimensions.get("window").width;

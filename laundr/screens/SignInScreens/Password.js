@@ -17,16 +17,22 @@ import {
 import RNPickerSelect from "react-native-picker-select";
 import { Picker } from "@react-native-community/picker";
 
+import {
+  HEIGHT,
+  FIELD_NAME_FONT_SIZE,
+  FIELD_VALUE_FONT_SIZE,
+  WIDTH,
+  INPUT_TITLE,
+  INPUT_BOX,
+} from "../../components/Items/";
+
 //*
 // note 1: discuss how to use auto size text: https://stackoverflow.com/questions/5033012/auto-scale-textview-text-to-fit-within-bounds
 //*
 
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
-
 const Password = (props) => {
-  // const [password1, setPassword1] = useState("");
-  // const [password2, setPassword2] = useState("");
+  // const [password1, setPassword1] = useState("qwertQ1!");
+  // const [password2, setPassword2] = useState("qwertQ1");
   // const [passwordMatch, setPasswordMatch] = useState(false);
 
   useEffect(() => {
@@ -38,16 +44,19 @@ const Password = (props) => {
   //   console.log("password1: ", password1);
   //   console.log("password2: ", password2);
   //   console.log("passwordMatch: ", passwordMatch);
+
   //   if (passwordMatch) {
-  //     props.callBack(password2);
+  //     props.setPassword1(password1);
+  //     props.setPassword2(password2);
   //   } else {
-  //     props.callBack("");
+  //     props.setPassword1("");
   //   }
   // }, [password2]);
 
   // const verifyPasswords = () => {
   //   console.log("password1 == password2", password1 == password2);
-  //   if (password1 == password2 && password1 != "" && password2 != "") {
+
+  //   if (password1 === password2 && password1 !== "" && password2 !== "") {
   //     console.log("password success");
   //     setPasswordMatch(true);
   //   }
@@ -56,22 +65,22 @@ const Password = (props) => {
   // };
 
   return (
-    <View style={styles.formContainer}>
-      <Text style={styles.text}>Create a Password</Text>
+    <>
+      <Text style={INPUT_TITLE}>Create a Password</Text>
 
       <TextInput
-        onChangeText={(text) => props.setPassword1(text)}
+        onChangeText={(txt) => props.setPassword1(txt)}
         placeholder="Password"
         textContentType="password"
         autoCompleteType="password"
         autoCorrect={false}
         secureTextEntry={true}
-        style={[styles.inputBox, { marginBottom: 10 }]}
+        style={[INPUT_BOX, { marginBottom: 10 }]}
       />
       <TextInput
-        style={[styles.inputBox, { marginBottom: 10 }]}
-        onChangeText={(text) => {
-          props.setPassword2(text);
+        style={[INPUT_BOX, { marginBottom: 10 }]}
+        onChangeText={(txt) => {
+          props.setPassword2(txt);
         }}
         placeholder="Confirm Password"
         textContentType="password"
@@ -81,7 +90,7 @@ const Password = (props) => {
       />
       <Text>Password requirements:</Text>
       <Text>6 characters, 1 capital letter, and 1 special character</Text>
-    </View>
+    </>
   );
 };
 

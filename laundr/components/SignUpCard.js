@@ -15,13 +15,19 @@ import {
   Image,
 } from "react-native";
 
+import {
+  HEIGHT,
+  FIELD_NAME_FONT_SIZE,
+  FIELD_VALUE_FONT_SIZE,
+  WIDTH,
+  INPUT_TITLE,
+  INPUT_BOX
+} from "./Items/";
 
 //*
 // note 1: discuss how to use auto size text: https://stackoverflow.com/questions/5033012/auto-scale-textview-text-to-fit-within-bounds
 //*
 
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
 
 const SignUpCard = (props) => {
   useEffect(() => {
@@ -29,11 +35,11 @@ const SignUpCard = (props) => {
   }, []);
 
   return (
-    <View style={styles.formContainer}>
+    <>
       {/* note 1 */}
-      <Text style={styles.text}>{props.title}</Text>
+      <Text style={INPUT_TITLE}>{props.title}</Text>
       <TextInput
-        style={styles.inputBox}
+        style={INPUT_BOX}
         onChangeText={(text) => props.callBack(text)}
         placeholder={props.placeHolder}
         textContentType={props.textContentType}
@@ -42,7 +48,7 @@ const SignUpCard = (props) => {
         keyboardType={props.keyboardType}
         secureTextEntry={props.secureTextEntry}
       />
-    </View>
+    </>
   );
 };
 

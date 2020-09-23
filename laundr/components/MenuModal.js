@@ -64,7 +64,7 @@ const MenuModal = (props) => {
               return (
                 <TouchableOpacity
                   onPress={() =>
-                    console.log(props.setCardTypeHelper(item.value))
+                    props.setCardTypeHelper(item.value)
                   }
                   // style={{ backgroundColor: "#ededed" }}
                 >

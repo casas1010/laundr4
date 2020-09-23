@@ -22,16 +22,23 @@ import GlobalStyles from "../../components/GlobalStyles";
 import Container from "../../components/Container";
 import MenuModal from "../../components/MenuModal";
 
-import City from "./City.js";
+// import City from "./City.js";
 import SignUpCard from "../../components/SignUpCard";
 import Password from "./Password.js";
 
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
+import {
+  HEIGHT,
+  FIELD_NAME_FONT_SIZE,
+  FIELD_VALUE_FONT_SIZE,
+  WIDTH,
+  INPUT_TITLE,
+  INPUT_BOX,
+} from "../../components/Items/";
+import { CITIES } from "../../components/Data/";
 
 const signUpDetailsScreen = (props) => {
   const [index, setIndex] = useState(0);
-  const [city, setCity] = useState(""); //
+  const [city, setCity] = useState("Narnia"); //
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -39,18 +46,51 @@ const signUpDetailsScreen = (props) => {
   const [password2, setPassword2] = useState("");
   const [referralCode, setReferralCode] = useState("");
 
+  const [cityModalView, setCityModalView] = useState(false);
+  //  MODAL VARIABLE
+  const setCityHelper = (item) => {
+    setCity(item);
+    showModalCity();
+  };
+  const showModalCity = () => {
+    console.log("showModalCity()");
+    setCityModalView(!cityModalView);
+  };
+  const modalButtonHelper = () => {
+    showModalCity();
+  };
+  //  MODAL VARIABLE
+
   const singUpAPI = () => {
     console.log("API SignUp initiated");
   };
 
   // contains information about signup in order of appearance
   const ITEMS = [
-    { element: <City callBack={setCity} city={city} />, value: "City" },
+    {
+      element: (
+        <>
+          <TouchableOpacity onPress={modalButtonHelper}>
+            <Text style={styles.INPUT_TITLE}>Select Your City</Text>
+            <Text style={styles.INPUT_BOX}>{city}</Text>
+          </TouchableOpacity>
+          <MenuModal
+            title="City"
+            setCardTypeHelper={setCityHelper}
+            showModal={showModalCity}
+            modalView={cityModalView}
+            data={CITIES}
+          />
+        </>
+      ),
+      value: "City",
+    },
+
     {
       element: (
         <SignUpCard
           callBack={setName}
-          title={"Name:"}
+          title={"Name"}
           placeHolder="SkyWalker"
           textContentType="name"
           autoCompleteType="name"
@@ -62,7 +102,7 @@ const signUpDetailsScreen = (props) => {
       element: (
         <SignUpCard
           callBack={setEmail}
-          title={"Email:"}
+          title={"Email"}
           placeHolder="dirty@laundry.com"
           textContentType="emailAddress"
           autoCompleteType="email"
@@ -85,16 +125,14 @@ const signUpDetailsScreen = (props) => {
       value: "PhoneNumber",
     },
     {
-      element: (
-        <Password setPassword1={setPassword1} setPassword2={setPassword2} />
-      ),
+      element: <Password setPassword1={setPassword1} />,
       value: "Password",
     },
     {
       element: (
         <SignUpCard
           callBack={setReferralCode}
-          title={"ReferralCode:"}
+          title={"ReferralCode "}
           placeHolder="code"
         />
       ),
@@ -109,11 +147,75 @@ const signUpDetailsScreen = (props) => {
       return;
     }
     if (ITEMS.length > index + 1) {
-      console.log(index);
       setIndex(index + 1);
       flatListRef.scrollToIndex({ animated: true, index: index + 1 });
     }
   };
+
+  // PASSWORD LOGIC HELPER METHODS
+  const isItALetter = (char) => {
+    if (
+      (char.charCodeAt(0) >= 65 && 90 >= char.charCodeAt(0)) ||
+      (char.charCodeAt(0) >= 97 && char.charCodeAt(0) <= 122)
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  function specialCharValidation(str) {
+    var iChars = "~`!#$%^@&*+=-[]\\';,/{}|\":<>?";
+    for (var i = 0; i < str.length; i++) {
+      if (iChars.indexOf(str.charAt(i)) != -1) {
+        return true;
+      }
+    }
+    return false;
+  }
+  function checkForCapitals(string) {
+    for (character of string) {
+      if (character == character.toUpperCase() && isItALetter(character)) {
+        console.log("password passes capital test");
+        return true;
+      }
+    }
+    return false;
+  }
+  const passwordLogic = () => {
+    if (password2 === "" && password1 === "") {
+      Alert.alert("Please enter your password");
+      return;
+    }
+    if (password1 !== password2) {
+      Alert.alert("Your passwords need to match!");
+      return;
+    }
+    console.log("passwords match");
+
+    if (password1 === password2) {
+      if (password2.length < 5) {
+        Alert.alert("Your password needs to be at least 6 characters long");
+        return;
+      }
+      console.log('password is at least 6 chat long')
+      if (!specialCharValidation(password2)) {
+        Alert.alert("Your password needs to have at least 1 special character");
+        return;
+      }
+      console.log('password has at least 1 special character ')
+      
+      if (!checkForCapitals(password2)) {
+        Alert.alert("Your password needs to have at least 1 capital letter ");
+        return;
+      }
+      console.log('password contains at least 1 capital letter')
+      console.log('password logic complete, password passed all tests')
+
+    }
+    next();
+    // PASSWORD LOGIC
+  };
+  //password logic helper methods
 
   // nextHelper() verifies the forms fields are not empty
   // aswell as stats password logic flow
@@ -147,70 +249,12 @@ const signUpDetailsScreen = (props) => {
     }
   };
 
-  // PASSWORD LOGIC HELPER METHODS
-  const isItALetter = (char) => {
-    if (
-      (char.charCodeAt(0) >= 65 && 90 >= char.charCodeAt(0)) ||
-      (char.charCodeAt(0) >= 97 && char.charCodeAt(0) <= 122)
-    ) {
-      return true;
-    }
-    return false;
-  };
-
-  function specialCharValidation(str) {
-    var iChars = "~`!#$%^@&*+=-[]\\';,/{}|\":<>?";
-    for (var i = 0; i < str.length; i++) {
-      if (iChars.indexOf(str.charAt(i)) != -1) {
-        return true;
-      }
-    }
-    return false;
-  }
-  function checkForCapitals(string) {
-    for (character of string) {
-      if (character == character.toUpperCase() && isItALetter(character)) {
-        return true;
-      }
-    }
-    return false;
-  }
-  const passwordLogic = () => {
-    if (password1 !== password2) {
-      Alert.alert("Your passwords need to match!");
-      return;
-    }
-    if (password2 === "" && password1 === "") {
-      Alert.alert("Please enter your password");
-      return;
-    }
-    if (password1 === password2) {
-      if (password2.length < 5) {
-        Alert.alert("Your password needs to be at least 6 characters long");
-        return;
-      }
-      if (!specialCharValidation(password2)) {
-        Alert.alert("Your password needs to have at least 1 special character");
-        return;
-      }
-      console.log("password2: ", password2);
-      if (!checkForCapitals(password2)) {
-        Alert.alert("Your password needs to have at least 1 capital letter ");
-        return;
-      }
-    }
-    next();
-    // PASSWORD LOGIC
-  };
-  //password logic helper methods
-
   const previous = () => {
     if (index === 0) {
       console.log("props.navigate: ", props.navigation.navigate("auth"));
       return;
     }
     if (0 < index) {
-      console.log(index);
       setIndex(index - 1);
       flatListRef.scrollToIndex({ animated: true, index: index - 1 });
     }
@@ -223,23 +267,21 @@ const signUpDetailsScreen = (props) => {
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}
       >
-        
-          <FlatList
-            data={ITEMS}
-            scrollEnabled={false}
-            horizontal
-            extraData={index}
-            pagingEnabled={true}
-            showsHorizontalScrollIndicator={false}
-            ref={(ref) => {
-              flatListRef = ref;
-            }}
-            keyExtractor={(item) => item.value}
-            renderItem={({ item, index }) => {
-              return <>{item.element}</>;
-            }}
-          />
-        
+        <FlatList
+          data={ITEMS}
+          scrollEnabled={false}
+          horizontal
+          extraData={index}
+          pagingEnabled={true}
+          showsHorizontalScrollIndicator={false}
+          ref={(ref) => {
+            flatListRef = ref;
+          }}
+          keyExtractor={(item) => item.value}
+          renderItem={({ item, index }) => {
+            return <Container>{item.element}</Container>;
+          }}
+        />
 
         <View style={styles.masterButtonContainer}>
           <View style={styles.buttonContainer}>
@@ -258,10 +300,7 @@ const signUpDetailsScreen = (props) => {
 
           <View style={styles.buttonContainer}>
             <Button
-              onPress={() => {
-                console.log(index);
-                nextHelper();
-              }}
+              onPress={nextHelper}
               title={index == 5 ? "Submit" : "Next"}
               color="darkblue"
             />
@@ -273,6 +312,8 @@ const signUpDetailsScreen = (props) => {
 };
 
 const styles = StyleSheet.create({
+  INPUT_TITLE,
+  INPUT_BOX,
   masterContainer: {
     backgroundColor: "#f4f4f4",
     flex: 1,
