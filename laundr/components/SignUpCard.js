@@ -21,13 +21,12 @@ import {
   FIELD_VALUE_FONT_SIZE,
   WIDTH,
   INPUT_TITLE,
-  INPUT_BOX
+  INPUT_BOX,
 } from "./Items/";
 
 //*
 // note 1: discuss how to use auto size text: https://stackoverflow.com/questions/5033012/auto-scale-textview-text-to-fit-within-bounds
 //*
-
 
 const SignUpCard = (props) => {
   useEffect(() => {
@@ -59,30 +58,5 @@ SignUpCard.defaultProps = {
   keyboardType: "default",
   secureTextEntry: false,
 };
-
-const styles = StyleSheet.create({
-  formContainer: {
-    backgroundColor: "white",
-    borderColor: "white",
-    borderWidth: 1,
-    borderRadius: 15,
-    flex: 1,
-    margin: WIDTH * 0.06,
-    padding: 5,
-    width: WIDTH * 0.88,
-  },
-  text: {
-    fontSize: 45,
-  },
-
-  inputBox: {
-    width: "100%",
-    height: 45,
-    borderColor: "#d3d3d3",
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingLeft: 2,
-  },
-});
 
 export default SignUpCard;

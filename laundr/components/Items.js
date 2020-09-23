@@ -10,11 +10,24 @@ export const INPUT_TITLE = {
   fontWeight: "bold",
 };
 
-export const INPUT_BOX = {
+export const INPUT_CONTAINER = {
   width: "100%",
   borderColor: "#d3d3d3",
   borderWidth: 1,
   borderRadius: 5,
   padding: 7,
   fontSize: FIELD_VALUE_FONT_SIZE,
+  justifyContent: "center",
+  alignItems: "center",
 };
+
+export const BUTTON_CONTAINER = {
+  alignItems: "center",
+  backgroundColor: "#01c9e2",
+  margin: 10,
+  
+  width: '80%',
+  borderRadius: 10,
+};
+
+

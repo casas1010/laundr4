@@ -31,38 +31,9 @@ import {
 //*
 
 const Password = (props) => {
-  // const [password1, setPassword1] = useState("qwertQ1!");
-  // const [password2, setPassword2] = useState("qwertQ1");
-  // const [passwordMatch, setPasswordMatch] = useState(false);
-
   useEffect(() => {
     console.log(`card Password loaded`);
   }, []);
-
-  // useEffect(() => {
-  //   verifyPasswords();
-  //   console.log("password1: ", password1);
-  //   console.log("password2: ", password2);
-  //   console.log("passwordMatch: ", passwordMatch);
-
-  //   if (passwordMatch) {
-  //     props.setPassword1(password1);
-  //     props.setPassword2(password2);
-  //   } else {
-  //     props.setPassword1("");
-  //   }
-  // }, [password2]);
-
-  // const verifyPasswords = () => {
-  //   console.log("password1 == password2", password1 == password2);
-
-  //   if (password1 === password2 && password1 !== "" && password2 !== "") {
-  //     console.log("password success");
-  //     setPasswordMatch(true);
-  //   }
-  //   setPasswordMatch(false);
-  //   console.log("password failed");
-  // };
 
   return (
     <>
