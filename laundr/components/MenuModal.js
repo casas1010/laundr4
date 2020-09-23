@@ -18,7 +18,6 @@ const FONTSIZE = Math.floor((HEIGHT * 0.1) / 3);
 const MenuModal = (props) => {
   useEffect(() => {
     console.log("Menu Modal loaded");
-    console.log("props:  ", props);
   }, []);
 
   return (

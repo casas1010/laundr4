@@ -28,7 +28,7 @@ const Header = (props) => {
     console.log("Header loaded");
   }, []);
   return (
-    <View style={styles.headerContainer}>
+    <View style={[styles.headerContainer, { height: iconHeight }]}>
       <View style={styles.button_TextContainer}>
         <TouchableOpacity onPress={() => props.openDrawer()}>
           <Ionicons
@@ -52,7 +52,7 @@ Header.defaultProps = {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    height: HEIGHT * 0.12,
+    // height: iconHeight,
     width: WIDTH,
     // backgroundColor: "red",
     position: "relative",
