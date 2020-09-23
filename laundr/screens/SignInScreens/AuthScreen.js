@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
+  SafeAreaView,
   Platform,
   StyleSheet,
   Text,
@@ -17,11 +18,18 @@ import {
 // import jwtDecode from "jwt-decode";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import GlobalStyles from "../../components/GlobalStyles";
+import Container from "../../components/Container";
+import MenuModal from "../../components/MenuModal";
 
-import RNPickerSelect from "react-native-picker-select";
+// import RNPickerSelect from "react-native-picker-select";
 import axios from "axios";
 
 const WIDTH = Dimensions.get("window").width;
+const HEIGHT = Dimensions.get("window").height;
+const FONTSIZE = Math.floor((HEIGHT * 0.1) / 3);
+
 const USERTYPES = [
   { label: "User", value: "User" },
   { label: "Washer", value: "Washer" },
@@ -34,10 +42,26 @@ const USERTYPES = [
 const AuthScreen = (props) => {
   const [email, setEmail] = useState("jcasasmail@gmail.com");
   const [password, setPassword] = useState("yCxGRcgJ7C9JdY2");
-  const [userType, setUserType] = useState();
-  const [isWasher, setIsWasher] = useState();
-  const [isDriver, setIsDriver] = useState();
-  const [isAdmin, setIsAdmin] = useState();
+  const [userType, setUserType] = useState("User");
+  // const [isWasher, setIsWasher] = useState();
+  // const [isDriver, setIsDriver] = useState();
+  // const [isAdmin, setIsAdmin] = useState();
+
+  const [userModalView, setUserModalView] = useState(false);
+
+  //  MODAL VARIABLE
+  const setUserHelper = (item) => {
+    setUserType(item);
+    showModalUser();
+  };
+  const showModalUser = () => {
+    console.log("showModalUser()");
+    setUserModalView(!userModalView);
+  };
+  const modalButtonHelper = () => {
+    showModalUser();
+  };
+  //  MODAL VARIABLE
 
   // ANIMATION
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -48,11 +72,9 @@ const AuthScreen = (props) => {
       useNativeDriver: true,
     }).start();
   };
-
   useEffect(() => {
     fadeIn();
   }, []);
-
   // ANIMATION
 
   // LOG IN FLOW
@@ -95,106 +117,104 @@ const AuthScreen = (props) => {
   // LOG IN FLOW
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS == "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.masterContainer}>
-          <View style={styles.inner}>
-            <View style={styles.logo}>
-              <Image
-                style={{ height: 130, width: WIDTH * 0.85 }}
-                resizeMode="contain"
-                source={require("../../assets/Launch_Logo.png")}
+    <SafeAreaView style={GlobalStyles.droidSafeArea}>
+      <KeyboardAwareScrollView
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.logo}>
+          <Image
+            style={{ height: 130, width: WIDTH * 0.85 }}
+            resizeMode="contain"
+            source={require("../../assets/Launch_Logo.png")}
+          />
+        </View>
+        <Container>
+          <Animated.View
+            style={{
+              opacity: fadeAnim,
+              alignItems: "center",
+            }}
+          >
+            <Text style={styles.animatedText}>Explore More. Stress Less</Text>
+          </Animated.View>
+
+          <TouchableOpacity onPress={modalButtonHelper}>
+            <Text
+              style={[
+                styles.inputBox,
+                { height: 25, width: 60, textAlign: "auto", paddingTop:3 },
+              ]}
+            >
+              {userType}
+            </Text>
+          </TouchableOpacity>
+          <MenuModal
+            title='Select User Type'
+            setCardTypeHelper={setUserHelper}
+            showModal={showModalUser}
+            modalView={userModalView}
+            data={USERTYPES}
+          />
+
+          <View style={styles.formContainer}>
+            <View style={styles.emailContainer}>
+              <MaterialIcons
+                name="person"
+                size={24}
+                color="black"
+                style={[styles.icon, { paddingTop: 3 }]}
+              />
+              <TextInput
+                value={email}
+                onChangeText={(email) => setEmail(email)}
+                placeholder=" Email"
+                style={styles.inputBox}
               />
             </View>
 
-            <Animated.View
-              style={{
-                opacity: fadeAnim,
-                alignItems: "center",
-              }}
-            >
-              <Text style={styles.animatedText}>Explore More. Stress Less</Text>
-            </Animated.View>
-
-            <RNPickerSelect
-              placeholder={{}}
-              onValueChange={(value) => setUserType(value)}
-              items={USERTYPES}
-              style={pickerSelectStyles}
-            />
-
-            <View style={styles.formContainer}>
-              <View style={styles.emailContainer}>
-                <MaterialIcons
-                  name="person"
-                  size={24}
-                  color="black"
-                  style={[styles.icon, { paddingTop: 3 }]}
-                />
-                <TextInput
-                  value={email}
-                  onChangeText={(email) => setEmail(email)}
-                  placeholder=" Email"
-                  style={styles.inputBox}
-                />
-              </View>
-
-              <View style={styles.passwordContainer}>
-                <FontAwesome5
-                  name="unlock-alt"
-                  size={18}
-                  color="black"
-                  style={[styles.icon, { paddingLeft: 3, paddingTop: 5 }]}
-                />
-                <TextInput
-                  value={password}
-                  onChangeText={(password) => setPassword(password)}
-                  secureTextEntry={true}
-                  placeholder=" Password"
-                  style={styles.inputBox}
-                />
-              </View>
+            <View style={styles.passwordContainer}>
+              <FontAwesome5
+                name="unlock-alt"
+                size={18}
+                color="black"
+                style={[styles.icon, { paddingLeft: 3, paddingTop: 5 }]}
+              />
+              <TextInput
+                value={password}
+                onChangeText={(password) => setPassword(password)}
+                secureTextEntry={true}
+                placeholder=" Password"
+                style={styles.inputBox}
+              />
             </View>
-            <View style={styles.buttonsContainer}>
-              <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                <Text style={styles.buttonText}>LOG IN</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => props.navigation.navigate("signUpDetails")}
-              >
-                <Text style={styles.buttonText}>SIGN UP</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate("forgotPassword")}
-              >
-                <Text style={styles.buttonText}>Forgot Password?</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={{ flex: 1 }} />
           </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+          <View style={styles.buttonsContainer}>
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+              <Text style={styles.buttonText}>LOG IN</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => props.navigation.navigate("signUpDetails")}
+            >
+              <Text style={styles.buttonText}>SIGN UP</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate("forgotPassword")}
+            >
+              <Text style={styles.buttonText}>Forgot Password?</Text>
+            </TouchableOpacity>
+          </View>
+        </Container>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  masterContainer: {
-    flex: 1,
-    backgroundColor: "#f9f9f9",
-  },
-  inner: {
-    padding: 24,
-    flex: 1,
-    justifyContent: "flex-end",
-  },
   logo: {
     marginTop: 10,
     alignItems: "center",

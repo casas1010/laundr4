@@ -16,11 +16,11 @@ const Tab = createBottomTabNavigator();
 const BottomTabNavigator = ({ navigation }) => {
   return (
     <Tab.Navigator>
-      <Tab.Screen
+      {/* <Tab.Screen
         options={{ tabBarVisible: false }}
         name="drawer"
         component={DrawerNavigator}
-      />
+      /> */}
       <Tab.Screen
         options={{ tabBarVisible: false }}
         name="auth"

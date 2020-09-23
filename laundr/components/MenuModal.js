@@ -47,7 +47,7 @@ const MenuModal = (props) => {
             data={props.data}
             ListHeaderComponent={() => (
               <Text style={{ fontWeight: "bold", textAlign: "center" }}>
-                Select Card Type
+                {props.title}
               </Text>
             )}
             ItemSeparatorComponent={() => (

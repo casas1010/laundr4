@@ -17,7 +17,7 @@ import {
 } from "react-native";
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
-
+// FUTURE IMPROVEMENT
 import Header from "../../components/Header";
 
 const DATA = [

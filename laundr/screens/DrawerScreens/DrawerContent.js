@@ -28,7 +28,7 @@ export function DrawerContent(props) {
               )}
               label="Home"
               onPress={() => {
-                props.navigation.closeDrawer();
+                props.navigation.navigate("Home");
               }}
             />
             <DrawerItem

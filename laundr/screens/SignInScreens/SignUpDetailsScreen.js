@@ -6,6 +6,7 @@ import {
   Platform,
   StyleSheet,
   FlatList,
+  SafeAreaView,
   Text,
   TextInput,
   TouchableWithoutFeedback,
@@ -15,6 +16,11 @@ import {
   Dimensions,
   Alert,
 } from "react-native";
+
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import GlobalStyles from "../../components/GlobalStyles";
+import Container from "../../components/Container";
+import MenuModal from "../../components/MenuModal";
 
 import City from "./City.js";
 import SignUpCard from "../../components/SignUpCard";
@@ -141,7 +147,7 @@ const signUpDetailsScreen = (props) => {
     }
   };
 
-  //password logic helper methods
+  // PASSWORD LOGIC HELPER METHODS
   const isItALetter = (char) => {
     if (
       (char.charCodeAt(0) >= 65 && 90 >= char.charCodeAt(0)) ||
@@ -151,6 +157,7 @@ const signUpDetailsScreen = (props) => {
     }
     return false;
   };
+
   function specialCharValidation(str) {
     var iChars = "~`!#$%^@&*+=-[]\\';,/{}|\":<>?";
     for (var i = 0; i < str.length; i++) {
@@ -161,15 +168,7 @@ const signUpDetailsScreen = (props) => {
     return false;
   }
   function checkForCapitals(string) {
-    // console.log("string: ", string);
     for (character of string) {
-      // console.log("character.charCodeAt(0):  ", character.charCodeAt(0));
-      // console.log("character: ", character);
-      // console.log("character.toUpperCase(): ", character.toUpperCase());
-      // console.log(
-      //   "character == character.toUpperCase():  ",
-      //   character == character.toUpperCase()
-      // );
       if (character == character.toUpperCase() && isItALetter(character)) {
         return true;
       }
@@ -218,52 +217,58 @@ const signUpDetailsScreen = (props) => {
   };
 
   return (
-    <View style={styles.masterContainer}>
-      <View style={{ height: 250, marginBottom: 10 }}>
-        <FlatList
-          data={ITEMS}
-          scrollEnabled={false}
-          horizontal
-          extraData={index}
-          pagingEnabled={true}
-          showsHorizontalScrollIndicator={false}
-          ref={(ref) => {
-            flatListRef = ref;
-          }}
-          keyExtractor={(item) => item.value}
-          renderItem={({ item, index }) => {
-            return <>{item.element}</>;
-          }}
-        />
-      </View>
-
-      <View style={styles.masterButtonContainer}>
-        <View style={styles.buttonContainer}>
-          <Button
-            onPress={previous}
-            title={index == 0 ? "Return" : "Previous"}
-            color="darkblue"
-          />
-        </View>
-
-        <View style={styles.indexCounterContainer}>
-          <Text>
-            {index + 1} / {ITEMS.length}
-          </Text>
-        </View>
-
-        <View style={styles.buttonContainer}>
-          <Button
-            onPress={() => {
-              console.log(index);
-              nextHelper();
+    <SafeAreaView style={GlobalStyles.droidSafeArea}>
+      <KeyboardAwareScrollView
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
+        
+          <FlatList
+            data={ITEMS}
+            scrollEnabled={false}
+            horizontal
+            extraData={index}
+            pagingEnabled={true}
+            showsHorizontalScrollIndicator={false}
+            ref={(ref) => {
+              flatListRef = ref;
             }}
-            title={index == 5 ? "Submit" : "Next"}
-            color="darkblue"
+            keyExtractor={(item) => item.value}
+            renderItem={({ item, index }) => {
+              return <>{item.element}</>;
+            }}
           />
+        
+
+        <View style={styles.masterButtonContainer}>
+          <View style={styles.buttonContainer}>
+            <Button
+              onPress={previous}
+              title={index == 0 ? "Return" : "Previous"}
+              color="darkblue"
+            />
+          </View>
+
+          <View style={styles.indexCounterContainer}>
+            <Text>
+              {index + 1} / {ITEMS.length}
+            </Text>
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <Button
+              onPress={() => {
+                console.log(index);
+                nextHelper();
+              }}
+              title={index == 5 ? "Submit" : "Next"}
+              color="darkblue"
+            />
+          </View>
         </View>
-      </View>
-    </View>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 };
 

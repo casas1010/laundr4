@@ -79,12 +79,10 @@ const AccountScreen = (props) => {
   return (
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
       <KeyboardAwareScrollView
-        // style={{ backgroundColor: "#4c69a5" }}
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles.container}
-        // scrollEnabled={false}
       >
-        <Header openDrawer={props.navigation.openDrawer} name="account" />
+        <Header openDrawer={props.navigation.openDrawer} name="Account" />
         <TouchableOpacity
           style={[styles.lockButton, { backgroundColor: lockColor }]}
           onPress={() => setLock(!lock)}
