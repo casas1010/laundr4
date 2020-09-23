@@ -58,27 +58,23 @@ const AccountScreen = (props) => {
     lock ? setTextColor("#990000") : setTextColor("black");
     lock ? setLockColor("#990000") : setLockColor("black");
   }, [lock]);
-  //
-  //
-  //
+  
+  
+  //  MODAL VARIABLES
   const setCityHelper = (item) => {
     setCity(item);
     showModalCity();
   };
-
-  //////
   const showModalCity = () => {
     console.log("showModalCity()");
     setCityModalView(!cityModalView);
   };
-
   const modalButtonHelper = () => {
     if (editable) {
       showModalCity();
     }
   };
-
-  //////
+//
 
   return (
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
@@ -86,7 +82,7 @@ const AccountScreen = (props) => {
         // style={{ backgroundColor: "#4c69a5" }}
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles.container}
-        scrollEnabled={false}
+        // scrollEnabled={false}
       >
         <Header openDrawer={props.navigation.openDrawer} name="account" />
         <TouchableOpacity
@@ -112,7 +108,8 @@ const AccountScreen = (props) => {
                 editable={editable}
                 value={name}
                 onChangeText={(txt) => setName(txt)}
-                placeholder="  Name"
+                placeholder=" Name"
+                style={styles.inputBox}
               />
             </View>
             {/*  */}
@@ -125,7 +122,8 @@ const AccountScreen = (props) => {
                 editable={editable}
                 value={email}
                 onChangeText={(txt) => setEmail(txt)}
-                placeholder="  Email"
+                placeholder=" Email"
+                style={styles.inputBox}
               />
             </View>
             {/*  */}
@@ -138,7 +136,8 @@ const AccountScreen = (props) => {
                 editable={editable}
                 value={password}
                 onChangeText={(txt) => setPassword(txt)}
-                placeholder="  Email"
+                placeholder=" Email"
+                style={styles.inputBox}
               />
             </View>
             {/*  */}
@@ -152,7 +151,8 @@ const AccountScreen = (props) => {
                 editable={editable}
                 value={number}
                 onChangeText={(txt) => setNumber(txt)}
-                placeholder="  Number"
+                placeholder=" Number"
+                style={styles.inputBox}
               />
             </View>
             {/*  */}
@@ -166,7 +166,8 @@ const AccountScreen = (props) => {
                   editable={false}
                   value={country}
                   onChangeText={(txt) => setCountry(txt)}
-                  placeholder="  Country"
+                  placeholder=" Country"
+                  style={styles.inputBox}
                 />
               </TouchableOpacity>
             </View>
@@ -176,7 +177,7 @@ const AccountScreen = (props) => {
               <Text style={[styles.inputTitle, { color: textColor }]}>
                 State
               </Text>
-              <Text>{state}</Text>
+              <Text style={styles.inputBox} >{state}</Text>
             </View>
             {/*  */}
             {/*  */}
@@ -185,7 +186,7 @@ const AccountScreen = (props) => {
                 <Text style={[styles.inputTitle, { color: textColor }]}>
                   City
                 </Text>
-                <Text>{city}</Text>
+                <Text style={styles.inputBox}>{city}</Text>
               </TouchableOpacity>
               <MenuModal
                 setCardTypeHelper={setCityHelper}
@@ -205,7 +206,8 @@ const AccountScreen = (props) => {
                 value={zipCode}
                 keyboardType="number-pad"
                 onChangeText={(txt) => setZipCode(txt)}
-                placeholder="  Zip Code"
+                placeholder="Zip Code"
+                style={styles.inputBox}
               />
             </View>
             {/*  */}
@@ -218,7 +220,8 @@ const AccountScreen = (props) => {
                 editable={editable}
                 value={name}
                 onChangeText={(txt) => setAddress(txt)}
-                placeholder="  Address"
+                placeholder="Address"
+                style={styles.inputBox}
               />
             </View>
             {/*  */}
@@ -369,7 +372,7 @@ export default AccountScreen;
 //     editable={editable}
 //     value={name}
 //     onChangeText={(name) => setName(name)}
-//     placeholder="  Name"
+//     placeholder=" Name"
 //     style={styles.inputBox}
 //   />
 // </View>
@@ -382,7 +385,7 @@ export default AccountScreen;
 //     editable={editable}
 //     value={email}
 //     onChangeText={(email) => setEmail(email)}
-//     placeholder="  Email"
+//     placeholder=" Email"
 //     style={styles.inputBox}
 //   />
 // </View>
@@ -395,7 +398,7 @@ export default AccountScreen;
 //     editable={editable}
 //     value={number}
 //     onChangeText={(number) => setNumber(number)}
-//     placeholder="  Number"
+//     placeholder=" Number"
 //     style={styles.inputBox}
 //   />
 // </View>
@@ -426,7 +429,7 @@ export default AccountScreen;
 //     editable={editable}
 //     value={name}
 //     onChangeText={(address) => setAddress(address)}
-//     placeholder="  Address"
+//     placeholder=" Address"
 //     style={styles.inputBox}
 //   />
 // </View>

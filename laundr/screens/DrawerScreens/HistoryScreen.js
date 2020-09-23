@@ -15,10 +15,12 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
+import GlobalStyles from "../../components/GlobalStyles";
+import Header from "../../components/Header";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
-
-import Header from "../../components/Header";
 
 const DATA = [
   {
@@ -56,7 +58,7 @@ const DIVIDER = () => {
 
 const HistoryScreen = (props) => {
   return (
-    <View>
+    <SafeAreaView style={GlobalStyles.droidSafeArea}>
       <Header openDrawer={props.navigation.openDrawer} name="History" />
       <FlatList
         data={DATA}
@@ -189,7 +191,7 @@ const HistoryScreen = (props) => {
           );
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -15,10 +15,12 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
+import GlobalStyles from "../../components/GlobalStyles";
+import Header from "../../components/Header";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
-
-import Header from "../../components/Header";
 
 const DATA = [
   {
@@ -37,7 +39,7 @@ const DATA = [
 
 const NotificationsScreen = (props) => {
   return (
-    <View>
+    <SafeAreaView style={GlobalStyles.droidSafeArea}>
       <Header openDrawer={props.navigation.openDrawer} name="Notifications" />
       <FlatList
         data={DATA}
@@ -51,7 +53,7 @@ const NotificationsScreen = (props) => {
           );
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

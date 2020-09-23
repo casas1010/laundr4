@@ -2,7 +2,7 @@ import { StyleSheet, Platform } from 'react-native';
 export default StyleSheet.create({
     droidSafeArea: {
         flex: 1,
-        // backgroundColor: 'orange',
+        // backgroundColor: 'red',
         paddingTop: Platform.OS === 'android' ? 25 : 0
     },
 });

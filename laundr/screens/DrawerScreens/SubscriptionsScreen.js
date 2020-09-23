@@ -20,10 +20,8 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Header from "../../components/Header";
-// import { Picker } from "@react-native-community/picker";
-
-import MenuModal from "../../components/MenuModal";
-// import DropDownPicker from "react-native-dropdown-picker";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import GlobalStyles from "../../components/GlobalStyles";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -59,51 +57,52 @@ const SubscriptionsScreen = (props) => {
   };
 
   return (
-    <>
+    <SafeAreaView style={GlobalStyles.droidSafeArea}>
       <Header openDrawer={props.navigation.openDrawer} name="Subscriptions" />
-      <FlatList
-        horizontal={false}
-        data={PLANS}
-        keyExtractor={(item) => item.planName}
-        renderItem={({ item }) => {
-          if (item.planName !== "Student") {
+
+        <FlatList
+          horizontal={false}
+          data={PLANS}
+          keyExtractor={(item) => item.planName}
+          renderItem={({ item }) => {
+            if (item.planName !== "Student") {
+              return (
+                <TouchableOpacity
+                  style={styles.cardContainer}
+                  onPress={() => setData(item)}
+                >
+                  <Text style={styles.cardTitle}>{item.planName}</Text>
+                  <Text style={styles.cardPrice}>{item.price} /Week</Text>
+                  <Text style={styles.cardDetails}>
+                    {item.weight} lbs monthly
+                  </Text>
+                </TouchableOpacity>
+              );
+            }
             return (
               <TouchableOpacity
-                style={styles.cardContainer}
+                style={styles.studentCardContainer}
                 onPress={() => setData(item)}
               >
-                <Text style={styles.cardTitle}>{item.planName}</Text>
-                <Text style={styles.cardPrice}>{item.price} /Week</Text>
-                <Text style={styles.cardDetails}>
-                  {item.weight} lbs monthly
-                </Text>
+                <View>
+                  <Text style={styles.footerTitle}>The Student Plan!</Text>
+                  <Text style={styles.footerDetails}>
+                    {item.price}/wk with valid student ID
+                  </Text>
+                </View>
+
+                <View style={styles.studentImageContainer}>
+                  <Image
+                    style={styles.studentImage}
+                    resizeMode="contain"
+                    source={require("../../assets/Minimalist.png")}
+                  />
+                </View>
               </TouchableOpacity>
             );
-          }
-          return (
-            <TouchableOpacity
-              style={styles.studentCardContainer}
-              onPress={() => setData(item)}
-            >
-              <View>
-                <Text style={styles.footerTitle}>The Student Plan!</Text>
-                <Text style={styles.footerDetails}>
-                  {item.price}/wk with valid student ID
-                </Text>
-              </View>
-
-              <View style={styles.studentImageContainer}>
-                <Image
-                  style={styles.studentImage}
-                  resizeMode="contain"
-                  source={require("../../assets/Minimalist.png")}
-                />
-              </View>
-            </TouchableOpacity>
-          );
-        }}
-      />
-    </>
+          }}
+        />
+    </SafeAreaView>
   );
 };
 
@@ -142,9 +141,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
   },
-  innerFooter: {
-    
-  },
+  innerFooter: {},
   footerTitle: {
     fontWeight: "bold",
     color: "white",

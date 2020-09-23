@@ -20,6 +20,9 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Header from "../../components/Header";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import GlobalStyles from "../../components/GlobalStyles";
+
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -37,9 +40,14 @@ const HelpScreen = (props) => {
   //   }
 
   return (
-    <>
+    <SafeAreaView style={GlobalStyles.droidSafeArea}>
       <Header openDrawer={props.navigation.openDrawer} name="Help" />
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAwareScrollView
+        // style={{ backgroundColor: "#4c69a5" }}
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        contentContainerStyle={styles.container}
+        // scrollEnabled={true}
+      >
         <View style={styles.formContainer}>
           <View style={styles.headerTextContainer}>
             <Text style={{ fontWeight: "bold", color: "#585858" }}>
@@ -71,8 +79,8 @@ const HelpScreen = (props) => {
             </TouchableOpacity> */}
           </View>
         </View>
-      </TouchableWithoutFeedback>
-    </>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 };
 

@@ -20,10 +20,9 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Header from "../../components/Header";
-// import { Picker } from "@react-native-community/picker";
-
 import MenuModal from "../../components/MenuModal";
-// import DropDownPicker from "react-native-dropdown-picker";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import GlobalStyles from "../../components/GlobalStyles";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -35,80 +34,180 @@ const CARDS = [
   { label: "Master Card", value: "Master Card" },
   { label: "Discover", value: "Discover" },
 ];
+const MONTHS = [
+  { label: "1 January", value: "1 January" },
+  { label: "2 February", value: "2 February" },
+  { label: "3 March", value: "3 March" },
+  { label: "4 April", value: "4 April" },
+  { label: "5 May", value: "5 May" },
+  { label: "6 June", value: "6 June" },
+  { label: "7 July", value: "7 July" },
+  { label: "8 August", value: "8 August" },
+  { label: "9 September", value: "9 September" },
+  { label: "10 October", value: "10 October" },
+  { label: "11 November", value: "11 November" },
+  { label: "12 December", value: "12 December" },
+];
+
+const year = new Date().getFullYear(); //To get the Current Year
+const YEARS = [
+  { label: year.toString(), value: year.toString() },
+  { label: (year + 1).toString(), value: (year + 1).toString() },
+  { label: (year + 2).toString(), value: (year + 2).toString() },
+  { label: (year + 3).toString(), value: (year + 3).toString() },
+];
 
 const PaymentScreen = (props) => {
-  const [cardHName, setCardHName] = useState();
-  const [cardNum, setCardNum] = useState();
-  const [cardType, setCardType] = useState("js");
-  const [ccvNum, setccvNum] = useState();
-  const [month, setMonth] = useState();
-  const [year, setYear] = useState();
-  const [modalView, setModalView] = useState(false);
+  const [cardHName, setCardHName] = useState("");
+  const [cardNum, setCardNum] = useState("");
+  const [cardType, setCardType] = useState("Visa");
+  const [ccvNum, setccvNum] = useState("");
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
+
+  // modal variables
+  const [cardModalView, setCardModalView] = useState(false);
+  const [monthModalView, setMonthModalView] = useState(false);
+  const [yearModalView, setYearModalView] = useState(false);
 
   useEffect(() => {
     console.log("AccountScreen loaded");
   }, []);
 
-  const showModal = () => {
-    setModalView(!modalView);
-  };
-
-  const setCardTypeHelper = (item) => {
-    // console.log("before:: cardType: ", cardType);
+  //  MODAL VARIABLES
+  // card type
+  const setCardHelper = (item) => {
     setCardType(item);
-    showModal();
+    showModalCard();
   };
-
+  const showModalCard = () => {
+    console.log("showModalCard()");
+    setCardModalView(!cardModalView);
+  };
+  const modalCardButtonHelper = () => {
+    showModalCard();
+  };
+  //
+  // month
+  const setMonthHelper = (item) => {
+    setMonth(item);
+    showModalMonth();
+  };
+  const showModalMonth = () => {
+    console.log("showModalMonth()");
+    setMonthModalView(!monthModalView);
+  };
+  const modalMonthButtonHelper = () => {
+    showModalMonth();
+  };
+  //
+  // year
+  const setYearHelper = (item) => {
+    setYear(item);
+    showModalYear();
+  };
+  const showModalYear = () => {
+    console.log("showModalYear()");
+    setYearModalView(!yearModalView);
+  };
+  const modalYearButtonHelper = () => {
+    showModalYear();
+  };
+  //
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : null}
-      style={{ flex: 1 }}
-    >
-      <SafeAreaView style={styles.container}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.inner}>
-            <Header openDrawer={props.navigation.openDrawer} name="Payment" />
-            <View style={styles.formContainer}>
-              {/*  */}
-
-              <View style={styles.title_InputContainer}>
-                <Text style={styles.inputTitle}>Card Holder Name</Text>
-
-                <TextInput
-                  value={cardHName}
-                  onChangeText={(txt) => setCardHName(txt)}
-                  placeholder="Card Holder Name"
-                  style={styles.inputBox}
-                />
-              </View>
-
-              <View style={styles.title_InputContainer}>
-                <Text style={styles.inputTitle}>Card Number</Text>
-
-                <TextInput
-                  value={cardHName}
-                  onChangeText={(txt) => setCardNum(txt)}
-                  placeholder="Card Number"
-                  style={styles.inputBox}
-                />
-              </View>
-              <View>
-                <Button title="modalView" onPress={showModal} />
-                <MenuModal
-                  setCardTypeHelper={setCardTypeHelper}
-                  showModal={showModal}
-                  modalView={modalView}
-                  data={CARDS}
-                />
-              </View>
-
-              {/*  */}
-            </View>
-            <View style={{ flex: 1 }} />
+    <SafeAreaView style={GlobalStyles.droidSafeArea}>
+      <Header openDrawer={props.navigation.openDrawer} name="Payment" />
+      <KeyboardAwareScrollView
+        // style={{ backgroundColor: "#4c69a5" }}
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        contentContainerStyle={styles.container}
+        // scrollEnabled={true}
+      >
+        <View style={styles.formContainer}>
+          {/*  */}
+          {/*  */}
+          <View style={styles.title_InputContainer}>
+            <Text style={styles.inputTitle}>Card Holder Name</Text>
+            <TextInput
+              value={cardHName}
+              onChangeText={(txt) => setCardHName(txt)}
+              placeholder="Card Holder Name"
+              style={styles.inputBox}
+            />
           </View>
-        </TouchableWithoutFeedback>
-      </SafeAreaView>
-    </KeyboardAvoidingView>
+          {/*  */}
+          {/*  */}
+          <View style={styles.title_InputContainer}>
+            <Text style={styles.inputTitle}>Card Number</Text>
+
+            <TextInput
+              value={cardHName}
+              onChangeText={(txt) => setCardNum(txt)}
+              placeholder="Card Number"
+              style={styles.inputBox}
+            />
+          </View>
+          <View>
+            {/*  */}
+            {/*  */}
+            <View style={styles.title_InputContainer}>
+              <TouchableOpacity onPress={modalCardButtonHelper}>
+                <Text style={styles.inputTitle}>Card Type</Text>
+                <Text style={styles.inputBox}>{cardType}</Text>
+              </TouchableOpacity>
+              <MenuModal
+                setCardTypeHelper={setCardHelper}
+                showModal={showModalCard}
+                modalView={cardModalView}
+                data={CARDS}
+              />
+            </View>
+            {/*  */}
+            {/*  */}
+            <View style={styles.title_InputContainer}>
+              <Text style={styles.inputTitle}>CCV</Text>
+
+              <TextInput
+                value={ccvNum}
+                onChangeText={(txt) => setccvNum(txt)}
+                placeholder="CCV"
+                style={styles.inputBox}
+              />
+            </View>
+            {/*  */}
+            {/*  */}
+            <View style={styles.title_InputContainer}>
+              <TouchableOpacity onPress={modalMonthButtonHelper}>
+                <Text style={styles.inputTitle}>Month</Text>
+                <Text style={styles.inputBox}>{month}</Text>
+              </TouchableOpacity>
+              <MenuModal
+                setCardTypeHelper={setMonthHelper}
+                showModal={showModalMonth}
+                modalView={monthModalView}
+                data={MONTHS}
+              />
+            </View>
+            {/*  */}
+            {/*  */}
+            <View style={styles.title_InputContainer}>
+              <TouchableOpacity onPress={modalYearButtonHelper}>
+                <Text style={styles.inputTitle}>Year</Text>
+                <Text style={styles.inputBox}>{year}</Text>
+              </TouchableOpacity>
+              <MenuModal
+                setCardTypeHelper={setYearHelper}
+                showModal={showModalYear}
+                modalView={yearModalView}
+                data={YEARS}
+              />
+            </View>
+            {/*  */}
+            {/*  */}
+          </View>
+        </View>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -183,169 +282,3 @@ const styles = StyleSheet.create({
 });
 
 export default PaymentScreen;
-
-// import React, { Component, useEffect, useState } from "react";
-// import {
-//   Button,
-//   Keyboard,
-//   KeyboardAvoidingView,
-//   Platform,
-//   SafeAreaView,
-//   StyleSheet,
-//   Text,
-//   TextInput,
-//   TouchableWithoutFeedback,
-//   View,
-// } from "react-native";
-
-// const PaymentScreen = () => {
-//   useEffect(() => {
-//     console.log("AccountScreen loaded");
-//   }, []);
-
-//   const [cardHName, setCardHName] = useState();
-//   const [cardNum, setCardNum] = useState();
-//   const [cardType, setCardType] = useState("uk");
-//   const [ccvNum, setccvNum] = useState();
-//   const [month, setMonth] = useState();
-//   const [year, setYear] = useState();
-
-//   return (
-//     <KeyboardAvoidingView
-//       behavior={Platform.OS === "ios" ? "padding" : "height"}
-//       style={{ flex: 1 }}
-//     >
-//       <View style={styles.container}>
-//         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-//           <View style={styles.inner}>
-
-//           <View style={styles.title_InputContainer}>
-//                 <Text style={styles.inputTitle}>Card Holder Name</Text>
-
-//                 <TextInput
-//                   value={cardHName}
-//                   onChangeText={(txt) => setCardHName(txt)}
-//                   placeholder="Card Holder Name"
-//                   style={styles.inputBox}
-//                 />
-//               </View>
-
-//             <View style={{ flex: 1 }} />
-//           </View>
-//         </TouchableWithoutFeedback>
-//       </View>
-//     </KeyboardAvoidingView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-//   inner: {
-//     padding: 24,
-//     flex: 1,
-//     justifyContent: "flex-end",
-//   },
-//   header: {
-//     fontSize: 36,
-//     marginBottom: 48,
-//   },
-//   input: {
-//     height: 40,
-//     borderColor: "#000000",
-//     borderBottomWidth: 1,
-//     marginBottom: 36,
-//   },
-//   btnContainer: {
-//     backgroundColor: "white",
-//     marginTop: 12,
-//   },
-//     title_InputContainer: {
-//     marginTop: 10,
-//     marginBottom: 10,
-//   },
-// });
-
-// export default PaymentScreen;
-
-// <View style={styles.title_InputContainer}>
-// <Text style={styles.inputTitle}>Card Holder Name</Text>
-
-// <TextInput
-//   value={cardHName}
-//   onChangeText={(txt) => setCardHName(txt)}
-//   placeholder="Card Holder Name"
-//   style={styles.inputBox}
-// />
-// </View>
-
-{
-  /* <View style={styles.title_InputContainer}>
-<Text style={styles.inputTitle}>Card Number</Text>
-
-<TextInput
-  value={cardHName}
-  onChangeText={(txt) => setCardNum(txt)}
-  placeholder="Card Number"
-  style={styles.inputBox}
-/>
-</View> */
-}
-
-{
-  /* <>
-<Text style={styles.inputTitle}>Card Type</Text>
-<View
-  style={{
-    // The solution: Apply zIndex to any device except Android
-    ...(Platform.OS !== "android" && {
-      zIndex: 10,
-    }),
-  }}
->
-  <DropDownPicker
-    items={CARDS}
-    placeholder="Select a country"
-    containerStyle={{ height: 40 }}
-    style={{ backgroundColor: "#ffffff" }}
-    dropDownStyle={{ backgroundColor: "white" }}
-  />
-</View>
-</> */
-}
-
-// <View style={styles.title_InputContainer}>
-// <Text style={styles.inputTitle}>CVV Number</Text>
-
-// <TextInput
-//   value={cardHName}
-//   onChangeText={(txt) => setccvNum(txt)}
-//   placeholder="CVV"
-//   style={styles.inputBox}
-// />
-// </View>
-
-// <View style={styles.title_InputContainer}>
-// <Text style={styles.inputTitle}>Month</Text>
-// </View>
-
-// <>
-// <Text style={styles.inputTitle}>Year</Text>
-// <View
-//   style={{
-//     // The solution: Apply zIndex to any device except Android
-//     ...(Platform.OS !== "android" && {
-//       zIndex: 10,
-//     }),
-//   }}
-// >
-//   <DropDownPicker
-//     items={CARDS}
-//     placeholder="Select a country"
-//     containerStyle={{ height: 40 }}
-//     style={{ backgroundColor: "#ffffff" }}
-//     dropDownStyle={{ backgroundColor: "white" }}
-//   />
-// </View>
-// </>

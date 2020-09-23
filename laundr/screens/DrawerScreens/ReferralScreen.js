@@ -19,7 +19,9 @@ import {
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
+import GlobalStyles from "../../components/GlobalStyles";
 import Header from "../../components/Header";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const DATA = [
   {
@@ -52,10 +54,10 @@ const ReferralScreen = (props) => {
   }, []);
 
   const onShare = async () => {
+    // NOTE: SOMETHING IS WRONG WITH HOW THE LINK DISPLAYS ON THE TEXT MESSAGE :(
     try {
       const result = await Share.share({
-        message: `Try Laundr, an app for on-demand laundry service.
-          https://www.laundr.io
+        message: `Try Laundr, an app for on-demand laundry service. https://www.laundr.io
           Use this promo code to get a $5 discount on your first order:
           "jcasasmail646"`,
       });
@@ -74,7 +76,7 @@ const ReferralScreen = (props) => {
   };
 
   return (
-    <>
+    <SafeAreaView style={GlobalStyles.droidSafeArea}>
       <Header openDrawer={props.navigation.openDrawer} name="Referrals" />
       <View style={styles.formContainer}>
         <Text style={styles.titleText}>Share your referral code!</Text>
@@ -99,7 +101,7 @@ const ReferralScreen = (props) => {
           Share code with more humans!
         </Text>
       </TouchableOpacity>
-    </>
+    </SafeAreaView>
   );
 };
 
