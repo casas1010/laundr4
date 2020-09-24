@@ -1,20 +1,38 @@
-import { Dimensions } from "react-native";
+import React from "react";
+import { Dimensions, TouchableOpacity, Text } from "react-native";
 
 export const HEIGHT = Dimensions.get("window").height;
-export const FIELD_NAME_FONT_SIZE = Math.floor((HEIGHT * 0.1) / 2);
-export const FIELD_VALUE_FONT_SIZE = Math.floor((HEIGHT * 0.1) / 3);
 export const WIDTH = Dimensions.get("window").width;
 
-export const INPUT_TITLE = {
+export const FIELD_NAME_FONT_SIZE = Math.floor((HEIGHT * 0.1) / 2);
+export const FIELD_VALUE_FONT_SIZE = Math.floor((HEIGHT * 0.1) / 3);
+
+export const BUTTON_TEXT_FONT_SIZE = Math.floor((HEIGHT * 0.1) / 2.5);
+
+const SHADOW = {
+  shadowColor: "#000",
+  shadowOffset: { width: 1, height: 1 },
+  shadowOpacity: 0.4,
+  shadowRadius: 3,
+  elevation: 5,
+};
+
+export const FIELD_NAME_TEXT = {
   fontSize: FIELD_NAME_FONT_SIZE,
   fontWeight: "bold",
 };
 
-export const INPUT_CONTAINER = {
+export const FIELD_VALUE_TEXT = {
+  fontSize: FIELD_VALUE_FONT_SIZE,
+  fontWeight: "bold",
+  width: "100%",
+};
+
+export const FIELD_VALUE_CONTAINER = {
   width: "100%",
   borderColor: "#d3d3d3",
   borderWidth: 1,
-  borderRadius: 5,
+  borderRadius: 8,
   padding: 7,
   fontSize: FIELD_VALUE_FONT_SIZE,
   justifyContent: "center",
@@ -25,9 +43,25 @@ export const BUTTON_CONTAINER = {
   alignItems: "center",
   backgroundColor: "#01c9e2",
   margin: 10,
-  
-  width: '80%',
-  borderRadius: 10,
+  width: "80%",
+  borderRadius: 20,
+  ...SHADOW,
 };
 
+export const BUTTON_TEXT = {
+  fontSize: BUTTON_TEXT_FONT_SIZE,
+  fontWeight: "bold",
+  color: "white",
+  padding: 10,
+};
 
+export const BUTTON = (props) => {
+  return (
+    <TouchableOpacity
+      style={[BUTTON_CONTAINER, { ...props.style }]}
+      onPress={props.onPress}
+    >
+      <Text style={[BUTTON_TEXT, { ...props.textStyle }]}>{props.text}</Text>
+    </TouchableOpacity>
+  );
+};

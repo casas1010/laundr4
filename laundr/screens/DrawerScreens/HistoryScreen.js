@@ -18,6 +18,7 @@ import {
 import GlobalStyles from "../../components/GlobalStyles";
 import Header from "../../components/Header";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Container from "../../components/Container";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -67,7 +68,7 @@ const HistoryScreen = (props) => {
         contentContainerStyle={{ paddingBottom: 100 }}
         renderItem={({ item }) => {
           return (
-            <View style={styles.cardContainer}>
+            <Container>
               {/*  */}
               <View style={styles.fieldContainer}>
                 <View style={styles.fieldNameContainer}>
@@ -78,7 +79,6 @@ const HistoryScreen = (props) => {
                 </View>
               </View>
               {/*  */}
-              <DIVIDER />
               {/*  */}
               <View style={styles.fieldContainer}>
                 <View style={styles.fieldNameContainer}>
@@ -92,6 +92,16 @@ const HistoryScreen = (props) => {
               {/*  */}
               <View style={styles.fieldContainer}>
                 <View style={styles.fieldNameContainer}>
+                  <Text style={styles.fieldNameTxT}>{item.card.cardType}</Text>
+                </View>
+                <View style={styles.fieldValueContainer}>
+                  <Text style={styles.fieldValueTxT}>{item.card.charge}</Text>
+                </View>
+              </View>
+              {/*  */}
+              {/*  */}
+              <View style={styles.fieldContainer}>
+                <View style={styles.fieldNameContainer}>
                   <Text style={styles.fieldNameTxT}>Status</Text>
                 </View>
                 <View style={styles.fieldValueContainer}>
@@ -99,6 +109,7 @@ const HistoryScreen = (props) => {
                 </View>
               </View>
               {/*  */}
+              <DIVIDER />
               {/*  */}
               <View style={styles.fieldContainer}>
                 <View style={styles.fieldNameContainer}>
@@ -177,17 +188,7 @@ const HistoryScreen = (props) => {
               </View>
               {/*  */}
               {/*  */}
-              <View style={styles.fieldContainer}>
-                <View style={styles.fieldNameContainer}>
-                  <Text style={styles.fieldNameTxT}>{item.card.cardType}</Text>
-                </View>
-                <View style={styles.fieldValueContainer}>
-                  <Text style={styles.fieldValueTxT}>{item.card.charge}</Text>
-                </View>
-              </View>
-              {/*  */}
-              {/*  */}
-            </View>
+            </Container>
           );
         }}
       />
@@ -196,24 +197,12 @@ const HistoryScreen = (props) => {
 };
 
 const styles = StyleSheet.create({
-  cardContainer: {
-    backgroundColor: "white",
-    borderColor: "white",
-    borderWidth: 1,
-    borderRadius: 15,
-    margin: WIDTH * 0.06,
-    paddingTop: 10,
-    paddingBottom: 10,
-    width: WIDTH * 0.88,
-  },
   fieldContainer: {
     flexDirection: "row",
     marginBottom: 5,
     marginTop: 5,
-    // height: 17,
   },
   fieldNameContainer: {
-    // backgroundColor: "red",
     width: "35%",
   },
   fieldNameTxT: {
@@ -222,7 +211,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   fieldValueContainer: {
-    // backgroundColor: "green",
     width: "65%",
     flexDirection: "row",
     justifyContent: "flex-end",

@@ -23,9 +23,17 @@ import Header from "../../components/Header";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import GlobalStyles from "../../components/GlobalStyles";
 
-
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
+import {
+  WIDTH,
+  HEIGHT,
+  FIELD_NAME_TEXT,
+  FIELD_VALUE_TEXT,
+  FIELD_VALUE_CONTAINER,
+  BUTTON_CONTAINER,
+  BUTTON,
+  FIELD_NAME_FONT_SIZE,
+  SHADOW,
+} from "../../components/Items/";
 const FONTSIZE = Math.floor((HEIGHT * 0.1) / 3);
 
 const HelpScreen = (props) => {
@@ -43,16 +51,12 @@ const HelpScreen = (props) => {
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
       <Header openDrawer={props.navigation.openDrawer} name="Help" />
       <KeyboardAwareScrollView
-        // style={{ backgroundColor: "#4c69a5" }}
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles.container}
-        // scrollEnabled={true}
       >
         <View style={styles.formContainer}>
           <View style={styles.headerTextContainer}>
-            <Text style={{ fontWeight: "bold", color: "#585858" }}>
-              Report an Issue
-            </Text>
+            <Text style={FIELD_NAME_TEXT}>Report an Issue</Text>
           </View>
           <TextInput
             value={issue}
@@ -63,12 +67,13 @@ const HelpScreen = (props) => {
             style={styles.inputBox}
           />
           <View style={styles.buttonContainer}>
-            <TouchableOpacity
+            <BUTTON onPress={submitFunction} text="Submit" />
+            {/* <TouchableOpacity
               onPress={submitFunction}
               style={styles.submitButton}
             >
               <Text>Submit</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             {/* <Text> OR </Text>
             <TouchableOpacity

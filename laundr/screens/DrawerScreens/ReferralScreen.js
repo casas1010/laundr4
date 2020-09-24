@@ -15,39 +15,36 @@ import {
   FlatList,
   Share,
   Dimensions,
+  Clipboard,
 } from "react-native";
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
 
 import GlobalStyles from "../../components/GlobalStyles";
+import Container from "../../components/Container";
 import Header from "../../components/Header";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "First Item",
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Second Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item",
-  },
-];
-const SHADOW = {
-  shadowColor: "#000",
-  shadowOffset: { width: 1, height: 1 },
-  shadowOpacity: 0.4,
-  shadowRadius: 3,
-  elevation: 5,
-};
+import {
+  WIDTH,
+  HEIGHT,
+  FIELD_NAME_TEXT,
+  FIELD_VALUE_TEXT,
+  FIELD_VALUE_CONTAINER,
+  BUTTON_CONTAINER,
+  BUTTON,
+  FIELD_NAME_FONT_SIZE,
+  SHADOW,
+} from "../../components/Items/";
+
+
+
 
 const ReferralScreen = (props) => {
   const [code, setCode] = useState("dummyCode");
   const [email, setEmail] = useState();
+
+  const copyToClipboard = () => {
+    Clipboard.setString(code);
+  };
 
   useEffect(() => {
     console.log("Referral screen loaded");
@@ -78,7 +75,7 @@ const ReferralScreen = (props) => {
   return (
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
       <Header openDrawer={props.navigation.openDrawer} name="Referrals" />
-      <View style={styles.formContainer}>
+      <Container>
         <Text style={styles.titleText}>Share your referral code!</Text>
         <Text style={styles.bodyText}>
           Both you and your friend get a $10 off coupon when they use your promo
@@ -91,16 +88,17 @@ const ReferralScreen = (props) => {
           <View style={styles.codeTextContainer}>
             <Text style={styles.codeText}>{code}</Text>
           </View>
-          <TouchableOpacity style={styles.copyCodeButton}>
-            <Text>Copy code</Text>
-          </TouchableOpacity>
+          <BUTTON
+            text="Copy Code"
+            onPress={copyToClipboard}
+            style={{ width: "40%" }}
+            textStyle={{ fontSize: FIELD_NAME_FONT_SIZE * 0.5 }}
+          />
         </View>
+      </Container>
+      <View style={{ justifyContent: "center", alignItems: "center" }}>
+        <BUTTON text="Share code with more humans!" onPress={onShare} />
       </View>
-      <TouchableOpacity onPress={onShare} style={styles.copyCodeButton}>
-        <Text style={{ color: "white", fontWeight: "bold" }}>
-          Share code with more humans!
-        </Text>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -108,19 +106,7 @@ const ReferralScreen = (props) => {
 // styles.codeTextContainer
 
 const styles = StyleSheet.create({
-  formContainer: {
-    backgroundColor: "white",
-    borderColor: "white",
-    borderWidth: 1,
-    borderRadius: 15,
-    margin: WIDTH * 0.06,
-    padding: 10,
-    width: WIDTH * 0.88,
-  },
-  headerText: {
-    fontWeight: "bold",
-    fontSize: 20,
-  },
+
   bodyText: {
     marginTop: 10,
     marginBottom: 10,

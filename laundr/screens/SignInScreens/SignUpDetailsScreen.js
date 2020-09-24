@@ -27,13 +27,14 @@ import SignUpCard from "../../components/SignUpCard";
 import Password from "./Password.js";
 
 import {
-  HEIGHT,
-  FIELD_NAME_FONT_SIZE,
-  FIELD_VALUE_FONT_SIZE,
   WIDTH,
-  INPUT_TITLE,
-  INPUT_BOX,
+  FIELD_NAME_TEXT,
+  FIELD_VALUE_TEXT,
+  FIELD_VALUE_CONTAINER,
+  BUTTON_CONTAINER,
+  BUTTON,
 } from "../../components/Items/";
+
 import { CITIES } from "../../components/Data/";
 
 const signUpDetailsScreen = (props) => {
@@ -71,8 +72,12 @@ const signUpDetailsScreen = (props) => {
       element: (
         <>
           <TouchableOpacity onPress={modalButtonHelper}>
-            <Text style={styles.INPUT_TITLE}>Select Your City</Text>
-            <Text style={styles.INPUT_BOX}>{city}</Text>
+            <Text style={[FIELD_NAME_TEXT, { marginBottom: 5 }]}>
+              Select Your City
+            </Text>
+            <View style={FIELD_VALUE_CONTAINER}>
+              <Text style={FIELD_VALUE_TEXT}>{city}</Text>
+            </View>
           </TouchableOpacity>
           <MenuModal
             title="City"
@@ -125,18 +130,20 @@ const signUpDetailsScreen = (props) => {
       value: "PhoneNumber",
     },
     {
-      element: <Password setPassword1={setPassword1} />,
+      element: (
+        <Password setPassword1={setPassword1} setPassword2={setPassword2} />
+      ),
       value: "Password",
     },
     {
       element: (
         <SignUpCard
           callBack={setReferralCode}
-          title={"ReferralCode "}
-          placeHolder="code"
+          title={"Referral Code"}
+          placeHolder="Referral Code"
         />
       ),
-      value: "ReferralCode",
+      value: "Referral Code",
     },
   ];
 
@@ -197,20 +204,19 @@ const signUpDetailsScreen = (props) => {
         Alert.alert("Your password needs to be at least 6 characters long");
         return;
       }
-      console.log('password is at least 6 chat long')
+      console.log("password is at least 6 chat long");
       if (!specialCharValidation(password2)) {
         Alert.alert("Your password needs to have at least 1 special character");
         return;
       }
-      console.log('password has at least 1 special character ')
-      
+      console.log("password has at least 1 special character ");
+
       if (!checkForCapitals(password2)) {
         Alert.alert("Your password needs to have at least 1 capital letter ");
         return;
       }
-      console.log('password contains at least 1 capital letter')
-      console.log('password logic complete, password passed all tests')
-
+      console.log("password contains at least 1 capital letter");
+      console.log("password logic complete, password passed all tests");
     }
     next();
     // PASSWORD LOGIC
@@ -284,13 +290,11 @@ const signUpDetailsScreen = (props) => {
         />
 
         <View style={styles.masterButtonContainer}>
-          <View style={styles.buttonContainer}>
-            <Button
-              onPress={previous}
-              title={index == 0 ? "Return" : "Previous"}
-              color="darkblue"
-            />
-          </View>
+          <BUTTON
+            onPress={previous}
+            text={index == 0 ? "Return" : "Previous"}
+            style={{ width: WIDTH * 0.35 }}
+          />
 
           <View style={styles.indexCounterContainer}>
             <Text>
@@ -298,13 +302,11 @@ const signUpDetailsScreen = (props) => {
             </Text>
           </View>
 
-          <View style={styles.buttonContainer}>
-            <Button
-              onPress={nextHelper}
-              title={index == 5 ? "Submit" : "Next"}
-              color="darkblue"
-            />
-          </View>
+          <BUTTON
+            onPress={nextHelper}
+            text={index == 5 ? "Submit" : "Next"}
+            style={{ width: WIDTH * 0.35 }}
+          />
         </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>
@@ -312,29 +314,14 @@ const signUpDetailsScreen = (props) => {
 };
 
 const styles = StyleSheet.create({
-  INPUT_TITLE,
-  INPUT_BOX,
-  masterContainer: {
-    backgroundColor: "#f4f4f4",
-    flex: 1,
-  },
   masterButtonContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor:'blue'
   },
-  buttonContainer: {
-    backgroundColor: "#5bcae2",
-    height: 40,
-    width: WIDTH * 0.4,
-    borderColor: "white",
-    borderWidth: 1,
-    borderRadius: 15,
-  },
+
   indexCounterContainer: {
     width: WIDTH * 0.2,
-    // backgroundColor: "red",
     height: 40,
     justifyContent: "center",
     alignItems: "center",

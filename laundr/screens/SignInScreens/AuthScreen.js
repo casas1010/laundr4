@@ -30,8 +30,10 @@ import {
   FIELD_NAME_FONT_SIZE,
   FIELD_VALUE_FONT_SIZE,
   WIDTH,
+  BUTTON,
   INPUT_TITLE,
-  INPUT_CONTAINER,
+  FIELD_VALUE_CONTAINER,
+  BUTTON_TEXT,
   BUTTON_CONTAINER,
 } from "../../components/Items/";
 
@@ -140,7 +142,7 @@ const AuthScreen = (props) => {
         <Container>
           <TouchableOpacity
             onPress={modalButtonHelper}
-            style={[INPUT_CONTAINER, { width: 65,marginBottom:5 }]}
+            style={[FIELD_VALUE_CONTAINER, { width: 65, marginBottom: 5 }]}
           >
             <Text>{userType}</Text>
           </TouchableOpacity>
@@ -163,7 +165,7 @@ const AuthScreen = (props) => {
               value={email}
               onChangeText={(email) => setEmail(email)}
               placeholder=" Email"
-              style={[INPUT_CONTAINER, { width: "80%" }]}
+              style={[FIELD_VALUE_CONTAINER, { width: "80%" }]}
             />
           </View>
 
@@ -179,26 +181,23 @@ const AuthScreen = (props) => {
               onChangeText={(password) => setPassword(password)}
               secureTextEntry={true}
               placeholder=" Password"
-              style={[INPUT_CONTAINER, { width: "80%" }]}
+              style={[FIELD_VALUE_CONTAINER, { width: "80%" }]}
             />
           </View>
         </Container>
-        <View style={styles.buttonsContainer} >
-          <TouchableOpacity style={BUTTON_CONTAINER} onPress={handleLogin}>
-            <Text style={styles.buttonText}>LOG IN</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={BUTTON_CONTAINER}
+        <View style={styles.buttonsContainer}>
+          <BUTTON onPress={handleLogin} text="LOG IN" />
+          <BUTTON
             onPress={() => props.navigation.navigate("signUpDetails")}
-          >
-            <Text style={styles.buttonText}>SIGN UP</Text>
-          </TouchableOpacity>
+            text="SIGN UP"
+          />
 
           <TouchableOpacity
             onPress={() => props.navigation.navigate("forgotPassword")}
           >
-            <Text style={styles.buttonText}>Forgot Password?</Text>
+            <Text style={[BUTTON_TEXT, { color: "black" }]}>
+              Forgot Password?
+            </Text>
           </TouchableOpacity>
         </View>
       </KeyboardAwareScrollView>

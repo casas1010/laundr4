@@ -18,12 +18,11 @@ import RNPickerSelect from "react-native-picker-select";
 import { Picker } from "@react-native-community/picker";
 
 import {
-  HEIGHT,
-  FIELD_NAME_FONT_SIZE,
-  FIELD_VALUE_FONT_SIZE,
   WIDTH,
-  INPUT_TITLE,
-  INPUT_BOX,
+  FIELD_NAME_TEXT,
+  FIELD_VALUE_TEXT,
+  FIELD_VALUE_CONTAINER,
+  BUTTON_CONTAINER,
 } from "../../components/Items/";
 
 //*
@@ -37,7 +36,7 @@ const Password = (props) => {
 
   return (
     <>
-      <Text style={INPUT_TITLE}>Create a Password</Text>
+      <Text style={[FIELD_NAME_TEXT,{marginBottom:5}]}>Create a Password</Text>
 
       <TextInput
         onChangeText={(txt) => props.setPassword1(txt)}
@@ -46,10 +45,10 @@ const Password = (props) => {
         autoCompleteType="password"
         autoCorrect={false}
         secureTextEntry={true}
-        style={[INPUT_BOX, { marginBottom: 10 }]}
+        style={[FIELD_VALUE_CONTAINER, { marginBottom: 10 }]}
       />
       <TextInput
-        style={[INPUT_BOX, { marginBottom: 10 }]}
+        style={[FIELD_VALUE_CONTAINER, { marginBottom: 10 }]}
         onChangeText={(txt) => {
           props.setPassword2(txt);
         }}
@@ -64,30 +63,5 @@ const Password = (props) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  formContainer: {
-    backgroundColor: "white",
-    borderColor: "white",
-    borderWidth: 1,
-    borderRadius: 15,
-    flex: 1,
-    margin: WIDTH * 0.06,
-    padding: 5,
-    width: WIDTH * 0.88,
-  },
-  text: {
-    fontSize: 32,
-  },
-
-  inputBox: {
-    width: "100%",
-    height: 45,
-    borderColor: "#d3d3d3",
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingLeft: 2,
-  },
-});
 
 export default Password;

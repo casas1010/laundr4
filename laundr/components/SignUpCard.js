@@ -16,12 +16,11 @@ import {
 } from "react-native";
 
 import {
-  HEIGHT,
-  FIELD_NAME_FONT_SIZE,
-  FIELD_VALUE_FONT_SIZE,
   WIDTH,
-  INPUT_TITLE,
-  INPUT_BOX,
+  FIELD_NAME_TEXT,
+  FIELD_VALUE_TEXT,
+  FIELD_VALUE_CONTAINER,
+  BUTTON_CONTAINER,
 } from "./Items/";
 
 //*
@@ -31,14 +30,15 @@ import {
 const SignUpCard = (props) => {
   useEffect(() => {
     console.log(`card "${props.title}" loaded`);
+    console.log("FIELD_NAME_TEXT:  ", FIELD_NAME_TEXT);
   }, []);
 
   return (
     <>
       {/* note 1 */}
-      <Text style={INPUT_TITLE}>{props.title}</Text>
+      <Text style={[FIELD_NAME_TEXT, { marginBottom: 5 }]}>{props.title}</Text>
       <TextInput
-        style={INPUT_BOX}
+        style={FIELD_VALUE_CONTAINER}
         onChangeText={(text) => props.callBack(text)}
         placeholder={props.placeHolder}
         textContentType={props.textContentType}

@@ -21,13 +21,19 @@ import GlobalStyles from "../../components/GlobalStyles";
 import Header from "../../components/Header";
 import MenuModal from "../../components/MenuModal";
 
-const CITY = [
-  { label: "Orlando", value: "Orlando" },
-  { label: "Gainsville", value: "Gainsville" },
-];
+import {
+  WIDTH,
+  HEIGHT,
+  FIELD_NAME_TEXT,
+  FIELD_VALUE_TEXT,
+  FIELD_VALUE_CONTAINER,
+  BUTTON_CONTAINER,
+  BUTTON,
+} from "../../components/Items/";
+import { CITIES } from "../../components/Data/";
 
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
+// const WIDTH = Dimensions.get("window").width;
+// const HEIGHT = Dimensions.get("window").height;
 const FONTSIZE = Math.floor((HEIGHT * 0.1) / 3);
 
 const AccountScreen = (props) => {
@@ -37,7 +43,7 @@ const AccountScreen = (props) => {
   const [password, setPassword] = useState();
   const [country, setCountry] = useState("United States");
   const [state, setState] = useState("Florida");
-  const [city, setCity] = useState("Gainsville");
+  const [city, setCity] = useState();
   const [zipCode, setZipCode] = useState();
   const [address, setAddress] = useState();
   const [number, setNumber] = useState();
@@ -58,8 +64,7 @@ const AccountScreen = (props) => {
     lock ? setTextColor("#990000") : setTextColor("black");
     lock ? setLockColor("#990000") : setLockColor("black");
   }, [lock]);
-  
-  
+
   //  MODAL VARIABLES
   const setCityHelper = (item) => {
     setCity(item);
@@ -74,7 +79,7 @@ const AccountScreen = (props) => {
       showModalCity();
     }
   };
-//
+  //
 
   return (
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
@@ -99,128 +104,158 @@ const AccountScreen = (props) => {
             {/*  */}
             {/*  */}
             <View style={styles.title_InputContainer}>
-              <Text style={[styles.inputTitle, { color: textColor }]}>
-                Name
-              </Text>
-              <TextInput
-                editable={editable}
-                value={name}
-                onChangeText={(txt) => setName(txt)}
-                placeholder=" Name"
-                style={styles.inputBox}
-              />
+              <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>Name</Text>
+              <View
+                style={[FIELD_VALUE_CONTAINER, { alignItems: "flex-start" }]}
+              >
+                <TextInput
+                  editable={editable}
+                  value={name}
+                  onChangeText={(txt) => setName(txt)}
+                  placeholder=" Name"
+                  style={FIELD_VALUE_TEXT}
+                />
+              </View>
             </View>
             {/*  */}
             {/*  */}
             <View style={styles.title_InputContainer}>
-              <Text style={[styles.inputTitle, { color: textColor }]}>
-                Email
-              </Text>
-              <TextInput
-                editable={editable}
-                value={email}
-                onChangeText={(txt) => setEmail(txt)}
-                placeholder=" Email"
-                style={styles.inputBox}
-              />
+              <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>Email</Text>
+              <View
+                style={[FIELD_VALUE_CONTAINER, { alignItems: "flex-start" }]}
+              >
+                <TextInput
+                  editable={editable}
+                  value={email}
+                  onChangeText={(txt) => setEmail(txt)}
+                  placeholder=" Email"
+                  style={FIELD_VALUE_TEXT}
+                />
+              </View>
             </View>
             {/*  */}
             {/*  */}
             <View style={styles.title_InputContainer}>
-              <Text style={[styles.inputTitle, { color: textColor }]}>
+              <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
                 Password
               </Text>
-              <TextInput
-                editable={editable}
-                value={password}
-                onChangeText={(txt) => setPassword(txt)}
-                placeholder=" Email"
-                style={styles.inputBox}
-              />
+              <View
+                style={[FIELD_VALUE_CONTAINER, { alignItems: "flex-start" }]}
+              >
+                <TextInput
+                  editable={editable}
+                  value={password}
+                  onChangeText={(txt) => setPassword(txt)}
+                  placeholder=" Email"
+                  style={FIELD_VALUE_TEXT}
+                />
+              </View>
             </View>
             {/*  */}
             {/*  */}
             <View style={styles.title_InputContainer}>
-              <Text style={[styles.inputTitle, { color: textColor }]}>
+              <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
                 Number
               </Text>
-
-              <TextInput
-                editable={editable}
-                value={number}
-                onChangeText={(txt) => setNumber(txt)}
-                placeholder=" Number"
-                style={styles.inputBox}
-              />
+              <View
+                style={[FIELD_VALUE_CONTAINER, { alignItems: "flex-start" }]}
+              >
+                <TextInput
+                  editable={editable}
+                  value={number}
+                  onChangeText={(txt) => setNumber(txt)}
+                  placeholder=" Number"
+                  style={FIELD_VALUE_TEXT}
+                />
+              </View>
             </View>
             {/*  */}
             {/*  */}
             <View style={styles.title_InputContainer}>
-              <Text style={[styles.inputTitle, { color: textColor }]}>
+              <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
                 Country
               </Text>
-              <TouchableOpacity>
+              {/* <TouchableOpacity> */}
+              <View
+                style={[FIELD_VALUE_CONTAINER, { alignItems: "flex-start" }]}
+              >
                 <TextInput
                   editable={false}
                   value={country}
                   onChangeText={(txt) => setCountry(txt)}
                   placeholder=" Country"
-                  style={styles.inputBox}
+                  style={FIELD_VALUE_TEXT}
                 />
-              </TouchableOpacity>
+              </View>
+              {/* </TouchableOpacity> */}
             </View>
             {/*  */}
             {/*  */}
             <View style={styles.title_InputContainer}>
-              <Text style={[styles.inputTitle, { color: textColor }]}>
-                State
-              </Text>
-              <Text style={styles.inputBox} >{state}</Text>
+              <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>State</Text>
+              <View
+                style={[FIELD_VALUE_CONTAINER, { alignItems: "flex-start" }]}
+              >
+                <Text style={FIELD_VALUE_TEXT}>{state}</Text>
+              </View>
             </View>
             {/*  */}
             {/*  */}
             <View style={styles.title_InputContainer}>
               <TouchableOpacity onPress={modalButtonHelper}>
-                <Text style={[styles.inputTitle, { color: textColor }]}>
+                <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
                   City
                 </Text>
-                <Text style={styles.inputBox}>{city}</Text>
+                <View
+                  style={[FIELD_VALUE_CONTAINER, { alignItems: "flex-start" }]}
+                >
+                  <Text style={FIELD_VALUE_TEXT}>{city}</Text>
+                </View>
               </TouchableOpacity>
               <MenuModal
                 setCardTypeHelper={setCityHelper}
                 showModal={showModalCity}
                 modalView={cityModalView}
-                data={CITY}
+                data={CITIES}
+                title='Select Your City'
               />
             </View>
             {/*  */}
             {/*  */}
             <View style={styles.title_InputContainer}>
-              <Text style={[styles.inputTitle, { color: textColor }]}>
+              <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
                 Zip Code
               </Text>
-              <TextInput
-                editable={editable}
-                value={zipCode}
-                keyboardType="number-pad"
-                onChangeText={(txt) => setZipCode(txt)}
-                placeholder="Zip Code"
-                style={styles.inputBox}
-              />
+              <View
+                style={[FIELD_VALUE_CONTAINER, { alignItems: "flex-start" }]}
+              >
+                <TextInput
+                  editable={editable}
+                  value={zipCode}
+                  keyboardType="number-pad"
+                  onChangeText={(txt) => setZipCode(txt)}
+                  placeholder="Zip Code"
+                  style={FIELD_VALUE_TEXT}
+                />
+              </View>
             </View>
             {/*  */}
             {/*  */}
             <View style={styles.title_InputContainer}>
-              <Text style={[styles.inputTitle, { color: textColor }]}>
+              <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
                 Address
               </Text>
-              <TextInput
-                editable={editable}
-                value={name}
-                onChangeText={(txt) => setAddress(txt)}
-                placeholder="Address"
-                style={styles.inputBox}
-              />
+              <View
+                style={[FIELD_VALUE_CONTAINER, { alignItems: "flex-start" }]}
+              >
+                <TextInput
+                  editable={editable}
+                  value={name}
+                  onChangeText={(txt) => setAddress(txt)}
+                  placeholder="Address"
+                  style={FIELD_VALUE_TEXT}
+                />
+              </View>
             </View>
             {/*  */}
             {/*  */}
@@ -362,7 +397,7 @@ export default AccountScreen;
 //             <View style={styles.formContainer}>
 
 // <View style={styles.title_InputContainer}>
-//   <Text style={[styles.inputTitle, { color: textColor }]}>
+//   <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
 //     Name
 //   </Text>
 
@@ -371,12 +406,12 @@ export default AccountScreen;
 //     value={name}
 //     onChangeText={(name) => setName(name)}
 //     placeholder=" Name"
-//     style={styles.inputBox}
+//     style={FIELD_VALUE_TEXT}
 //   />
 // </View>
 
 // <View style={styles.title_InputContainer}>
-//   <Text style={[styles.inputTitle, { color: textColor }]}>
+//   <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
 //     Email
 //   </Text>
 //   <TextInput
@@ -384,12 +419,12 @@ export default AccountScreen;
 //     value={email}
 //     onChangeText={(email) => setEmail(email)}
 //     placeholder=" Email"
-//     style={styles.inputBox}
+//     style={FIELD_VALUE_TEXT}
 //   />
 // </View>
 
 // <View style={styles.title_InputContainer}>
-//   <Text style={[styles.inputTitle, { color: textColor }]}>
+//   <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
 //     Number
 //   </Text>
 //   <TextInput
@@ -397,30 +432,30 @@ export default AccountScreen;
 //     value={number}
 //     onChangeText={(number) => setNumber(number)}
 //     placeholder=" Number"
-//     style={styles.inputBox}
+//     style={FIELD_VALUE_TEXT}
 //   />
 // </View>
 
 // <View style={styles.title_InputContainer}>
-//   <Text style={[styles.inputTitle, { color: textColor }]}>
+//   <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
 //     Country
 //   </Text>
 // </View>
 
 // <View style={styles.title_InputContainer}>
-//   <Text style={[styles.inputTitle, { color: textColor }]}>
+//   <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
 //     State
 //   </Text>
 // </View>
 
 // <View style={styles.title_InputContainer}>
-//   <Text style={[styles.inputTitle, { color: textColor }]}>
+//   <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
 //     City
 //   </Text>
 // </View>
 
 // <View style={styles.title_InputContainer}>
-//   <Text style={[styles.inputTitle, { color: textColor }]}>
+//   <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
 //     Address
 //   </Text>
 //   <TextInput
@@ -428,7 +463,7 @@ export default AccountScreen;
 //     value={name}
 //     onChangeText={(address) => setAddress(address)}
 //     placeholder=" Address"
-//     style={styles.inputBox}
+//     style={FIELD_VALUE_TEXT}
 //   />
 // </View>
 //             </View>

@@ -18,6 +18,7 @@ import {
 import GlobalStyles from "../../components/GlobalStyles";
 import Header from "../../components/Header";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Container from "../../components/Container";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -47,9 +48,9 @@ const NotificationsScreen = (props) => {
         horizontal={false}
         renderItem={({ item }) => {
           return (
-            <View style={styles.cardContainer}>
+            <Container>
               <Text>{item.title}</Text>
-            </View>
+            </Container>
           );
         }}
       />
