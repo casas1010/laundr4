@@ -20,8 +20,6 @@ import {
   FIELD_NAME_TEXT,
   FIELD_VALUE_TEXT,
   FIELD_VALUE_CONTAINER,
-  BUTTON_CONTAINER,
-  BUTTON,
 } from "../../components/Items/";
 import { CITIES } from "../../components/Data/";
 

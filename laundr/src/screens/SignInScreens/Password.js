@@ -14,8 +14,6 @@ import {
   Dimensions,
   Image,
 } from "react-native";
-import RNPickerSelect from "react-native-picker-select";
-import { Picker } from "@react-native-community/picker";
 
 import {
   WIDTH,

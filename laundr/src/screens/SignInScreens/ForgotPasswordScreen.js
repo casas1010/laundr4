@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import RNPickerSelect from "react-native-picker-select";
+
 
 import {
   WIDTH,
