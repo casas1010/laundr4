@@ -1,3 +1,11 @@
+/*
+code clean up 100% complete
+wire up actions
+
+
+
+*/
+
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
@@ -10,10 +18,14 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+import { connect } from "react-redux";
+import * as actions from "../../actions";
+
 import GlobalStyles from "../../components/GlobalStyles";
 import Header from "../../components/Header";
 import MenuModal from "../../components/MenuModal";
-
+import Container from "../../components/Container";
 import {
   WIDTH,
   HEIGHT,
@@ -22,10 +34,6 @@ import {
   FIELD_VALUE_CONTAINER,
 } from "../../components/Items/";
 import { CITIES } from "../../components/Data/";
-
-// const WIDTH = Dimensions.get("window").width;
-// const HEIGHT = Dimensions.get("window").height;
-const FONTSIZE = Math.floor((HEIGHT * 0.1) / 3);
 
 const AccountScreen = (props) => {
   // state variables
@@ -74,11 +82,12 @@ const AccountScreen = (props) => {
 
   return (
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
+      <Header openDrawer={props.navigation.openDrawer} name="Account" />
       <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles.container}
       >
-        <Header openDrawer={props.navigation.openDrawer} name="Account" />
+        {/* SCREEN LOCK  */}
         <TouchableOpacity
           style={[styles.lockButton, { backgroundColor: lockColor }]}
           onPress={() => setLock(!lock)}
@@ -89,12 +98,12 @@ const AccountScreen = (props) => {
             <MaterialIcons name="lock-open" size={50} color="white" />
           )}
         </TouchableOpacity>
-
+        {/* SCREEN LOCK  */}
         <ScrollView>
-          <View style={styles.formContainer}>
+          <Container>
             {/*  */}
             {/*  */}
-            <View style={styles.title_InputContainer}>
+            <View style={styles.container_Tittle_Input}>
               <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>Name</Text>
               <View
                 style={[FIELD_VALUE_CONTAINER, { alignItems: "flex-start" }]}
@@ -110,7 +119,7 @@ const AccountScreen = (props) => {
             </View>
             {/*  */}
             {/*  */}
-            <View style={styles.title_InputContainer}>
+            <View style={styles.container_Tittle_Input}>
               <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>Email</Text>
               <View
                 style={[FIELD_VALUE_CONTAINER, { alignItems: "flex-start" }]}
@@ -126,7 +135,7 @@ const AccountScreen = (props) => {
             </View>
             {/*  */}
             {/*  */}
-            <View style={styles.title_InputContainer}>
+            <View style={styles.container_Tittle_Input}>
               <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
                 Password
               </Text>
@@ -144,7 +153,7 @@ const AccountScreen = (props) => {
             </View>
             {/*  */}
             {/*  */}
-            <View style={styles.title_InputContainer}>
+            <View style={styles.container_Tittle_Input}>
               <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
                 Number
               </Text>
@@ -162,7 +171,7 @@ const AccountScreen = (props) => {
             </View>
             {/*  */}
             {/*  */}
-            <View style={styles.title_InputContainer}>
+            <View style={styles.container_Tittle_Input}>
               <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
                 Country
               </Text>
@@ -182,7 +191,7 @@ const AccountScreen = (props) => {
             </View>
             {/*  */}
             {/*  */}
-            <View style={styles.title_InputContainer}>
+            <View style={styles.container_Tittle_Input}>
               <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>State</Text>
               <View
                 style={[FIELD_VALUE_CONTAINER, { alignItems: "flex-start" }]}
@@ -192,7 +201,7 @@ const AccountScreen = (props) => {
             </View>
             {/*  */}
             {/*  */}
-            <View style={styles.title_InputContainer}>
+            <View style={styles.container_Tittle_Input}>
               <TouchableOpacity onPress={modalButtonHelper}>
                 <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
                   City
@@ -213,7 +222,7 @@ const AccountScreen = (props) => {
             </View>
             {/*  */}
             {/*  */}
-            <View style={styles.title_InputContainer}>
+            <View style={styles.container_Tittle_Input}>
               <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
                 Zip Code
               </Text>
@@ -232,7 +241,7 @@ const AccountScreen = (props) => {
             </View>
             {/*  */}
             {/*  */}
-            <View style={styles.title_InputContainer}>
+            <View style={styles.container_Tittle_Input}>
               <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
                 Address
               </Text>
@@ -250,7 +259,7 @@ const AccountScreen = (props) => {
             </View>
             {/*  */}
             {/*  */}
-          </View>
+          </Container>
         </ScrollView>
       </KeyboardAwareScrollView>
     </SafeAreaView>
@@ -260,44 +269,6 @@ const AccountScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  inner: {
-    paddingBottom: 24,
-    flex: 1,
-    justifyContent: "flex-end",
-  },
-  formContainer: {
-    backgroundColor: "white",
-    borderColor: "white",
-    borderWidth: 1,
-    borderRadius: 15,
-    margin: WIDTH * 0.06,
-    padding: 10,
-    width: WIDTH * 0.88,
-  },
-  title_InputContainer: {
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  inputTitle: {
-    marginBottom: 5,
-    fontSize: FONTSIZE,
-    fontWeight: "bold",
-    // color:'red'
-  },
-  inputBox: {
-    width: "100%",
-    // height: 45,
-    borderColor: "#d3d3d3",
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingLeft: 7,
-    fontSize: FONTSIZE,
-  },
-  lockContainer: {
-    width: WIDTH,
-    // backgroundColor: "red",
-    alignItems: "center",
   },
   lockButton: {
     position: "absolute",
@@ -311,214 +282,14 @@ const styles = StyleSheet.create({
     borderRadius: 80,
     backgroundColor: "black",
   },
+  container_Tittle_Input: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
 });
 
-export default AccountScreen;
+function mapStateToProps({ auth }) {
+  return { token: auth.token };
+}
 
-// import React, { useEffect, useState } from "react";
-// import {
-//   Button,
-//   Keyboard,
-//   KeyboardAvoidingView,
-//   Platform,
-//   StyleSheet,
-//   SafeAreaView,
-//   Text,
-//   TextInput,
-//   TouchableWithoutFeedback,
-//   View,
-//   TouchableOpacity,
-//   Image,
-//   Dimensions,
-// } from "react-native";
-// import { MaterialIcons } from "@expo/vector-icons";
-
-// import Header from "../../components/Header";
-
-// const WIDTH = Dimensions.get("window").width;
-// const HEIGHT = Dimensions.get("window").height;
-// const FONTSIZE = Math.floor((HEIGHT * 0.1) / 3);
-
-// const AccountScreen = (props) => {
-//   const [name, setName] = useState();
-//   const [email, setEmail] = useState();
-//   const [password, setPassword] = useState();
-//   const [country, setCountry] = useState();
-//   const [state, setState] = useState();
-//   const [city, setCity] = useState();
-//   const [address, setAddress] = useState();
-//   const [number, setNumber] = useState();
-//   //
-//   const [editable, setEditable] = useState(true);
-//   const [lock, setLock] = useState(true);
-//   const [textColor, setTextColor] = useState("#990000");
-//   const [lockColor, setLockColor] = useState("#990000");
-
-//   useEffect(() => {
-//     console.log("AccountScreen loaded");
-//   }, []);
-
-//   useEffect(() => {
-//     setEditable(!editable);
-//     lock ? setTextColor("#990000") : setTextColor("black");
-//     lock ? setLockColor("#990000") : setLockColor("black");
-//   }, [lock]);
-
-//   return (
-//     <KeyboardAvoidingView
-//       behavior={Platform.OS == "ios" ? "padding" : null}
-//       style={{ flex: 1 }}
-//     >
-//       <View style={styles.container}>
-//         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-//           <View style={styles.inner}>
-//             <Header openDrawer={props.navigation.openDrawer} name="account" />
-
-// <TouchableOpacity
-//   style={[styles.lockButton, { backgroundColor: lockColor }]}
-//   onPress={() => setLock(!lock)}
-// >
-//   {lock ? (
-//     <MaterialIcons name="lock" size={50} color="white" />
-//   ) : (
-//     <MaterialIcons name="lock-open" size={50} color="white" />
-//   )}
-// </TouchableOpacity>
-
-//             <View style={styles.formContainer}>
-
-// <View style={styles.title_InputContainer}>
-//   <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
-//     Name
-//   </Text>
-
-//   <TextInput
-//     editable={editable}
-//     value={name}
-//     onChangeText={(name) => setName(name)}
-//     placeholder=" Name"
-//     style={FIELD_VALUE_TEXT}
-//   />
-// </View>
-
-// <View style={styles.title_InputContainer}>
-//   <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
-//     Email
-//   </Text>
-//   <TextInput
-//     editable={editable}
-//     value={email}
-//     onChangeText={(email) => setEmail(email)}
-//     placeholder=" Email"
-//     style={FIELD_VALUE_TEXT}
-//   />
-// </View>
-
-// <View style={styles.title_InputContainer}>
-//   <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
-//     Number
-//   </Text>
-//   <TextInput
-//     editable={editable}
-//     value={number}
-//     onChangeText={(number) => setNumber(number)}
-//     placeholder=" Number"
-//     style={FIELD_VALUE_TEXT}
-//   />
-// </View>
-
-// <View style={styles.title_InputContainer}>
-//   <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
-//     Country
-//   </Text>
-// </View>
-
-// <View style={styles.title_InputContainer}>
-//   <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
-//     State
-//   </Text>
-// </View>
-
-// <View style={styles.title_InputContainer}>
-//   <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
-//     City
-//   </Text>
-// </View>
-
-// <View style={styles.title_InputContainer}>
-//   <Text style={[FIELD_NAME_TEXT, { color: textColor }]}>
-//     Address
-//   </Text>
-//   <TextInput
-//     editable={editable}
-//     value={name}
-//     onChangeText={(address) => setAddress(address)}
-//     placeholder=" Address"
-//     style={FIELD_VALUE_TEXT}
-//   />
-// </View>
-//             </View>
-//           </View>
-//         </TouchableWithoutFeedback>
-//       </View>
-//     </KeyboardAvoidingView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-//   inner: {
-//     paddingBottom: 24,
-//     flex: 1,
-//     justifyContent: "flex-end",
-//   },
-//   formContainer: {
-//     backgroundColor: "white",
-//     borderColor: "white",
-//     borderWidth: 1,
-//     borderRadius: 15,
-//     margin: WIDTH * 0.06,
-//     padding: 10,
-//     width: WIDTH * 0.88,
-//   },
-//   title_InputContainer: {
-//     marginTop: 10,
-//     marginBottom: 10,
-//   },
-//   inputTitle: {
-//     marginBottom: 5,
-//     fontSize: FONTSIZE,
-//     fontWeight: "bold",
-//     // color:'red'
-//   },
-//   inputBox: {
-//     width: "100%",
-//     // height: 45,
-//     borderColor: "#d3d3d3",
-//     borderWidth: 1,
-//     borderRadius: 5,
-//     paddingLeft: 7,
-//     fontSize: FONTSIZE,
-//   },
-//   lockContainer: {
-//     width: WIDTH,
-//     // backgroundColor: "red",
-//     alignItems: "center",
-//   },
-//   lockButton: {
-//     position: "absolute",
-//     alignItems: "center",
-//     justifyContent: "center",
-//     right: 0,
-//     top: HEIGHT * 0.1,
-//     zIndex: 2,
-//     height: 80,
-//     width: 80,
-//     borderRadius: 80,
-//     backgroundColor: "black",
-//   },
-// });
-
-// export default AccountScreen;
+export default connect(mapStateToProps, actions)(AccountScreen);

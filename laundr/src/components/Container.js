@@ -14,6 +14,7 @@ export default Container = (props) => {
         margin: WIDTH * 0.06,
         padding: 10,
         width: WIDTH * 0.88,
+        ...props.style
       }}
     >
       {props.children}

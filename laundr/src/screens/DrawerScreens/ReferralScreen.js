@@ -1,42 +1,25 @@
 import React, { useEffect, useState } from "react";
 import {
-  Button,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   SafeAreaView,
   Text,
-  TextInput,
-  TouchableWithoutFeedback,
   View,
-  TouchableOpacity,
-  Image,
-  FlatList,
   Share,
-  Dimensions,
   Clipboard,
 } from "react-native";
+import {connect} from 'react-redux';
 
 import GlobalStyles from "../../components/GlobalStyles";
 import Container from "../../components/Container";
 import Header from "../../components/Header";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 
 import {
-  WIDTH,
-  HEIGHT,
-  FIELD_NAME_TEXT,
-  FIELD_VALUE_TEXT,
-  FIELD_VALUE_CONTAINER,
-  BUTTON_CONTAINER,
   BUTTON,
   FIELD_NAME_FONT_SIZE,
-  SHADOW,
+  FIELD_NAME_TEXT,
+  FIELD_VALUE_TEXT,
 } from "../../components/Items/";
-
-
-
 
 const ReferralScreen = (props) => {
   const [code, setCode] = useState("dummyCode");
@@ -76,16 +59,18 @@ const ReferralScreen = (props) => {
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
       <Header openDrawer={props.navigation.openDrawer} name="Referrals" />
       <Container>
-        <Text style={styles.titleText}>Share your referral code!</Text>
+        <Text style={FIELD_NAME_TEXT}>Share your referral code!</Text>
         <Text style={styles.bodyText}>
           Both you and your friend get a $10 off coupon when they use your promo
           code at sign up and place their first Laundr order!
         </Text>
 
-        <Text style={{ textAlign: "center" }}>Your code</Text>
+        <Text style={[FIELD_VALUE_TEXT, { textAlign: "center" }]}>
+          Your code
+        </Text>
 
-        <View style={styles.code_ButtonContainer}>
-          <View style={styles.codeTextContainer}>
+        <View style={styles.container_Code_Button}>
+          <View style={styles.container_Code}>
             <Text style={styles.codeText}>{code}</Text>
           </View>
           <BUTTON
@@ -97,21 +82,26 @@ const ReferralScreen = (props) => {
         </View>
       </Container>
       <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <BUTTON text="Share code with more humans!" onPress={onShare} />
+        <BUTTON
+          textStyle={{ textAlign: "center" }}
+          text="Share code with more humans!"
+          onPress={onShare}
+        />
       </View>
     </SafeAreaView>
   );
 };
 
-// styles.codeTextContainer
+// styles.container_Code
 
 const styles = StyleSheet.create({
-
   bodyText: {
     marginTop: 10,
+    ...FIELD_VALUE_TEXT,
+    fontWeight: "normal",
     marginBottom: 10,
   },
-  code_ButtonContainer: {
+  container_Code_Button: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -120,7 +110,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 15,
   },
-  codeTextContainer: {
+  container_Code: {
     marginRight: 20,
     marginLeft: 5,
     justifyContent: "center",
@@ -133,15 +123,12 @@ const styles = StyleSheet.create({
   codeText: {
     fontWeight: "bold",
   },
-  copyCodeButton: {
-    backgroundColor: "#5bcae2",
-    borderColor: "#5bcae2",
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 15,
-    alignItems: "center",
-    margin: WIDTH * 0.06,
-    ...SHADOW,
-  },
 });
-export default ReferralScreen;
+
+// export default ReferralScreen;
+
+function mapStateToProps({ auth }) {
+  return { token: auth.token };
+}
+
+export default connect(mapStateToProps)(ReferralScreen);

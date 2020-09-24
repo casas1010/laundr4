@@ -1,38 +1,23 @@
 import React, { useEffect, useState } from "react";
 import {
-  Button,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   SafeAreaView,
   Text,
-  TextInput,
-  TouchableWithoutFeedback,
   View,
   TouchableOpacity,
   Image,
-  Modal,
-  Picker,
   Dimensions,
-  ScrollView,
   FlatList,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
 import Header from "../../components/Header";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import GlobalStyles from "../../components/GlobalStyles";
-
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
-const FONTSIZE = Math.floor((HEIGHT * 0.1) / 3);
-
-const CARDS = [
-  { label: "Visa", value: "Visa" },
-  { label: "Amex", value: "Amex" },
-  { label: "Master Card", value: "Master Card" },
-  { label: "Discover", value: "Discover" },
-];
+import {
+  WIDTH,
+  FIELD_VALUE_TEXT,
+  FIELD_NAME_TEXT,
+} from "../../components/Items/";
+import Container from "../../components/Container";
+import { PLANS } from "../../components/Data";
 
 const SubscriptionsScreen = (props) => {
   const [price, setPrice] = useState();
@@ -42,12 +27,6 @@ const SubscriptionsScreen = (props) => {
     console.log("SubscriptionsScreen loaded");
   }, []);
   // WHAT IS THE WEIGHT OF THE STUDENT PLAN?
-  const PLANS = [
-    { planName: "Standard", price: 15, weight: 48 },
-    { planName: "Plus", price: 20, weight: 66 },
-    { planName: "Family", price: 25, weight: 84 },
-    { planName: "Student", price: 10, weight: 48 },
-  ];
 
   const setData = (item) => {
     setPrice(item.price);
@@ -60,70 +39,62 @@ const SubscriptionsScreen = (props) => {
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
       <Header openDrawer={props.navigation.openDrawer} name="Subscriptions" />
 
-        <FlatList
-          horizontal={false}
-          data={PLANS}
-          keyExtractor={(item) => item.planName}
-          renderItem={({ item }) => {
-            if (item.planName !== "Student") {
-              return (
-                <TouchableOpacity
-                  style={styles.cardContainer}
-                  onPress={() => setData(item)}
+      <FlatList
+        horizontal={false}
+        data={PLANS}
+        keyExtractor={(item) => item.planName}
+        renderItem={({ item }) => {
+          if (item.planName !== "Student") {
+            return (
+              <TouchableOpacity onPress={() => setData(item)}>
+                <Container
+                  style={{ alignItems: "center", justifyContent: "center" }}
                 >
-                  <Text style={styles.cardTitle}>{item.planName}</Text>
-                  <Text style={styles.cardPrice}>{item.price} /Week</Text>
+                  <Text style={FIELD_NAME_TEXT}>{item.planName}</Text>
+                  <Text
+                    style={[
+                      FIELD_VALUE_TEXT,
+                      { textAlign: "center", color: "#01c9e2" },
+                    ]}
+                  >
+                    {item.price} /Week
+                  </Text>
                   <Text style={styles.cardDetails}>
                     {item.weight} lbs monthly
                   </Text>
-                </TouchableOpacity>
-              );
-            }
-            return (
-              <TouchableOpacity
-                style={styles.studentCardContainer}
-                onPress={() => setData(item)}
-              >
-                <View>
-                  <Text style={styles.footerTitle}>The Student Plan!</Text>
-                  <Text style={styles.footerDetails}>
-                    {item.price}/wk with valid student ID
-                  </Text>
-                </View>
-
-                <View style={styles.studentImageContainer}>
-                  <Image
-                    style={styles.studentImage}
-                    resizeMode="contain"
-                    source={require("../../assets/Minimalist.png")}
-                  />
-                </View>
+                </Container>
               </TouchableOpacity>
             );
-          }}
-        />
+          }
+          return (
+            <TouchableOpacity
+              style={styles.studentCardContainer}
+              onPress={() => setData(item)}
+            >
+              <View>
+                <Text style={styles.footerTitle}>The Student Plan!</Text>
+                <Text style={styles.footerDetails}>
+                  {item.price}/wk with valid student ID
+                </Text>
+              </View>
+
+              <View style={styles.studentImageContainer}>
+                <Image
+                  style={styles.studentImage}
+                  resizeMode="contain"
+                  source={require("../../assets/Minimalist.png")}
+                />
+              </View>
+            </TouchableOpacity>
+          );
+        }}
+      />
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  cardContainer: {
-    backgroundColor: "white",
-    borderColor: "white",
-    borderWidth: 1,
-    borderRadius: 15,
-    margin: WIDTH * 0.06,
-    marginBottom: 15,
-    padding: 10,
-    width: WIDTH * 0.88,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  cardTitle: {
-    fontWeight: "bold",
-    color: "grey",
-    fontSize: 20,
-  },
+
   cardPrice: {
     fontWeight: "bold",
     color: "#01c9e2",

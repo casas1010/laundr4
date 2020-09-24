@@ -1,43 +1,33 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  SafeAreaView,
-  Text,
-  TextInput,
-  TouchableWithoutFeedback,
-  View,
-  TouchableOpacity,
-  Image,
-  Modal,
-  Picker,
-  Dimensions,
-  ScrollView,
-  FlatList,
-} from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import Header from "../../components/Header";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import GlobalStyles from "../../components/GlobalStyles";
+/*
+code clean up 100% complete
+wire up actions
 
+
+
+*/
+import React, { useEffect, useState } from "react";
+import { StyleSheet, SafeAreaView, Text, TextInput, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+import GlobalStyles from "../../components/GlobalStyles";
+import Header from "../../components/Header";
 import {
-  WIDTH,
   HEIGHT,
   FIELD_NAME_TEXT,
-  FIELD_VALUE_TEXT,
-  FIELD_VALUE_CONTAINER,
-  BUTTON_CONTAINER,
   BUTTON,
-  FIELD_NAME_FONT_SIZE,
-  SHADOW,
+  FIELD_VALUE_FONT_SIZE,
 } from "../../components/Items/";
-const FONTSIZE = Math.floor((HEIGHT * 0.1) / 3);
+import Container from "../../components/Container";
+
+import { connect } from "react-redux";
+import * as actions from '../../actions';
 
 const HelpScreen = (props) => {
   const [issue, setIssue] = useState();
+
+  useEffect(() => {
+    console.log("HelpScreen loaded");
+  }, []);
 
   const submitFunction = () => {
     console.log("submit press");
@@ -54,7 +44,7 @@ const HelpScreen = (props) => {
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles.container}
       >
-        <View style={styles.formContainer}>
+        <Container>
           <View style={styles.headerTextContainer}>
             <Text style={FIELD_NAME_TEXT}>Report an Issue</Text>
           </View>
@@ -68,40 +58,14 @@ const HelpScreen = (props) => {
           />
           <View style={styles.buttonContainer}>
             <BUTTON onPress={submitFunction} text="Submit" />
-            {/* <TouchableOpacity
-              onPress={submitFunction}
-              style={styles.submitButton}
-            >
-              <Text>Submit</Text>
-            </TouchableOpacity> */}
-
-            {/* <Text> OR </Text>
-            <TouchableOpacity
-              onPress={instaFunction}
-              style={styles.submitButton}
-            >
-              <Text>DM us on the gram</Text>
-            </TouchableOpacity> */}
           </View>
-        </View>
+        </Container>
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  formContainer: {
-    backgroundColor: "white",
-    borderColor: "white",
-    borderWidth: 1,
-    borderRadius: 15,
-    margin: WIDTH * 0.06,
-    marginBottom: 15,
-    padding: 10,
-    width: WIDTH * 0.88,
-    marginTop: 20,
-    // paddingBottom: 100,
-  },
   headerTextContainer: {
     alignItems: "center",
     justifyContent: "center",
@@ -114,25 +78,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingLeft: 7,
-    fontSize: FONTSIZE,
+    fontSize: FIELD_VALUE_FONT_SIZE,
   },
   buttonContainer: {
     alignItems: "center",
     justifyContent: "center",
     // flexDirection: "row",
   },
-  submitButton: {
-    height: 40,
-    width: "80%",
-    backgroundColor: "#3dd7e9",
-    borderWidth: 1,
-    borderRadius: 15,
-    borderColor: "#3dd7e9",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 13,
-    marginBottom: 13,
-  },
 });
-
-export default HelpScreen;
+export default connect(null,actions)(HelpScreen);

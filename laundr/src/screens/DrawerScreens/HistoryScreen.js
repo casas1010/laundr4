@@ -1,27 +1,19 @@
+/*
+code clean up 100% complete
+wire up actions
+
+
+
+*/
+
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  SafeAreaView,
-  Text,
-  TextInput,
-  TouchableWithoutFeedback,
-  View,
-  TouchableOpacity,
-  Image,
-  FlatList,
-  Dimensions,
-} from "react-native";
+import { StyleSheet, SafeAreaView, Text, View, FlatList } from "react-native";
+
+import { connect } from "react-redux";
+
 import GlobalStyles from "../../components/GlobalStyles";
 import Header from "../../components/Header";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Container from "../../components/Container";
-
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
 
 const DATA = [
   {
@@ -58,6 +50,10 @@ const DIVIDER = () => {
 };
 
 const HistoryScreen = (props) => {
+  useEffect(() => {
+    console.log("HistoryScreen loaded");
+  }, []);
+
   return (
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
       <Header openDrawer={props.navigation.openDrawer} name="History" />
@@ -235,4 +231,9 @@ const styles = StyleSheet.create({
     backgroundColor: "grey",
   },
 });
-export default HistoryScreen;
+
+function mapStateToProps({ auth }) {
+  return { token: auth.token };
+}
+
+export default connect(mapStateToProps)(HistoryScreen);

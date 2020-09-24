@@ -12,7 +12,7 @@ import SubscriptionsScreen from "../screens/DrawerScreens/SubscriptionsScreen";
 import HelpScreen from "../screens/DrawerScreens/HelpScreen";
 import OrderDetailsScreen from "../screens/DrawerScreens/OrderDetailsScreen";
 
-import { DrawerContent } from "../screens/DrawerScreens/DrawerContent";
+import  DrawerContent  from "../screens/DrawerScreens/DrawerContent";
 
 const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {

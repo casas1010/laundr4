@@ -1,14 +1,26 @@
+/*
+code clean up 100% complete
+wire up actions
+
+
+
+*/
+
+
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-
+//
+import * as actions from "../../actions";
+import { connect } from "react-redux";
+//
 import { Ionicons } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 
-export function DrawerContent(props) {
+const DrawerContent = (props) => {
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
@@ -178,7 +190,7 @@ export function DrawerContent(props) {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   drawerContent: {
@@ -225,3 +237,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 });
+
+export default connect(null, actions)(DrawerContent);
