@@ -22,8 +22,13 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import GlobalStyles from "../../components/GlobalStyles";
 import Container from "../../components/Container";
 import MenuModal from "../../components/MenuModal";
-
+import { AppLoading } from "expo";
 import axios from "axios";
+
+import _ from "lodash";
+import { connect } from "react-redux";
+
+import * as actions from "../../actions/index";
 
 import {
   HEIGHT,
@@ -42,12 +47,36 @@ import { USERTYPES } from "../../components/Data/";
 // NOTES
 // not sure how to add font Calmer Bold
 
-const AuthScreen = (props) => {
+const WelcomeScreen = (props) => {
   const [email, setEmail] = useState("jcasasmail@gmail.com");
   const [password, setPassword] = useState("yCxGRcgJ7C9JdY2");
   const [userType, setUserType] = useState("User");
-
   const [userModalView, setUserModalView] = useState(false);
+
+  // REDUX LOGIN FLOW
+  const loginWithEmail = async () => {
+    // props.facebookLogin();
+    props.emailLogin({email,password});
+    onAuthComplete(props);
+  };
+
+  //   // snippet of code should resemble componentWillReceiveProps
+  const isFirstRun = useRef(true);
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return;
+    }
+    onAuthComplete(props);
+  }, [props.token]);
+  //   // snippet of code should resemble componentWillReceiveProps
+
+  const onAuthComplete = (props) => {
+    if (props.token) {
+      props.navigation.navigate("drawer");
+    }
+  };
+  // REDUX LOGIN FLOW
 
   //  MODAL VARIABLE
   const setUserHelper = (item) => {
@@ -186,7 +215,7 @@ const AuthScreen = (props) => {
           </View>
         </Container>
         <View style={styles.buttonsContainer}>
-          <BUTTON onPress={handleLogin} text="LOG IN" />
+          <BUTTON onPress={loginWithEmail} text="LOG IN" />
           <BUTTON
             onPress={() => props.navigation.navigate("signUpDetails")}
             text="SIGN UP"
@@ -268,4 +297,8 @@ const pickerSelectStyles = StyleSheet.create({
   },
 });
 
-export default AuthScreen;
+function mapStateToProps({ auth }) {
+  return { token: auth.token };
+}
+
+export default connect(mapStateToProps, actions)(WelcomeScreen);

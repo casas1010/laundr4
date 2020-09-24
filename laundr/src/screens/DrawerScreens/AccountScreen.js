@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {
-  Button,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   SafeAreaView,
   Text,
   TextInput,
-  TouchableWithoutFeedback,
   View,
   TouchableOpacity,
-  Image,
-  Dimensions,
   ScrollView,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -217,7 +210,7 @@ const AccountScreen = (props) => {
                 showModal={showModalCity}
                 modalView={cityModalView}
                 data={CITIES}
-                title='Select Your City'
+                title="Select Your City"
               />
             </View>
             {/*  */}
