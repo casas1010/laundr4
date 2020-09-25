@@ -6,8 +6,7 @@ wire up actions
 
 */
 
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 //
@@ -19,8 +18,15 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const DrawerContent = (props) => {
+  const [color, setColor]=useState('#01c9e2')
+
+  useEffect(() => {
+    console.log("Drawer loaded");
+    // console.log(props);
+  }, []);
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
@@ -170,21 +176,23 @@ const DrawerContent = (props) => {
       <View style={styles.bottomDrawerSection}>
         <DrawerItem
           icon={({ color, size }) => (
-            <Icon
-              name="exit-to-app"
-              color={color}
-              size={size}
-              style={{
-                height: size,
-                width: size,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            />
+            // <Icon
+            //   name="exit-to-app"
+            //   color={color}
+            //   size={size}
+            //   style={{
+            //     height: size,
+            //     width: size,
+            //     alignItems: "center",
+            //     justifyContent: "center",
+            //   }}
+            // />
+            <MaterialCommunityIcons name="cash" size={size} color="green" />
           )}
-          label="Sign Out"
+          label="Earn with Laundr"
           onPress={() => {
             console.log("sign out");
+            props.emailLogOut();
           }}
         />
       </View>

@@ -3,11 +3,11 @@ import { EMAIL_LOGIN_SUCCESS, EMAIL_LOGIN_FAIL, LOG_OUT } from "./types";
 
 
 // regular syntax
-const actionName = (text) => {
+export const emailLogOut = () => {
   // perform action
   return {
-    //   type: TYPE_TEXT,
-    //   payload: text// ...
+      type: LOG_OUT,
+   
   };
 };
 

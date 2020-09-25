@@ -7,6 +7,7 @@ import {
   const authReducer = (state = {}, action) => {
     switch (action.type) {
       case EMAIL_LOGIN_SUCCESS:
+        console.log('Email Login Success')
         return { token: action.payload };
   
       case EMAIL_LOGIN_FAIL:
