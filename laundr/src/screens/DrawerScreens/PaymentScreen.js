@@ -6,7 +6,7 @@ import GlobalStyles from "../../components/GlobalStyles";
 
 const STRIPE_ERROR = "Payment service error. Try again later.";
 const SERVER_ERROR = "Server error. Try again later.";
-const STRIPE_PUBLISHABLE_KEY = "Your Key";
+const STRIPE_PUBLISHABLE_KEY = "pk_test_51HTrdNKvlLDAjAUzb0c9zHwvq0wAcXOTWThrIscZMRVTc9xcfmqcFm4nLUjij9ZUcwgaewsQuNpBWak2KDQo1p4A00mFA5hRXA";
 /**
  * The method sends HTTP requests to the Stripe API.
  * It's necessary to manually send the payment data
