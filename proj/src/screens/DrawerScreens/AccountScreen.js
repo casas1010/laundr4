@@ -2,7 +2,9 @@
 code clean up 100% complete
 wire up actions
 
+change lock to pencil with the word 'edit'
 
+add logout button
 
 */
 

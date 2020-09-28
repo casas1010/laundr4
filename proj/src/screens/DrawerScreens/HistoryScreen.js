@@ -2,7 +2,7 @@
 code clean up 100% complete
 wire up actions
 
-
+preview screen should not have a pic
 
 */
 

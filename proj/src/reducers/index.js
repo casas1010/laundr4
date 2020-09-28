@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
+import auth from './auth_reducer'
+import cart from './cart_reducer'
 
 // NOTE: reducer must define an none undefined value... in other words 
 // it cant return undefined
 export default combineReducers({
-  auth: () => {
-    return {};
-  },
-});
+  auth,cart
+}); 

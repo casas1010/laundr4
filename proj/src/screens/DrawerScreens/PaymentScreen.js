@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React, {PureComponent} from 'react';
 import {
   SafeAreaView,
@@ -15,16 +7,17 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import Header from '../../components/Header';
-import GlobalStyles from '../../components/GlobalStyles';
-import Button from '../../stripe/components/Button';
-//
-
 import stripe from 'tipsi-stripe';
 stripe.setOptions({
   publishableKey:
     'pk_test_51HTrdNKvlLDAjAUzb0c9zHwvq0wAcXOTWThrIscZMRVTc9xcfmqcFm4nLUjij9ZUcwgaewsQuNpBWak2KDQo1p4A00mFA5hRXA',
 });
+import axios from 'axios';
+
+import Header from '../../components/Header';
+import GlobalStyles from '../../components/GlobalStyles';
+import Button from '../../stripe/components/Button';
+//
 
 export default class CardFormScreen extends PureComponent {
   static title = 'Card Form';
@@ -60,13 +53,28 @@ export default class CardFormScreen extends PureComponent {
       this.setState({loading: false});
     }
   };
+  makePayment = async () => {
+    this.setState({loading: true});
+    axios({
+      method: 'POST',
+      url:
+        'https://us-central1-laundr-c9c10.cloudfunctions.net/completePaymentWithStripe',
+      data: {
+        amount: 100,
+        currency: 'usd',
+        token: this.state.token,
+      },
+    }).then((response) => {
+      console.log(response);
+      this.setState({loading: false});
+    });
+  };
 
   render() {
     const {loading, token} = this.state;
 
     return (
       <SafeAreaView style={GlobalStyles.droidSafeArea}>
-
         <Header openDrawer={this.props.navigation.openDrawer} name="Account" />
 
         <View style={styles.container}>
@@ -87,7 +95,14 @@ export default class CardFormScreen extends PureComponent {
             // {...testID('cardFormToken')}
           >
             {token && (
-              <Text style={styles.instruction}>Token: {token.tokenId}</Text>
+              <>
+                <Text style={styles.instruction}>Token: {token.tokenId}</Text>
+                <Button
+                  text="Make Payment"
+                  loading={loading}
+                  onPress={this.makePayment}
+                />
+              </>
             )}
           </View>
         </View>

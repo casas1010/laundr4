@@ -39,8 +39,8 @@ export const YEARS = [
 ];
 
 export const PLANS = [
-  { planName: "Standard", price: 15, weight: 48 },
-  { planName: "Plus", price: 20, weight: 66 },
-  { planName: "Family", price: 25, weight: 84 },
-  { planName: "Student", price: 10, weight: 48 },
+  { id:1,name: "Standard", price: 15, weight: 48 },
+  { id:2,name: "Plus", price: 20, weight: 66 },
+  { id:3,name: "Family", price: 25, weight: 84 },
+  { id:4,name: "Student", price: 10, weight: 40 },
 ];

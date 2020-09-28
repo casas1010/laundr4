@@ -2,7 +2,8 @@
 code clean up 100% complete
 wire up actions
 
-
+add a link to the website for terms below the earn with laundr button  
+      make it very small font
 
 */
 

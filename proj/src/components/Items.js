@@ -4,10 +4,10 @@ import { Dimensions, TouchableOpacity, Text } from "react-native";
 export const HEIGHT = Dimensions.get("window").height;
 export const WIDTH = Dimensions.get("window").width;
 
-export const FIELD_NAME_FONT_SIZE = Math.floor((HEIGHT * 0.1) / 3);
-export const FIELD_VALUE_FONT_SIZE = Math.floor((HEIGHT * 0.1) / 4);
+export const FIELD_NAME_FONT_SIZE = Math.floor((HEIGHT * 0.1) / 4);
+export const FIELD_VALUE_FONT_SIZE = Math.floor((HEIGHT * 0.1) / 5);
 
-export const BUTTON_TEXT_FONT_SIZE = Math.floor((HEIGHT * 0.1) / 2.5);
+export const BUTTON_TEXT_FONT_SIZE = Math.floor((HEIGHT * 0.1) / 4);
 
 const SHADOW = {
   shadowColor: "#000",
@@ -64,4 +64,13 @@ export const BUTTON = (props) => {
       <Text style={[BUTTON_TEXT, { ...props.textStyle }]}>{props.text}</Text>
     </TouchableOpacity>
   );
+};
+
+
+export const findProductIndex = (products, id) => {
+  return products.findIndex((product) => product.id === id);
+};
+
+export const roundDecimals = (number, decimals = 2) => {
+  return Math.round(number * 10 ** decimals) / 10 ** decimals;
 };
