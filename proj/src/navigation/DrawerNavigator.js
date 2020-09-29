@@ -18,13 +18,13 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
-      {/* <Drawer.Screen name="Home" component={HomeScreen} />
+      {/* <Drawer.Screen name="Home" component={HomeScreen} /> */}
       <Drawer.Screen name="Account" component={AccountScreen} />
       <Drawer.Screen name="History" component={HistoryScreen} />
       <Drawer.Screen name="Order Details" component={OrderDetailsScreen} />
       <Drawer.Screen name="Notifications" component={NotificationsScreen} />
       <Drawer.Screen name="Referrals" component={ReferralScreen} />
-      <Drawer.Screen name="Payment" component={PaymentScreen} /> */}
+      <Drawer.Screen name="Payment" component={PaymentScreen} />
       <Drawer.Screen name="Subscriptions" component={SubscriptionsScreen} />
       <Drawer.Screen name="Help" component={HelpScreen} />
     </Drawer.Navigator>

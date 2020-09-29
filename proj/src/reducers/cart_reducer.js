@@ -8,6 +8,8 @@ const cartReducer = (state = [], action) => {
       return state.filter((cartItem) => cartItem.id !== action.payload.id);
     default:
       return state;
+    
+    
   }
 };
 

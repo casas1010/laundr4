@@ -1,3 +1,5 @@
+// WEIRD BUG PRESENT
+// color={itemsIconColor[item.name]['iconColorDisplay']}
 import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
@@ -10,54 +12,96 @@ import {
   FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
 import {connect} from 'react-redux';
 import * as actions from '../../actions';
 
 import Header from '../../components/Header';
 import GlobalStyles from '../../components/GlobalStyles';
-import {
-  WIDTH,
-  FIELD_VALUE_TEXT,
-  FIELD_NAME_TEXT,
-} from '../../components/Items/';
 import Container from '../../components/Container';
 import {
   BUTTON,
   FIELD_VALUE_FONT_SIZE,
   FIELD_NAME_FONT_SIZE,
+  WIDTH,
+  FIELD_VALUE_TEXT,
+  FIELD_NAME_TEXT,
 } from '../../components/Items/';
 import {PLANS} from '../../components/Data';
 
 const SubscriptionsScreen = (props) => {
-  const [plan, setPlan] = useState(false);
+  const [itemsIconColor, setItemsIconColor] = useState({});
 
   useEffect(() => {
     console.log('SubscriptionsScreen loaded');
-    console.log('props:  ', props);
+    setItemsColor();
   }, []);
 
-  const toggleItemInCart = (item) => {
-    if (!props.cart.length) {
-      console.log('first item in the cart');
-      props.addItemToCart(item);
-      return;
-    }
+  const setItemsColor = () => {
+    console.log('Setting the colors');
+    let arr = {};
 
-    if (item.name === props.cart[0].name) {
-      console.log('item is duplicate, removing item from cart');
-    }
+    for (element of PLANS) {
+      let ele = {
+        iconColorDisplay: 'transparent',
+      };
 
-    console.log('Cart: ', props.cart);
+      arr[element.name] = ele;
+    }
+    // console.log('setItemsColor() arr:   ',arr)
+    setItemsIconColor({...arr});
   };
 
-  const checkout = () => {
+  const toggleItemInCart = (item) => {
+    let itemInCart = null;
+  
+    if (!props.cart.length) {
+      console.log('first item in the cart');
+      itemInCart = item;
+      props.addItemToCart(item);
+    } else if (item.name === props.cart[0].name) {
+      console.log('item is duplicate, removing item from cart');
+      props.removeItemFromCart(item);
+    } else {
+      props.removeItemFromCart(props.cart[0]);
+      props.addItemToCart(item);
+      itemInCart = item;
+    }
+    toggleIconColor(itemInCart);
+    console.log('Cart: ', itemInCart);
+  };
+
+  const toggleIconColor = (item) => {
+    let obj = {...itemsIconColor};
+
+    for (itemName in obj) {
+      if (item === null) {
+        //   console.log('shopping cart empty')
+        obj[itemName]['iconColorDisplay'] = 'transparent';
+        // console.log('item:  ',itemName)
+        // console.log(' icon color for  not-match item is :', obj[itemName]['iconColorDisplay']);
+      } else if (itemName == item.name) {
+        // console.log('match name: ', itemName);
+        // console.log('old icon color for the match item is :', obj[itemName]['iconColorDisplay']);
+        obj[itemName]['iconColorDisplay'] = 'black';
+        // console.log('new icon color for the match item is :', obj[itemName]['iconColorDisplay']);
+      } else {
+        obj[itemName]['iconColorDisplay'] = 'transparent';
+        // console.log('item:  ',itemName)
+        // console.log(' icon color for  not-match item is :', obj[itemName]['iconColorDisplay']);
+      }
+    }
+  };
+
+  const checkoutButton = () => {
     if (props.cart.length) {
       return (
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
           <BUTTON
             style={{backgroundColor: 'green'}}
-            onPress={props.navigation.openDrawer}
+            onPress={() => {
+              console.log(props.cart)
+              props.navigation.navigate('Payment');
+            }}
             text="Proceed to checkout"
           />
         </View>
@@ -75,14 +119,29 @@ const SubscriptionsScreen = (props) => {
       <FlatList
         horizontal={false}
         data={PLANS}
-        ListFooterComponent={checkout}
+        ListFooterComponent={checkoutButton}
         keyExtractor={(item) => item.name}
         renderItem={({item}) => {
           if (item.name !== 'Student') {
             return (
-              <TouchableOpacity onPress={() => toggleItemInCart(item)}>
+              <TouchableOpacity
+                onPress={() => {
+                  toggleItemInCart(item);
+                }}>
                 <Container
-                  style={{alignItems: 'center', justifyContent: 'center'}}>
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'relative',
+                  }}>
+                  <Icon
+                    name="check"
+                    //COMMENT ME OUT
+                    // color={itemsIconColor[item.name]['iconColorDisplay'] }
+                    size={36}
+                    style={{position: 'absolute', left: '5%'}}
+                  />
+
                   <Text style={FIELD_NAME_TEXT}>{item.name}</Text>
                   <Text
                     style={[
@@ -102,10 +161,18 @@ const SubscriptionsScreen = (props) => {
             <TouchableOpacity
               style={styles.studentCardContainer}
               onPress={() => toggleItemInCart(item)}>
-              <View>
-                <Text style={styles.footerTitle}>The Student Plan!</Text>
-                <Text style={styles.footerDetails}>
-                  {item.price}/wk with valid student ID
+              <Icon
+                name="check"
+                //COMMENT ME OUT
+                // color={itemsIconColor[item.name]['iconColorDisplay']}
+                size={36}
+                style={{position: 'absolute', left: '5%'}}
+              />
+              <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                <Text style={styles.footerTitle}>Student</Text>
+                <Text style={[styles.footerDetails]}>{item.price}/wk</Text>
+                <Text style={[styles.footerDetails]}>
+                  with valid student ID
                 </Text>
               </View>
 
@@ -166,7 +233,7 @@ const styles = StyleSheet.create({
   },
 });
 
-// export default SubscriptionsScreen;
+
 
 function mapStateToProps({cart}) {
   return {cart: cart};

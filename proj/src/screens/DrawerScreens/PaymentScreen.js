@@ -7,6 +7,8 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
+import { connect } from "react-redux";
+import * as actions from "../../actions";
 import stripe from 'tipsi-stripe';
 stripe.setOptions({
   publishableKey:
@@ -19,7 +21,7 @@ import GlobalStyles from '../../components/GlobalStyles';
 import Button from '../../stripe/components/Button';
 //
 
-export default class CardFormScreen extends PureComponent {
+class CardFormScreen extends PureComponent {
   static title = 'Card Form';
 
   state = {
@@ -78,12 +80,12 @@ export default class CardFormScreen extends PureComponent {
         <Header openDrawer={this.props.navigation.openDrawer} name="Account" />
 
         <View style={styles.container}>
-          {/* <Text style={styles.header}>
+          <Text style={styles.header}>
           Card Form Example
         </Text>
         <Text style={styles.instruction}>
           Click button to show Card Form dialog.
-        </Text> */}
+        </Text>
           <Button
             text="Enter you card and pay"
             loading={loading}
@@ -131,6 +133,18 @@ const styles = StyleSheet.create({
     height: 20,
   },
 });
+
+
+
+function mapStateToProps({ auth }) {
+  return { token: auth.token };
+}
+
+export default connect(mapStateToProps, actions)(CardFormScreen);
+
+
+
+
 
 // import React from "react";
 // import { SafeAreaView } from "react-native";
