@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator();
 const BottomTabNavigator = ({ navigation }) => {
   return (
     <Tab.Navigator>
-      {/* <Tab.Screen
+      <Tab.Screen
         options={{ tabBarVisible: false }}
         name="auth"
         component={AuthScreen}
@@ -23,7 +23,7 @@ const BottomTabNavigator = ({ navigation }) => {
         options={{ tabBarVisible: false }}
         name="welcome"
         component={WelcomeScreen}
-      /> */}
+      />
       <Tab.Screen
         options={{ tabBarVisible: false }}
         name="drawer"

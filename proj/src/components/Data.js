@@ -44,3 +44,31 @@ export const PLANS = [
   { id:3,name: "Family", price: 25, weight: 84 },
   { id:4,name: "Student", price: 10, weight: 40 },
 ];
+
+
+export const FAKE_DATA={
+  email: 'jcasasmail@gmail.com',
+  fname: 'juan',
+  lname: 'casas',
+  city: 'Gainsville',
+  phone: '561-452-5550',
+  password: 'chocolateMonkey',
+  usedReferral: '',
+  isWasher: false,
+  isDriver: false,
+  isAdmin: false,
+  stripe: {
+    regPaymentID: 'N/A',
+    customerID: 'N/A',
+  },
+  subscription: {
+    id: 'N/A',
+    anchorDate: 'N/A',
+    startDate: 'N/A',
+    periodStart: 'N/A',
+    periodEnd: 'N/A',
+    plan: 'N/A',
+    status: 'N/A',
+    lbsLeft: 0,
+  },
+};

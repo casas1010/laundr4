@@ -24,7 +24,7 @@ const AuthScreen = (props) => {
 
   const checkToken = async () => {
     console.log("Checking Token");
-    let token = await AsyncStorage.getItem("token");
+    let token = await AsyncStorage.getItem("email_token");
     if (token) {
       console.log("Token is present");
       props.navigation.navigate("home");
@@ -48,10 +48,10 @@ const AuthScreen = (props) => {
 
 
 
-
+  props.navigation.navigate("welcome");
   return (
     <View>
-      <Slides data={{ SLIDE_DATA }} onComplete={onSlidesComplete} />
+      {/* <Slides data={{ SLIDE_DATA }} onComplete={onSlidesComplete} /> */}
       {/* <Image
         style={{ height: HEIGHT * 0.15, width: WIDTH * 0.85 }}
         resizeMode="contain"

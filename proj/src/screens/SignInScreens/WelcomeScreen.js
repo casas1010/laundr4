@@ -44,8 +44,6 @@ import {
 
 import { USERTYPES } from "../../components/Data/";
 
-// NOTES
-// not sure how to add font Calmer Bold
 
 const WelcomeScreen = (props) => {
   const [email, setEmail] = useState("jcasasmail@gmail.com");
@@ -56,7 +54,7 @@ const WelcomeScreen = (props) => {
   // REDUX LOGIN FLOW
   const loginWithEmail = async () => {
     // props.facebookLogin();
-    props.emailLogin({email,password});
+    props.emailLogin({email,password,userType});
     onAuthComplete(props);
   };
 
@@ -106,44 +104,7 @@ const WelcomeScreen = (props) => {
   }, []);
   // ANIMATION
 
-  // LOG IN FLOW
-  const handleLogin = async (event) => {
-    // console.log(`login initiated with the following:`);
-    // console.log(`email: ${email}`);
-    // console.log(`password: ${password}`);
-    // console.log(`userType: ${userType}`);
 
-    // this.handleInputValidation()
-    if (true) {
-      try {
-        const response = await axios.post("/api/user/login", {
-          email: email.toLowerCase(),
-          password: password,
-        });
-
-        if (response.data.success) {
-          const token = response.data.token;
-          await AsyncStorage.setItem("email_token", token);
-
-          localStorage.setItem("email_token", token);
-
-          const data = jwtDecode(token);
-
-          setIsWasher(data.isWasher);
-          setIsDriver(data.isDriver);
-          setIsAdmin(data.isAdmin);
-        } else {
-          // this.context.showAlert(response.data.message);
-          console.log("else:(");
-        }
-      } catch (error) {
-        // showConsoleError("logging in", error);
-        // this.context.showAlert(caughtError("logging in", error, 99));
-        console.log("error!");
-      }
-    }
-  };
-  // LOG IN FLOW
 
   return (
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
@@ -184,12 +145,7 @@ const WelcomeScreen = (props) => {
           />
 
           <View style={[styles.container_Email_Password, { marginBottom: 5 }]}>
-            {/* <MaterialIcons
-              name="person"
-              size={24}
-              color="black"
-              style={[styles.icon, { paddingTop: 3 }]}
-            /> */}
+       
             <TextInput
               value={email}
               onChangeText={(email) => setEmail(email)}
@@ -199,12 +155,7 @@ const WelcomeScreen = (props) => {
           </View>
 
           <View style={styles.container_Email_Password}>
-            {/* <FontAwesome5
-              name="unlock-alt"
-              size={18}
-              color="black"
-              style={[styles.icon, { paddingLeft: 4, paddingTop: 5 }]}
-            /> */}
+          
             <TextInput
               value={password}
               onChangeText={(password) => setPassword(password)}
