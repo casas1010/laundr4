@@ -30,10 +30,13 @@ import {PLANS} from '../../components/Data';
 
 const SubscriptionsScreen = (props) => {
   const [itemsIconColor, setItemsIconColor] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+     
     console.log('SubscriptionsScreen loaded');
     setItemsColor();
+    setLoading(false); 
   }, []);
 
   const setItemsColor = () => {
@@ -111,6 +114,8 @@ const SubscriptionsScreen = (props) => {
   };
 
   return (
+    loading ? <Text>LOADING</Text>
+      :
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
       <Header openDrawer={props.navigation.openDrawer} name="Subscriptions" />
       <Text>length of cart items:{props.cart.length}</Text>
@@ -127,6 +132,7 @@ const SubscriptionsScreen = (props) => {
               <TouchableOpacity
                 onPress={() => {
                   toggleItemInCart(item);
+                  console.log(itemsIconColor[item.name]['iconColorDisplay'])
                 }}>
                 <Container
                   style={{
@@ -136,12 +142,12 @@ const SubscriptionsScreen = (props) => {
                   }}>
                   <Icon
                     name="check"
-                    //COMMENT ME OUT
-                    // color={itemsIconColor[item.name]['iconColorDisplay'] }
+                    
+                    color={itemsIconColor[item.name]['iconColorDisplay'] }
                     size={36}
                     style={{position: 'absolute', left: '5%'}}
                   />
-
+                  
                   <Text style={FIELD_NAME_TEXT}>{item.name}</Text>
                   <Text
                     style={[
@@ -163,8 +169,8 @@ const SubscriptionsScreen = (props) => {
               onPress={() => toggleItemInCart(item)}>
               <Icon
                 name="check"
-                //COMMENT ME OUT
-                // color={itemsIconColor[item.name]['iconColorDisplay']}
+                
+                color={itemsIconColor[item.name]['iconColorDisplay']}
                 size={36}
                 style={{position: 'absolute', left: '5%'}}
               />
@@ -188,7 +194,8 @@ const SubscriptionsScreen = (props) => {
         }}
       />
     </SafeAreaView>
-  );
+      
+ );
 };
 
 const styles = StyleSheet.create({
