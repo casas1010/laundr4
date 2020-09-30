@@ -13,8 +13,8 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-// import MapView from 'react-native-maps';
-import MapView, { AnimatedRegion } from 'react-native-maps';
+import MapView from 'react-native-maps';
+// import MapView, { AnimatedRegion } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {HEIGHT, WIDTH,SHADOW} from '../../components/Items/'
 
@@ -33,7 +33,7 @@ const HomeScreen = (props) => {
   }, [initialRegion]);
 
   const getCurrentLocation = async () => {
-    await MapView.navigator.geolocation.getCurrentPosition(
+    await navigator.geolocation.getCurrentPosition(
       (position) => {
         let region = {
           latitude: parseFloat(position.coords.latitude),
