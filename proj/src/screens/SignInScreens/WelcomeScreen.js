@@ -53,7 +53,6 @@ const WelcomeScreen = (props) => {
 
   // REDUX LOGIN FLOW
   const loginWithEmail = async () => {
-    // props.facebookLogin();
     props.emailLogin({email,password,userType});
     onAuthComplete(props);
   };
@@ -110,7 +109,7 @@ const WelcomeScreen = (props) => {
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
       <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
-        contentContainerStyle={styles.container}
+        contentContainerStyle={{backgroundColor:'#f8f9fa'}}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.logo}>

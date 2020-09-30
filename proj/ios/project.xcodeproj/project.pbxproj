@@ -70,6 +70,13 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "project-tvOS";
 		};
+		BB4EDD7425240F1400BB19DA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB4EDD7025240F1400BB19DA /* RNCAsyncStorage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNCAsyncStorage;
+		};
 		BBF0140C252216F900DA0D05 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BBF01407252216F900DA0D05 /* RNVectorIcons.xcodeproj */;
@@ -121,6 +128,7 @@
 		A65647EFA8EDE5211AD3178D /* libPods-project-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-project-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB2DBB8C1AB3B0342D9F9A8B /* Pods-project-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-project-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-project-tvOSTests/Pods-project-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		BAD7BB59B7608D9DADBECA4A /* Pods-project.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-project.debug.xcconfig"; path = "Target Support Files/Pods-project/Pods-project.debug.xcconfig"; sourceTree = "<group>"; };
+		BB4EDD7025240F1400BB19DA /* RNCAsyncStorage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCAsyncStorage.xcodeproj; path = "../node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.xcodeproj"; sourceTree = "<group>"; };
 		BBF01407252216F900DA0D05 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		BBF014142522182F00DA0D05 /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
 		BBF014152522182F00DA0D05 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
@@ -233,6 +241,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				BB4EDD7025240F1400BB19DA /* RNCAsyncStorage.xcodeproj */,
 				BBF01407252216F900DA0D05 /* RNVectorIcons.xcodeproj */,
 			);
 			name = Libraries;
@@ -279,6 +288,14 @@
 				AB2DBB8C1AB3B0342D9F9A8B /* Pods-project-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		BB4EDD7125240F1400BB19DA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BB4EDD7525240F1400BB19DA /* libRNCAsyncStorage.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		BBF01408252216F900DA0D05 /* Products */ = {
@@ -459,6 +476,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = BB4EDD7125240F1400BB19DA /* Products */;
+					ProjectRef = BB4EDD7025240F1400BB19DA /* RNCAsyncStorage.xcodeproj */;
+				},
+				{
 					ProductGroup = BBF01408252216F900DA0D05 /* Products */;
 					ProjectRef = BBF01407252216F900DA0D05 /* RNVectorIcons.xcodeproj */;
 				},
@@ -474,6 +495,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		BB4EDD7525240F1400BB19DA /* libRNCAsyncStorage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCAsyncStorage.a;
+			remoteRef = BB4EDD7425240F1400BB19DA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		BBF0140D252216F900DA0D05 /* libRNVectorIcons.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;

@@ -25,8 +25,8 @@ export const actionName2 = () => async (dispatch) => {
 };
 
 export const emailLogin = (props) => async (dispatch) => {
-  // get the email_token token if it is there
-  let token = await AsyncStorage.getItem('email_token');
+  // get the token token if it is there
+  let token = await AsyncStorage.getItem('token');
 
   // check the value of that token
   if (token) {
@@ -54,17 +54,13 @@ const doEmailLogin = async (dispatch, props) => {
     };
 
     // data = FAKE_DATA;
-    response.data.token = true;
+    response.data.token = 'trues';
 
     // REMOVE DUMMY DATA
 
     if (response.data.success) {
-      console.log('Login success, token has been received');
       const token = response.data.token;
-      console.log('Login success, token has been received(2)');
-      await AsyncStorage.setItem('email_token', token);
-      console.log('Login success, token has been received(3)');
-
+      await AsyncStorage.setItem('token', token);
       // const data = jwtDecode(token);   // UNCOMMENT ME
       dispatch({type: ADD_USER_INFORMATION, payload: data});
 
