@@ -29,7 +29,7 @@ import _ from "lodash";
 import { connect } from "react-redux";
 
 import * as actions from "../../actions/index";
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   HEIGHT,
   FIELD_NAME_FONT_SIZE,
@@ -50,10 +50,13 @@ const WelcomeScreen = (props) => {
   const [password, setPassword] = useState("yCxGRcgJ7C9JdY2");
   const [userType, setUserType] = useState("User");
   const [userModalView, setUserModalView] = useState(false);
+  const [size, setSize] = useState(FIELD_VALUE_FONT_SIZE*1.3);
 
   // REDUX LOGIN FLOW
   const loginWithEmail = async () => {
+    console.log('loginWithEmail()')
     props.emailLogin({email,password,userType});
+    console.log('emailLogin() complete')
     onAuthComplete(props);
   };
 
@@ -69,6 +72,7 @@ const WelcomeScreen = (props) => {
   //   // snippet of code should resemble componentWillReceiveProps
 
   const onAuthComplete = (props) => {
+    console.log('props.token  :',props.token)
     if (props.token) {
       props.navigation.navigate("drawer");
     }
@@ -144,7 +148,7 @@ const WelcomeScreen = (props) => {
           />
 
           <View style={[styles.container_Email_Password, { marginBottom: 5 }]}>
-       
+          <Icon name="user" color={'black'} size={size} style={{marginRight:10}} />
             <TextInput
               value={email}
               onChangeText={(email) => setEmail(email)}
@@ -154,7 +158,7 @@ const WelcomeScreen = (props) => {
           </View>
 
           <View style={styles.container_Email_Password}>
-          
+          <Icon name="lock" color={'black'} size={size} style={{marginRight:10}} />
             <TextInput
               value={password}
               onChangeText={(password) => setPassword(password)}

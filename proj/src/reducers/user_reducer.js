@@ -30,7 +30,7 @@ const userData = {
 const userReducer = (state = userData, action) => {
   switch (action.type) {
     case ADD_USER_INFORMATION:
-      console.log()
+      console.log('inside reducer   ADD_USER_INFORMATION')
       return {...action.payload};
     case REMOVE_USER_INFORMATION:
       return state.filter((cartItem) => cartItem.id !== action.payload.id);

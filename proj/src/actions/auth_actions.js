@@ -25,11 +25,13 @@ export const actionName2 = () => async (dispatch) => {
 };
 
 export const emailLogin = (props) => async (dispatch) => {
+  console.log('emailLogin()_2');
   // get the token token if it is there
   let token = await AsyncStorage.getItem('token');
 
   // check the value of that token
-  if (token) {
+  // if (token) {   //uncomment
+  if (false) {
     dispatch({type: EMAIL_LOGIN_SUCCESS, payload: token});
   } else {
     doEmailLogin(dispatch, props);
@@ -49,21 +51,24 @@ const doEmailLogin = async (dispatch, props) => {
     let response = {
       data: {
         success: true,
-        token: '1i2jfc9alabuc',
+        token: 'fakeToken',
       },
     };
 
-    // data = FAKE_DATA;
-    response.data.token = 'trues';
+    
 
     // REMOVE DUMMY DATA
 
+    console.log('10');
     if (response.data.success) {
+      console.log('20');
       const token = response.data.token;
       await AsyncStorage.setItem('token', token);
+      console.log('30');
       // const data = jwtDecode(token);   // UNCOMMENT ME
+      const data = FAKE_DATA;
       dispatch({type: ADD_USER_INFORMATION, payload: data});
-
+      console.log('after');
       return dispatch({type: EMAIL_LOGIN_SUCCESS, payload: token});
     } else {
       console.log('Login failed, token has not been received');

@@ -18,7 +18,7 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
-      {/* <Drawer.Screen name="Home" component={HomeScreen} /> */}
+      <Drawer.Screen name="Home" component={HomeScreen} />
       <Drawer.Screen name="Account" component={AccountScreen} />
       <Drawer.Screen name="History" component={HistoryScreen} />
       <Drawer.Screen name="Order Details" component={OrderDetailsScreen} />
