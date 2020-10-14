@@ -99,7 +99,7 @@ const userReducer = (state = userData, action) => {
     case ADD_USER_INFORMATION:
       console.log("ADD_USER_INFORMATION reducer invoked");
       // console.log("state:  ", state);
-      // console.log("action.payload:  ", action.payload);
+      console.log("action.payload:  ", action.payload);
       return {
         ...action.payload,
         location: state.location,

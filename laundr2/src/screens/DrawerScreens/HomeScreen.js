@@ -24,7 +24,7 @@ import {
 import Container from "../../components/Container";
 import { HEIGHT, WIDTH, SHADOW } from "../../components/Items/";
 import { GOOGLE_MAPS_KEY } from "../../key/";
-import { StatusBar } from 'expo-status-bar';
+
 
 let addresAutoCompleteCount = 1;
 let loadCount = 1;

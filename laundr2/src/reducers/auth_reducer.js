@@ -8,6 +8,7 @@ import { View, AsyncStorage, Image } from "react-native";
 const authReducer = (state = {}, action) => {
   switch (action.type) {
     case EMAIL_LOGIN_SUCCESS:
+     console.log('EMAIL_LOGIN_SUCCESS reducer invoked')
       console.log("Email Login Success");
       return { token: action.payload };
 
@@ -15,6 +16,8 @@ const authReducer = (state = {}, action) => {
       return { token: null };
 
     case LOG_OUT:
+      console.log('LOG_OUT reducer invoked')
+
       // console.log("token has been cleared from the store");
       // console.log("before:  ", checkToken());
       // AsyncStorage.setItem("token", null);

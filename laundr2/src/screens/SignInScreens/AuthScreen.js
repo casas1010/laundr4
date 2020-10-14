@@ -35,7 +35,7 @@ const AuthScreen = (props) => {
     if (token) {
       console.log("Token is present");
       setToken(token);
-      // props.navigation.navigate("drawer");
+      console.log('props.user:   ',props.user)
       setTimeout(() => {
         console.log("navigating user to drawer");
         props.navigation.navigate("drawer");
