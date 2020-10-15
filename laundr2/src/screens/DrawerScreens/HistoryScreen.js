@@ -70,7 +70,7 @@ const SearchScreen = (props) => {
   };
 
   return (
-    <>
+    <SafeAreaView style={GlobalStyles.droidSafeArea}>
       <Header openDrawer={props.navigation.openDrawer} name="History" />
 
       <SearchBar
@@ -271,7 +271,7 @@ const SearchScreen = (props) => {
           }}
         />
       </>
-    </>
+    </SafeAreaView>
   );
 };
 

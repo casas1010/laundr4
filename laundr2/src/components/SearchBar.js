@@ -2,22 +2,34 @@ import React from "react";
 import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
-const SearchBar = ({ term, onTermChange, onTermSubmit }) => {
+const SearchBar = ({
+  term,
+  onTermChange,
+  onTermSubmit,
+  backgroundStyle,
+  inputStyle,
+  searchIconStyle,
+  xIconStyle,
+  onFocus,
+  onBlur
+}) => {
   return (
-    <View style={styles.backgroundStyle}>
-      <Feather name="search" style={styles.iconStyle} />
+    <View style={[styles.backgroundStyle, { ...backgroundStyle }]}>
+      <Feather name="search" style={[styles.iconStyle, { ...searchIconStyle }]} />
       <TextInput
         autoCapitalize="none"
         autoCorrect={false}
-        style={styles.inputStyle}
+        style={[styles.inputStyle, { ...inputStyle }]}
         placeholder="Search History"
-        placeholderTextColor="#e0eff2"
+        placeholderTextColor="white"
         value={term}
         onChangeText={(term) => {
           onTermChange(term);
           // onTermSubmit(term);
         }}
         onEndEditing={onTermSubmit}
+        onFocus={()=>onFocus()}
+        onBlur={()=>onBlur()}
       />
       <TouchableOpacity
         style={{ alignItems: "center", justifyContent: "center" }}
@@ -28,13 +40,18 @@ const SearchBar = ({ term, onTermChange, onTermSubmit }) => {
         <Feather
           name="x"
           size={24}
-          color="#e0eff2"
-          style={{  paddingRight: 10 }}
+          color="white"
+          style={{ paddingRight: 10,...xIconStyle }}
         />
       </TouchableOpacity>
     </View>
   );
 };
+
+SearchBar.defaultProps={
+  onBlur: console.log('onBlur fired')
+
+}
 
 const styles = StyleSheet.create({
   backgroundStyle: {
@@ -49,14 +66,14 @@ const styles = StyleSheet.create({
   inputStyle: {
     width: "70%",
     fontSize: 18,
-    fontWeight:'bold',
-    color: "#e0eff2",
+    fontWeight: "bold",
+    color: "white",
   },
   iconStyle: {
     fontSize: 35,
     alignSelf: "center",
     marginHorizontal: 15,
-    color:'#e0eff2'
+    color: "#e0eff2",
   },
 });
 
