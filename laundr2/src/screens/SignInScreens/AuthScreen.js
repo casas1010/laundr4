@@ -31,7 +31,6 @@ const AuthScreen = (props) => {
     console.log("checkToken()");
     console.log("Checking Token initiated");
     let token = await AsyncStorage.getItem("token");
-    console.log("token1:  ", token);
     if (token) {
       console.log("Token is present");
       setToken(token);

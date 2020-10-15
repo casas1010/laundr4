@@ -9,6 +9,7 @@ import {
   View,
   TouchableOpacity,
   Linking,
+  Image,
   Dimensions,
 } from "react-native";
 import { BUTTON } from "../../components/Items/";
@@ -24,7 +25,7 @@ import {
 import Container from "../../components/Container";
 import { HEIGHT, WIDTH, SHADOW } from "../../components/Items/";
 import { GOOGLE_MAPS_KEY } from "../../key/";
-
+import SearchBar from "../../components/SearchBar";
 
 let addresAutoCompleteCount = 1;
 let loadCount = 1;
@@ -229,10 +230,26 @@ const HomeScreen = (props) => {
       </MapView>
       <View style={styles.topInputs_ButtonContainer}>
         <TouchableOpacity onPress={props.navigation.openDrawer}>
-          <Entypo name="menu" size={50} color="black" />
+          {/* <Image source={require("../../assets/spinner.png")} /> */}
+          <Entypo name="menu" size={50} color="#01c9e2" />
         </TouchableOpacity>
         <>
-
+          <SearchBar
+            term={address}
+            onTermChange={(txt_address) => {
+              setAutoCompletePossibleLocations({
+                ...autoCompletePossibleLocations,
+                display: true,
+              });
+              setAddress(txt_address);
+            }}
+            onFocus={() =>
+              setAutoCompletePossibleLocations({
+                ...autoCompletePossibleLocations,
+                display: true,
+              })
+            }
+          />
           <View style={styles.searchBoxContainer}>
             <FontAwesome5
               name="search-location"
@@ -252,12 +269,20 @@ const HomeScreen = (props) => {
               placeholder="Address"
               style={styles.addressTextInput}
               returnKeyLabel={"Search"}
-              onFocus={() =>
+              onBlur={() => {
+                console.log("unFocus has fired");
+                setAutoCompletePossibleLocations({
+                  ...autoCompletePossibleLocations,
+                  display: false,
+                });
+              }} 
+              onFocus={() => {
+                console.log("onFocus has fired");
                 setAutoCompletePossibleLocations({
                   ...autoCompletePossibleLocations,
                   display: true,
-                })
-              }
+                });
+              }}
             />
             <TouchableOpacity
               style={{ alignItems: "center", justifyContent: "center" }}
