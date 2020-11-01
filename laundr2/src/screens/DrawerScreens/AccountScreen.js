@@ -1,13 +1,5 @@
-/*
-code clean up 100% complete
-wire up actions
-
-change lock to pencil with the word 'edit'
-
-add logout button
-
-*/
-
+import { connect } from "react-redux";
+import * as actions from "../../actions";
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
@@ -22,14 +14,11 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import Icon from "react-native-vector-icons/FontAwesome";
 import { EvilIcons } from "@expo/vector-icons";
 
-//
-import { connect } from "react-redux";
-import * as actions from "../../actions";
-//
 import GlobalStyles from "../../components/GlobalStyles";
 import Header from "../../components/Header";
 import MenuModal from "../../components/MenuModal";
 import Container from "../../components/Container";
+import LoaderModal from "../../components/LoaderModal";
 import {
   HEIGHT,
   BUTTON,
@@ -55,14 +44,15 @@ const AccountScreen = (props) => {
   const [lock, setLock] = useState(true);
   const [inputColor, setInputColor] = useState("");
   const [lockColor, setLockColor] = useState("");
+
   // modal variables
   const [cityModalView, setCityModalView] = useState(false);
 
   useEffect(() => {
-    console.log("AccountScreen useEffect []");
+    console.log("AccountScreen useEffect ");
     setUserValues();
     setLoading(false);
-  }, []);
+  });
 
   useEffect(() => {
     setEditable(!editable);
@@ -97,10 +87,14 @@ const AccountScreen = (props) => {
   //
 
   return loading ? (
-    <Text>LOADING</Text>
+    <LoaderModal />
   ) : (
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
-      <Header openDrawer={props.navigation.openDrawer} name="Account" />
+      <Header
+        openDrawer={() => props.navigation.navigate("Home")}
+        name="Account"
+      />
+
       {/* SCREEN LOCK  */}
       <TouchableOpacity
         style={[styles.lockButton, { backgroundColor: lockColor }]}
@@ -112,118 +106,119 @@ const AccountScreen = (props) => {
             <Text style={{ fontSize: HEIGHT * 0.03 }}>Edit</Text>
           </>
         ) : (
-          // <EvilIcons name="pencil" size={24} color="black" />
           <Icon name="lock" color={"white"} size={HEIGHT * 0.05} />
         )}
       </TouchableOpacity>
       {/* SCREEN LOCK  */}
+
       <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles.container}
       >
         <ScrollView>
-          <Container>
-            {/*  */}
-            {/*  */}
-            <View style={styles.container_Tittle_Input}>
-              <Text style={[FIELD_NAME_TEXT]}>Name</Text>
-              <View
-                style={[
-                  FIELD_VALUE_CONTAINER,
-                  { alignItems: "flex-start", backgroundColor: inputColor },
-                ]}
-              >
-                <TextInput
-                  editable={editable}
-                  value={name}
-                  onChangeText={(txt) => setName(txt)}
-                  placeholder=" Name"
-                  style={FIELD_VALUE_TEXT}
-                />
-              </View>
-            </View>
-            {/*  */}
-            {/*  */}
-            <View style={styles.container_Tittle_Input}>
-              <Text style={[FIELD_NAME_TEXT]}>Email</Text>
-              <View
-                style={[
-                  FIELD_VALUE_CONTAINER,
-                  { alignItems: "flex-start", backgroundColor: inputColor },
-                ]}
-              >
-                <TextInput
-                  editable={editable}
-                  value={email}
-                  onChangeText={(txt) => setEmail(txt)}
-                  placeholder=" Email"
-                  style={FIELD_VALUE_TEXT}
-                />
-              </View>
-            </View>
-            {/*  */}
-            {/*  */}
-            <View style={styles.container_Tittle_Input}>
-              <Text style={[FIELD_NAME_TEXT]}>Password</Text>
-              <View
-                style={[
-                  FIELD_VALUE_CONTAINER,
-                  { alignItems: "flex-start", backgroundColor: inputColor },
-                ]}
-              >
-                <TextInput
-                  editable={editable}
-                  value={password}
-                  onChangeText={(txt) => setPassword(txt)}
-                  placeholder=" Email"
-                  style={FIELD_VALUE_TEXT}
-                />
-              </View>
-            </View>
-            {/*  */}
-            {/*  */}
-            <View style={styles.container_Tittle_Input}>
-              <Text style={[FIELD_NAME_TEXT]}>Phone</Text>
-              <View
-                style={[
-                  FIELD_VALUE_CONTAINER,
-                  { alignItems: "flex-start", backgroundColor: inputColor },
-                ]}
-              >
-                <TextInput
-                  editable={editable}
-                  value={phone}
-                  keyboardType="number-pad"
-                  onChangeText={(txt) => setPhone(txt)}
-                  placeholder=" Phone"
-                  style={FIELD_VALUE_TEXT}
-                />
-              </View>
-            </View>
-            {/*  */}
-            {/*  */}
-            <View style={styles.container_Tittle_Input}>
-              <TouchableOpacity onPress={modalButtonHelper}>
-                <Text style={[FIELD_NAME_TEXT]}>City</Text>
+          <View style={{ position: "absolute", zIndex: 0 }}>
+            <Container>
+              {/*  */}
+              {/*  */}
+              <View style={styles.container_Tittle_Input}>
+                <Text style={[FIELD_NAME_TEXT]}>Name</Text>
                 <View
                   style={[
                     FIELD_VALUE_CONTAINER,
                     { alignItems: "flex-start", backgroundColor: inputColor },
                   ]}
                 >
-                  <Text style={FIELD_VALUE_TEXT}>{city}</Text>
+                  <TextInput
+                    editable={editable}
+                    value={name}
+                    onChangeText={(txt) => setName(txt)}
+                    placeholder=" Name"
+                    style={FIELD_VALUE_TEXT}
+                  />
                 </View>
-              </TouchableOpacity>
-              <MenuModal
-                setCardTypeHelper={setCityHelper}
-                showModal={showModalCity}
-                modalView={cityModalView}
-                data={CITIES}
-                title="Select Your City"
-              />
-            </View>
-            {/*  */}
-            {/*  */}
+              </View>
+              {/*  */}
+              {/*  */}
+              <View style={styles.container_Tittle_Input}>
+                <Text style={[FIELD_NAME_TEXT]}>Email</Text>
+                <View
+                  style={[
+                    FIELD_VALUE_CONTAINER,
+                    { alignItems: "flex-start", backgroundColor: inputColor },
+                  ]}
+                >
+                  <TextInput
+                    editable={editable}
+                    value={email}
+                    onChangeText={(txt) => setEmail(txt)}
+                    placeholder=" Email"
+                    style={FIELD_VALUE_TEXT}
+                  />
+                </View>
+              </View>
+              {/*  */}
+              {/*  */}
+              <View style={styles.container_Tittle_Input}>
+                <Text style={[FIELD_NAME_TEXT]}>Password</Text>
+                <View
+                  style={[
+                    FIELD_VALUE_CONTAINER,
+                    { alignItems: "flex-start", backgroundColor: inputColor },
+                  ]}
+                >
+                  <TextInput
+                    editable={editable}
+                    value={password}
+                    onChangeText={(txt) => setPassword(txt)}
+                    placeholder=" Email"
+                    style={FIELD_VALUE_TEXT}
+                  />
+                </View>
+              </View>
+              {/*  */}
+              {/*  */}
+              <View style={styles.container_Tittle_Input}>
+                <Text style={[FIELD_NAME_TEXT]}>Phone</Text>
+                <View
+                  style={[
+                    FIELD_VALUE_CONTAINER,
+                    { alignItems: "flex-start", backgroundColor: inputColor },
+                  ]}
+                >
+                  <TextInput
+                    editable={editable}
+                    value={phone}
+                    keyboardType="number-pad"
+                    onChangeText={(txt) => setPhone(txt)}
+                    placeholder=" Phone"
+                    style={FIELD_VALUE_TEXT}
+                  />
+                </View>
+              </View>
+              {/*  */}
+              {/*  */}
+              <View style={styles.container_Tittle_Input}>
+                <TouchableOpacity onPress={modalButtonHelper}>
+                  <Text style={[FIELD_NAME_TEXT]}>City</Text>
+                  <View
+                    style={[
+                      FIELD_VALUE_CONTAINER,
+                      { alignItems: "flex-start", backgroundColor: inputColor },
+                    ]}
+                  >
+                    <Text style={FIELD_VALUE_TEXT}>{city}</Text>
+                  </View>
+                </TouchableOpacity>
+                <MenuModal
+                  setCardTypeHelper={setCityHelper}
+                  showModal={showModalCity}
+                  modalView={cityModalView}
+                  data={CITIES}
+                  title="Select Your City"
+                />
+              </View>
+              {/*  
+           
             <View style={styles.container_Tittle_Input}>
               <TouchableOpacity
                 onPress={console.log("subscrition screen details?")}
@@ -239,17 +234,18 @@ const AccountScreen = (props) => {
                 </View>
               </TouchableOpacity>
             </View>
-            {/*  */}
-            {/*  */}
-          </Container>
-          <View style={{ alignItems: "center", justifyContent: "center" }}>
-            <BUTTON
-              text="LOG OUT"
-              onPress={() => {
-                console.log("log out pressed");
-                props.emailLogOut(props.navigation);
-              }}
-            />
+      
+             */}
+            </Container>
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <BUTTON
+                text="LOG OUT"
+                onPress={() => {
+                  console.log("log out pressed");
+                  props.emailLogOut(props.navigation);
+                }}
+              />
+            </View>
           </View>
         </ScrollView>
       </KeyboardAwareScrollView>
@@ -267,7 +263,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     right: 0,
     top: HEIGHT * 0.1,
-    zIndex: 2,
+    zIndex: 1,
     height: 80,
     width: 80,
     borderRadius: 80,

@@ -1,3 +1,5 @@
+// REVERSE ORDER IN HISTORY, MAKE IT SO IT GOES BY DATE IN ORDER
+
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
@@ -35,17 +37,20 @@ const BUTTON_WIDTH = SCREEN_WIDTH * 0.3;
 const SearchScreen = (props) => {
   const [term, setTerm] = useState("");
   const [DATA, SETDATA] = useState([]);
+  const [count, setCount] = useState(1);
 
   useEffect(() => {
     console.log("SearchScreen");
     // console.log(props.history);
+
     modifyData();
+    console.log(props.history[0]);
   }, []);
 
   const modifyData = () => {
     let newData = [];
     let uniqueCounter = 1;
-    // console.log('count prior to mod:  ',props.history.le)
+    console.log("count prior to mod:  ", props.history.length);
     props.history.forEach((item) => {
       // console.log("element before being modified: ", item.orderInfo.created);
       item.orderInfo.orderID = "0" + uniqueCounter;
@@ -61,9 +66,14 @@ const SearchScreen = (props) => {
 
   const filterHistoriesByName = (name) => {
     name = name.toLowerCase();
-    return props.history.filter((item) => {
-      let string_copy = (" " + item.string).slice(1);
-      if (string_copy.includes(name)) {
+    let localCount = 1;
+    // console.log('localCount:  ',localCount)
+    // console.log('filterHistoriesByName props.history.length:  ',props.history.length)
+    return DATA.filter((item) => {
+      // console.log('inside filter: localCount ',localCount);
+      // localCount++
+
+      if (item.string.includes(name)) {
         return item;
       }
     });
@@ -71,11 +81,14 @@ const SearchScreen = (props) => {
 
   return (
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
-      <Header openDrawer={props.navigation.openDrawer} name="History" />
+      <Header openDrawer={() => props.navigation.navigate("Home")} name="History" />
 
       <SearchBar
         term={term}
+       
         onTermChange={setTerm}
+        placeholder='Search History'
+
         onTermSubmit={() => {
           console.log(`term searched is ${term}`);
         }}
@@ -83,10 +96,12 @@ const SearchScreen = (props) => {
       <>
         <FlatList
           horizontal={false}
-          extraData={DATA}
+          // extraData={props.history}
           showsHorizontalScrollIndicator={false}
+          // data={DATA}
+          // data={props.history}
           data={filterHistoriesByName(term)}
-          keyExtractor={(item) => item.orderInfo.created}
+          keyExtractor={(item) => item.orderInfo.orderID}
           renderItem={({ item }) => {
             return (
               <>
@@ -116,6 +131,7 @@ const SearchScreen = (props) => {
                     </View>
                   </View>
                   {/*  */}
+
                   {/*  */}
                   <View style={[styles.fieldContainer, { paddingTop: 50 }]}>
                     <View style={styles.fieldNameContainer}>
@@ -124,6 +140,7 @@ const SearchScreen = (props) => {
                     <View style={styles.fieldValueContainer}>
                       <Text style={styles.fieldValueTxT}>
                         {item.orderInfo.created.slice(0, 10)}
+                        {/* {item.orderInfo.created} */}
                       </Text>
                     </View>
                   </View>
@@ -165,19 +182,6 @@ const SearchScreen = (props) => {
                             {item.orderInfo.address}
                           </Text>
                         </View>
-
-                        {/* <View style={styles.addressCustomContainer}>
-                      <Text style={styles.fieldValueTxT}>
-                        {item.address.city},{item.address.state},
-                        {item.address.zipCode}
-                      </Text>
-                    </View>
-
-                    <View style={styles.addressCustomContainer}>
-                      <Text style={styles.fieldValueTxT}>
-                        {item.address.country}
-                      </Text>
-                    </View> */}
                       </View>
                     </View>
                   </View>
@@ -263,8 +267,20 @@ const SearchScreen = (props) => {
                       </Text>
                     </View>
                   </View>
+          
                   {/*  */}
+                  <DIVIDER />
                   {/*  */}
+                  <View style={styles.fieldContainer}>
+                    <View style={styles.fieldNameContainer}>
+                      <Text style={styles.fieldNameTxT}>Cost</Text>
+                    </View>
+                    <View style={styles.fieldValueContainer}>
+                      <Text style={styles.fieldValueTxT}>
+                        $ {item.orderInfo.cost}
+                      </Text>
+                    </View>
+                  </View>
                 </Container>
               </>
             );

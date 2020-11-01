@@ -10,8 +10,7 @@ import {
 } from "react-native";
 import { HEIGHT, WIDTH } from "../../src/components/Items/";
 
-console.log(WIDTH * 0.25);
-console.log(WIDTH * 0.25 * 0.59);
+
 export default class Loader extends Component {
   UNSAFE_componentWillMount() {
     console.log('UNSAFE_componentWillMount() requires change')
@@ -41,13 +40,6 @@ export default class Loader extends Component {
     };
     return (
       <View style={[styles.container,{...this.props.style}]}>
-        <View
-          // MASTER CONTAINER
-          style={{
-            // backgroundColor: "blue",
-            // borderWidth: 0,
-          }}
-        >
           <Image
             style={{
               height: WIDTH * 0.25,
@@ -76,7 +68,7 @@ export default class Loader extends Component {
               source={require("../assets/spinner.png")}
             />
           </Animated.View>
-        </View>
+       
       </View>
     );
   }
@@ -85,9 +77,6 @@ export default class Loader extends Component {
 const styles = StyleSheet.create({
   container: {
     
-    //   flex:1,
-    // alignItems: "center",
-    // justifyContent: "center",
   },
   box: {},
   text: {

@@ -8,13 +8,9 @@ import {
   KEYBOARD_AWARE_SCROLL_VIEW_STYLE,
 } from "../../components/Items/";
 import Loader from "../../components/Loader";
-
+import * as Animatable from "react-native-animatable";
 import { connect } from "react-redux";
 import * as actions from "../../actions/";
-import {
-  getUserLocation,
-  getAddressFromLatLong,
-} from "../../components/LocationHelperFunctions/";
 
 const AuthScreen = (props) => {
   const [token, setToken] = useState(null);
@@ -22,45 +18,11 @@ const AuthScreen = (props) => {
   useEffect(() => {
     async function locationAndTokenFlow() {
       await props.getUserLocation();
-      checkToken();
     }
     locationAndTokenFlow();
+    props.doAuthLogin(props);
   }, []);
 
-  const checkToken = async () => {
-    console.log("checkToken()");
-    console.log("Checking Token initiated");
-    let token = await AsyncStorage.getItem("token");
-    if (token) {
-      console.log("Token is present");
-      setToken(token);
-      console.log('props.user:   ',props.user)
-      setTimeout(() => {
-        console.log("navigating user to drawer");
-        props.navigation.navigate("drawer");
-      }, 3000);
-    } else {
-      console.log("Token is not present");
-      setToken(false);
-      props.navigation.navigate("welcome");
-    }
-  };
-
-  if (_.isNull(token)) {
-    // console.log("_.isNull(token): ", _.isNull(token));
-    console.log("returning Loader");
-    return (
-      <View
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          ...KEYBOARD_AWARE_SCROLL_VIEW_STYLE,
-        }}
-      >
-        <Loader />
-      </View>
-    );
-  }
   return (
     <View
       style={{
@@ -69,7 +31,16 @@ const AuthScreen = (props) => {
         ...KEYBOARD_AWARE_SCROLL_VIEW_STYLE,
       }}
     >
-      <Loader />
+      <Animatable.View
+        animation="zoomIn"
+        iterationCount={1}
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Loader />
+      </Animatable.View>
     </View>
   );
 };

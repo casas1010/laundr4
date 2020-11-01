@@ -7,6 +7,8 @@ import ForgotPasswordScreen from "../screens/SignInScreens/ForgotPasswordScreen"
 import SignUpDetailsScreen from "../screens/SignInScreens/SignUpDetailsScreen";
 import WelcomeScreen from "../screens/SignInScreens/WelcomeScreen";
 import TestScreen from "../screens/DrawerScreens/TestScreen";
+
+// import StackNavigator from './StackNavigator'
 // import TestScreen from "../screens/DrawerScreens/NewOrderScreen";
 // FUTURE IMPROVEMENT: figure out how to hide all tab screens from Tab.Navigator   // https://reactnavigation.org/docs/bottom-tab-navigator/
 // NOTE: CHANGE INITIAL ROUTE
@@ -34,6 +36,7 @@ const BottomTabNavigator = ({ navigation }) => {
       <Tab.Screen
         options={{ tabBarVisible: false }}
         name="drawer"
+        // component={StackNavigator}
         component={DrawerNavigator}
       />
       <Tab.Screen

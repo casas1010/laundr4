@@ -38,6 +38,7 @@ const DrawerContent = (props) => {
               onPress={() => {
                 props.navigation.navigate("Home");
               }}
+              navigateToNewOrderScreen={ ()=> props.navigation.navigate("New Order Screen")}
             />
             <DrawerItem
               icon={() => <Icon name="gear" color={color} size={size} />}

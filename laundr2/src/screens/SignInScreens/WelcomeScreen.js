@@ -1,28 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
-  Keyboard,
-  KeyboardAvoidingView,
   SafeAreaView,
-  Platform,
   StyleSheet,
   Text,
   TextInput,
-  TouchableWithoutFeedback,
   View,
   TouchableOpacity,
-  Dimensions,
-  Image,
   Animated,
-  AsyncStorage,
+  Image
 } from "react-native";
-// import jwtDecode from "jwt-decode";
-// import { MaterialIcons } from "@expo/vector-icons";
-// import { FontAwesome5 } from "@expo/vector-icons";
+import * as Animatable from "react-native-animatable";
+
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import GlobalStyles from "../../components/GlobalStyles";
 import Container from "../../components/Container";
 import MenuModal from "../../components/MenuModal";
-// import { AppLoading } from "expo";
 import axios from "axios";
 
 import _ from "lodash";
@@ -53,15 +45,13 @@ const WelcomeScreen = (props) => {
   const [userModalView, setUserModalView] = useState(false);
   const [size, setSize] = useState(FIELD_VALUE_FONT_SIZE * 1.3);
 
-  // REDUX LOGIN FLOW
   const loginWithEmail = async () => {
     console.log("loginWithEmail() initiated");
-    props.emailLogin({ email, password, userType });
-    onAuthComplete(props);
+    props.emailLogin({ email, password, props });
+
     console.log("emailLogin() complete");
   };
 
-  //   // snippet of code should resemble componentWillReceiveProps
   const isFirstRun = useRef(true);
   useEffect(() => {
     if (isFirstRun.current) {
@@ -70,17 +60,13 @@ const WelcomeScreen = (props) => {
     }
     onAuthComplete(props);
   }, [props.token]);
-  //   // snippet of code should resemble componentWillReceiveProps
-  
+
   const onAuthComplete = (props) => {
-    // console.log("props.token  :", props.token);
     if (props.token) {
       props.navigation.navigate("drawer");
     }
   };
-  // REDUX LOGIN FLOW
 
-  //  MODAL VARIABLE
   const setUserHelper = (item) => {
     setUserType(item);
     showModalUser();
@@ -115,19 +101,26 @@ const WelcomeScreen = (props) => {
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={KEYBOARD_AWARE_SCROLL_VIEW_STYLE}
         showsVerticalScrollIndicator={false}
-        // style={{ justifyContent: "center", alignItems: "center" }}
       >
+         
         <View
           style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
-        >
+        ><Animatable.View animation="zoomIn" iterationCount={1}>
           <View
             style={{
-              // loader container
               justifyContent: "center",
               alignItems: "center",
             }}
           >
-            <Loader />
+            {/* <Loader /> */}
+            <Image
+            style={{
+              height: WIDTH * 0.25,
+              width: WIDTH * 0.9,
+              borderWidth: 0,
+            }}
+            source={require("../../assets/Launch_Logo.png")}
+          />
           </View>
           <Animated.View
             style={{
@@ -200,8 +193,22 @@ const WelcomeScreen = (props) => {
                 Forgot Password?
               </Text>
             </TouchableOpacity>
+
+            {/* REMOVE ME */}
+
+            <TouchableOpacity
+              onPress={() => {
+                console.log(props.user);
+              }}
+            >
+              <Text style={[BUTTON_TEXT, { color: "black" }]}>check store</Text>
+            </TouchableOpacity>
+
+            {/*  */}
           </View>
+          </Animatable.View>
         </View>
+        
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );
@@ -231,7 +238,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     alignItems: "center",
     justifyContent: "center",
-    width:WIDTH,
+    width: WIDTH,
     // backgroundColor:'green'
   },
   button: {
@@ -248,8 +255,8 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps({ auth }) {
-  return { token: auth.token };
+function mapStateToProps({ auth, user }) {
+  return { token: auth.token, user };
 }
 
 export default connect(mapStateToProps, actions)(WelcomeScreen);

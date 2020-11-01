@@ -14,8 +14,6 @@ export default Container = (props) => {
         margin: WIDTH * 0.025,
         padding: 10,
         width: WIDTH * 0.95,
-        // alignItems: "center",
-        // justifyContent: "center",
         ...props.style,
       }}
     >

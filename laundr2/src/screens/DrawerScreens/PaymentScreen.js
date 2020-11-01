@@ -12,9 +12,8 @@
 // import { STRIPE_FRONT_KEY } from "../../key/";
 // import stripe from "tipsi-stripe";
 
-
 // stripe.setOptions({
-//   publishableKey:STRIPE_FRONT_KEY ,
+//   publishableKey: STRIPE_FRONT_KEY,
 // });
 // import axios from "axios";
 
@@ -25,6 +24,7 @@
 
 // class CardFormScreen extends PureComponent {
 //   static title = "Card Form";
+
 
 //   state = {
 //     loading: false,
@@ -57,19 +57,19 @@
 //       this.setState({ loading: false });
 //     }
 //   };
-//   makePayment =  () => {
+//   makePayment = () => {
 //     this.setState({ loading: true });
 //     axios({
 //       method: "POST",
 //       url:
 //         "https://us-central1-laundr-c9c10.cloudfunctions.net/completePaymentWithStripe",
 //       data: {
-//         amount: 35000,  // divide by 100 and you get the correct amount. ex:  amount: 35000 =>  amount: 350.00
+//         amount: 35000, // divide by 100 and you get the correct amount. ex:  amount: 35000 =>  amount: 350.00
 //         currency: "usd",
 //         token: this.state.token,
 //       },
 //     }).then((response) => {
-//       console.log('make payment response  :',response);
+//       console.log("make payment response  :", response);
 //       this.setState({ loading: false });
 //     });
 //   };
@@ -79,7 +79,7 @@
 
 //     return (
 //       <SafeAreaView style={GlobalStyles.droidSafeArea}>
-//         <Header openDrawer={this.props.navigation.openDrawer} name="Account" />
+//         <Header openDrawer={this.() => props.navigation.navigate("Home")} name="Account" />
 
 //         <View style={styles.container}>
 //           <Text style={styles.header}>Card Form Example</Text>
@@ -134,8 +134,9 @@
 //   },
 // });
 
-// function mapStateToProps({ auth }) {
-//   return { token: auth.token };
+// function mapStateToProps({ auth, user }) {
+//   return { token: auth.token, user };
 // }
 
 // export default connect(mapStateToProps, actions)(CardFormScreen);
+
