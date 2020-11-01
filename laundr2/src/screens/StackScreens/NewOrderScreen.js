@@ -65,10 +65,14 @@ const _WIDTH = WIDTH * 0.35;
 const FAMILY_PLAN_MULTIPLIER = 1.2; // $/lbs*load
 const NOT_FAMILY_PLAN_MULTIPLIER = 1.5; // $/lbs*load
 const NO_PLAN_MULTIPLIER = 1.5; // $/lbs*load
+
 let AC_TIMEOUT;
+
 const NewOrderScreen = (props) => {
+
   // screen variables
   const [index, setIndex] = useState(0);
+
   //
   // card #1 variables
   const [pickUpDate, setPickUpDate] = useState({ month: MONTH, date: DATE });
@@ -103,9 +107,9 @@ const NewOrderScreen = (props) => {
     autoCompletePossibleLocations,
     setAutoCompletePossibleLocations,
   ] = useState({ display: true, array: [] });
+
   //
   // card #4 variables
-
   const [lbsForJob, setLbsForJob] = useState(8);
   const [loadForJob, setLoadForJob] = useState(1);
   const [lbsLeft, setLbsLeft] = useState();
@@ -217,6 +221,7 @@ const NewOrderScreen = (props) => {
   useEffect(() => {
     onTimeChange();
   }, [pickUpDate]);
+
   const setDay = (dateDetails) => {
     console.log("setDate()");
     console.log("date set for laundry:  ", dateDetails);
@@ -405,13 +410,13 @@ const NewOrderScreen = (props) => {
   useEffect(() => {
     setPickUpAddress(props.route.params.address);
     setPickUpAddressFromDropDown(props.route.params.address);
+    setAutoCompletePossibleLocations({ display: false, array: [] });
   }, []);
 
   // functions that run the first time page loads
   //
   useEffect(() => {
     console.log("useEffect() newOrderScreen []");
-    // console.log('props.route.params.location:   ',props.route.params.location)
     setNewRegionHelper(props.route.params.address);
   }, []);
 
@@ -429,7 +434,6 @@ const NewOrderScreen = (props) => {
     console.log("HomeScreen useEffect() [address]");
     clearTimeout(AC_TIMEOUT);
     AC_TIMEOUT = setTimeout(function () {
-      console.log("inside useEffect!");
       addresAutoComplete();
     }, 1200);
   }, [pickUpAddress]);
@@ -1135,7 +1139,7 @@ const NewOrderScreen = (props) => {
           </View>
           <TimeModal
             title="Select User Type"
-            setCardTypeHelper={setUserHelper}
+            setCardTypeHelper={showModalUser}
             showModal={showModalUser}
             modalView={userModalView}
           >

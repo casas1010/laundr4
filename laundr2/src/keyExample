@@ -1,0 +1,4 @@
+export const STRIPE_FRONT_KEY =''
+export const STRIPE_BACK_KEY =''
+export const GOOGLE_MAPS_KEY = ''
+export const BASE_URL=''
