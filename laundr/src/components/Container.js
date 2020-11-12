@@ -11,10 +11,10 @@ export default Container = (props) => {
         borderColor: "white",
         borderWidth: 1,
         borderRadius: 15,
-        margin: WIDTH * 0.06,
+        margin: WIDTH * 0.025,
         padding: 10,
-        width: WIDTH * 0.88,
-        ...props.style
+        width: WIDTH * 0.95,
+        ...props.style,
       }}
     >
       {props.children}

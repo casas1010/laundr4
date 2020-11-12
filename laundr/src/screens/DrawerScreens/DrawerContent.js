@@ -2,29 +2,29 @@
 code clean up 100% complete
 wire up actions
 
-
+add a link to the website for terms below the earn with laundr button  
+      make it very small font
 
 */
 
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text,Linking } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
+import Icon from "react-native-vector-icons/FontAwesome";
+// import { FontAwesome } from '@expo/vector-icons';
 //
 import * as actions from "../../actions";
 import { connect } from "react-redux";
-//
-import { Ionicons } from "@expo/vector-icons";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { FontAwesome } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+import { FIELD_NAME_FONT_SIZE } from "../../components/Items";
 
 const DrawerContent = (props) => {
-  const [color, setColor]=useState('#01c9e2')
+  console.log('DrawerContent loading')
+  const [color, setColor] = useState("#01c9e2");
+  const [size, setSize] = useState(FIELD_NAME_FONT_SIZE * 1.2);
 
   useEffect(() => {
-    console.log("Drawer loaded");
+    console.log("DrawerContent useEffect");
     // console.log(props);
   }, []);
   return (
@@ -33,137 +33,66 @@ const DrawerContent = (props) => {
         <View style={styles.drawerContent}>
           <View style={styles.drawerSection}>
             <DrawerItem
-              icon={({ color, size }) => (
-                <Icon
-                  name="home-outline"
-                  color={color}
-                  size={size}
-                  style={{
-                    height: size,
-                    width: size,
-                  }}
-                />
-              )}
+              icon={() => <Icon name="home" color={color} size={size} />}
               label="Home"
               onPress={() => {
                 props.navigation.navigate("Home");
               }}
+              navigateToNewOrderScreen={ ()=> props.navigation.navigate("New Order Screen")}
             />
             <DrawerItem
-              icon={({ color, size }) => (
-                <Icon
-                  name="account-outline"
-                  color={color}
-                  size={size}
-                  style={{
-                    height: size,
-                    width: size,
-                  }}
-                />
-              )}
+              icon={() => <Icon name="gear" color={color} size={size} />}
               label="Account"
               onPress={() => {
                 props.navigation.navigate("Account");
               }}
             />
             <DrawerItem
-              icon={({ color, size }) => (
-                <FontAwesome
-                  name="history"
-                  size={size}
-                  style={{
-                    height: size,
-                    width: size,
-                    paddingLeft: 2,
-                  }}
-                  color={color}
-                />
-              )}
+              icon={() => <Icon name="user-circle" color={color} size={size} />}
               label="History"
               onPress={() => {
                 props.navigation.navigate("History");
               }}
             />
             <DrawerItem
-              icon={({ color, size }) => (
-                <Ionicons
-                  name="ios-notifications"
-                  size={size}
-                  style={{
-                    height: size,
-                    width: size,
-                    paddingLeft: 4,
-                  }}
-                  color={color}
-                />
-              )}
+              icon={() => <Icon name="bell" color={color} size={size} />}
               label="Notifications"
               onPress={() => {
                 props.navigation.navigate("Notifications");
               }}
             />
             <DrawerItem
-              icon={({ color, size }) => (
-                <Icon
-                  name="account-check-outline"
-                  color={color}
-                  size={size}
-                  style={{
-                    height: size,
-                    width: size,
-                  }}
-                />
-              )}
+              icon={() => <Icon name="users" color={color} size={size} />}
               label="Referrals"
               onPress={() => {
                 props.navigation.navigate("Referrals");
               }}
             />
             <DrawerItem
-              icon={({ color, size }) => (
-                <MaterialIcons
-                  name="payment"
-                  size={size}
-                  style={{
-                    height: size,
-                    width: size,
-                  }}
-                  color={color}
-                />
-              )}
+              icon={() => <Icon name="credit-card" color={color} size={size} />}
               label="Payment"
               onPress={() => {
                 props.navigation.navigate("Payment");
               }}
             />
             <DrawerItem
-              icon={({ color, size }) => (
-                <FontAwesome
-                  name="newspaper-o"
-                  size={size}
-                  style={{
-                    height: size,
-                    width: size,
-                  }}
-                  color={color}
-                />
-              )}
+              icon={() => <Icon name="paper-plane" color={color} size={size} />}
               label="Subscriptions"
               onPress={() => {
                 props.navigation.navigate("Subscriptions");
               }}
             />
             <DrawerItem
-              icon={({ color, size }) => (
-                <Entypo
-                  name="help"
-                  size={size}
+              icon={() => (
+                <View
                   style={{
-                    height: size,
                     width: size,
+
+                    alignItems: "center",
                   }}
-                  color={color}
-                />
+                >
+                  <Icon name="question" color={color} size={size} />
+                </View>
               )}
               label="Help"
               onPress={() => {
@@ -175,24 +104,20 @@ const DrawerContent = (props) => {
       </DrawerContentScrollView>
       <View style={styles.bottomDrawerSection}>
         <DrawerItem
-          icon={({ color, size }) => (
-            // <Icon
-            //   name="exit-to-app"
-            //   color={color}
-            //   size={size}
-            //   style={{
-            //     height: size,
-            //     width: size,
-            //     alignItems: "center",
-            //     justifyContent: "center",
-            //   }}
-            // />
-            <MaterialCommunityIcons name="cash" size={size} color="green" />
-          )}
+          icon={() => <Icon name="money" color={"green"} size={size} />}
           label="Earn with Laundr"
           onPress={() => {
             console.log("sign out");
+            console.log(props);
             props.emailLogOut();
+          }}
+        />
+       
+        <DrawerItem
+          icon={() => <Icon name="legal" size={size} color="black" />}
+          label="Terms of Service"
+          onPress={() => {
+            Linking.openURL('https://www.laundr.io/termsofservice/')
           }}
         />
       </View>

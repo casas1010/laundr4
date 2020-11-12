@@ -2,18 +2,21 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import store from "./src/store";
-
-// import DrawerNavigator from "./navigation/DrawerNavigator";
+import { PersistGate } from "redux-persist/es/integration/react";
+import { persistStore } from "redux-persist"; 
 import TabNavigator from "./src/navigation/TabNavigator";
 
 
-// not sure if this is going to work
+const persistedStore = persistStore(store);
+
 const App = () => {
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <TabNavigator />
-      </NavigationContainer>
+      <PersistGate persistor={persistedStore} loading={null}>
+        <NavigationContainer>
+          <TabNavigator />
+        </NavigationContainer>
+      </PersistGate>
     </Provider>
   );
 };

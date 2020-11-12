@@ -1,64 +1,48 @@
 import React, { useState, useEffect } from "react";
-import { View, AsyncStorage, Image } from "react-native";
+import { View,StyleSheet } from "react-native";
 import _ from "lodash";
-import { AppLoading } from "expo";
-import { HEIGHT, WIDTH } from "../../components/Items/";
-
-import Slides from "../../components/Slides";
-
-const SLIDE_DATA = [
-  { text: "Welcome to Laundr", color: "#0000f4" },
-  {
-    text: "Use is app to save item",
-    color: "#010088",
-  },
-  { text: "Point and scan to get started!", color: "#0000cf" },
-];
+import {
+  KEYBOARD_AWARE_SCROLL_VIEW_STYLE,
+} from "../../components/Items/";
+import Loader from "../../components/Loader";
+import * as Animatable from "react-native-animatable";
+import { connect } from "react-redux";
+import * as actions from "../../actions/";
 
 const AuthScreen = (props) => {
-  const [token, setToken] = useState(null);
 
   useEffect(() => {
-    checkToken();
+    async function locationAndTokenFlow() {
+      await props.getUserLocation();
+    }
+    locationAndTokenFlow();
+    props.doAuthLogin(props);
   }, []);
 
-  const checkToken = async () => {
-    console.log("Checking Token");
-    let token = await AsyncStorage.getItem("token");
-    if (token) {
-      console.log("Token is present");
-      props.navigation.navigate("home");
-      setToken(token);
-    } else {
-      console.log("Token is not present");
-      setToken(false);
-    }
-  };
-
-  const onSlidesComplete = () => {
-    props.navigation.navigate("welcome");
-  };
-
-  if (_.isNull(token)) {
-    console.log("_.isNull(token): ", _.isNull(token));
-    return <AppLoading />;
-  }
-  console.log("After _.isNull(token) check");
-  console.log("_.isNull(token): ", _.isNull(token));
-
-
-
-
   return (
-    <View>
-      <Slides data={{ SLIDE_DATA }} onComplete={onSlidesComplete} />
-      {/* <Image
-        style={{ height: HEIGHT * 0.15, width: WIDTH * 0.85 }}
-        resizeMode="contain"
-        source={require("../../assets/Launch_Logo.png")}
-      /> */}
+    <View
+      style={styles.container}
+    >
+      <Animatable.View
+        animation="zoomIn"
+        iterationCount={1}
+        style={styles.animatableContainer}
+      >
+        <Loader />
+      </Animatable.View>
     </View>
   );
 };
+const styles = StyleSheet.create({
+  container:{
+    alignItems: "center",
+    justifyContent: "center",
+    ...KEYBOARD_AWARE_SCROLL_VIEW_STYLE,
+  },
+  animatableContainer:{
+    alignItems: "center",
+    justifyContent: "center",
+  }
+})
 
-export default AuthScreen;
+export default connect(null, actions)(AuthScreen);

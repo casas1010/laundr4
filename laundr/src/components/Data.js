@@ -39,8 +39,36 @@ export const YEARS = [
 ];
 
 export const PLANS = [
-  { planName: "Standard", price: 15, weight: 48 },
-  { planName: "Plus", price: 20, weight: 66 },
-  { planName: "Family", price: 25, weight: 84 },
-  { planName: "Student", price: 10, weight: 48 },
+  { id:1,name: "Standard", price: 15, weight: 48 },
+  { id:2,name: "Plus", price: 20, weight: 66 },
+  { id:3,name: "Family", price: 25, weight: 84 },
+  { id:4,name: "Student", price: 10, weight: 40 },
 ];
+
+
+export const FAKE_DATA={
+  email: 'jcasasmail@gmail.com',
+  fname: 'juan',
+  lname: 'casas',
+  city: 'Gainsville',
+  phone: '561-452-5550',
+  password: 'chocolateMonkey',
+  usedReferral: '',
+  isWasher: false,
+  isDriver: false,
+  isAdmin: false,
+  stripe: {
+    regPaymentID: 'N/A',
+    customerID: 'N/A',
+  },
+  subscription: {
+    id: 'N/A',
+    anchorDate: 'N/A',
+    startDate: 'N/A',
+    periodStart: 'N/A',
+    periodEnd: 'N/A',
+    plan: 'N/A',
+    status: 'N/A',
+    lbsLeft: 0,
+  },
+};

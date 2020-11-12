@@ -1,48 +1,92 @@
 import React, { useEffect, useState } from "react";
 import {
-  Button,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   Text,
-  TextInput,
-  TouchableWithoutFeedback,
   View,
   TouchableOpacity,
+  ImageBackground,
+  Animated,
   Image,
-  Dimensions,
+  Easing,
 } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
+import {
+  FIELD_VALUE_FONT_SIZE,
+  FIELD_NAME_TEXT,
+  HEIGHT,
+  WIDTH,
+} from "../components/Items/";
 
-import { Ionicons } from "@expo/vector-icons";
-
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
-
+const SAME_HEIGHT = HEIGHT * 0.05;
 const Header = (props) => {
-  const [iconHeight, SetIconHeight] = useState(
-    Math.floor((HEIGHT * 0.13) / 1.5)
-  );
-
   useEffect(() => {
     console.log("Header loaded");
   }, []);
-  return (
-    <View style={[styles.headerContainer, { height: iconHeight }]}>
-      <View style={styles.button_TextContainer}>
-        <TouchableOpacity onPress={() => props.openDrawer()}>
-          <Ionicons
-            name="ios-arrow-back"
-            size={iconHeight}
-            color="black"
-            style={styles.icon}
-          />
-        </TouchableOpacity>
 
-        <View style={styles.textContainer}>
-          <Text style={styles.textStyle}>{props.name}</Text>
-        </View>
-      </View>
+  const value = useState(new Animated.ValueXY({ x: 0, y: 0 }))[0];
+
+  useEffect(() => {
+    moveBar();
+  }, []);
+
+  function moveBar() {
+    Animated.timing(value, {
+      toValue: { x: -WIDTH, y: 0 },
+      duration: 20000,
+      useNativeDriver: false,
+      easing: Easing.cubic,
+    }).start(() => {
+      Animated.timing(value, {
+        toValue: { x: 0, y: 0 },
+        duration: 20000,
+        useNativeDriver: false,
+        easing: Easing.linear,
+      }).start(() => {
+        moveBar();
+      });
+    });
+  }
+
+  return (
+    <View style={[styles.container]}>
+      <View
+        style={{
+          top: -50,
+          height: 50,
+          width: WIDTH,
+          position: "absolute",
+          backgroundColor: "#21D0E5",
+        }}
+      />
+      <Animated.View style={value.getLayout()}>
+        <Image
+          source={require("../assets/headerBackground.png")}
+          style={{
+            width: WIDTH * 2,
+            zIndex: -4,
+            position: "absolute",
+            left: 0,
+            height: SAME_HEIGHT
+          }}
+        />
+         </Animated.View>
+          <TouchableOpacity
+            style={styles.container_Button}
+            onPress={() => props.openDrawer()}
+          >
+            <Icon
+              name="arrow-left"
+              color={"black"}
+              size={SAME_HEIGHT}
+              style={{ top: -2 }}
+            />
+          </TouchableOpacity>
+
+          <View style={styles.container_Text}>
+            <Text style={FIELD_NAME_TEXT}>{props.name}</Text>
+          </View>
+       
+     
     </View>
   );
 };
@@ -51,35 +95,739 @@ Header.defaultProps = {
 };
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    // height: iconHeight,
+  container: {
+    height: SAME_HEIGHT,
     width: WIDTH,
-    // backgroundColor: "red",
+    backgroundColor: "#5bcae2",
+    flexDirection: "row",
     position: "relative",
   },
-  button_TextContainer: {
-    position: "absolute",
-    bottom: 0,
-    // backgroundColor: "green",
-    width: WIDTH,
+  image: {
+    // flex: 1,
+    width: "100%",
+    // resizeMode: "cover",
+    // justifyContent: "center",
     flexDirection: "row",
   },
-  icon: {
-    // backgroundColor: "blue",
-    width: WIDTH * 0.14,
-    paddingLeft: 10,
+  container_Button: {
+    position: "absolute",
+    left: 10,
+    zIndex: 2,
   },
-  textContainer: {
+  container_Text: {
     justifyContent: "center",
-    marginRight: WIDTH * 0.14,
-    width: WIDTH * (1 - 0.28),
     alignItems: "center",
-  },
-  textStyle: {
-    fontSize: 30,
-    textAlign: "auto",
-    // backgroundColor: "yellow",
+    width: WIDTH,
   },
 });
 
 export default Header;
+
+// const App = (props) => (
+//   <View style={styles.container}>
+// <ImageBackground
+//   source={require("../assets/sectionBorderWhite.png")}
+//   style={styles.image}
+// >
+//       <TouchableOpacity
+//         style={styles.container_Button}
+//         onPress={() => {
+//           props.openDrawer();
+//           console.log("prerere");
+//         }}
+//       >
+//         <Icon
+//           name="arrow-left"
+//           color={"black"}
+//           size={SAME_HEIGHT}
+//           style={{ top: -2 }}
+//         />
+//       </TouchableOpacity>
+//       <View style={styles.container_Text}>
+//         <Text style={FIELD_NAME_TEXT}>{props.name}</Text>
+//       </View>
+//     </ImageBackground>
+//   </View>
+// );
+
+// const styles = StyleSheet.create({
+//   container: {
+//     height: SAME_HEIGHT,
+//     width: "100%",
+//     // backgroundColor: "#5bcae2",
+//     backgroundColor: "red",
+//     flexDirection: "row",
+//     position: "relative",
+//   },
+// image: {
+//   // flex: 1,
+//   width: "100%",
+//   // resizeMode: "cover",
+//   // justifyContent: "center",
+//   flexDirection: "row",
+// },
+//   text: {
+//     color: "grey",
+//     fontSize: 30,
+//     fontWeight: "bold",
+//   },
+//   container_Button: {
+//     position: "absolute",
+//     left: 10,
+//     zIndex: 2,
+//     backgroundColor: "red",
+//   },
+//   container_Text: {
+//     justifyContent: "center",
+//     alignItems: "center",
+//     width: WIDTH,
+//     zIndex: 5,
+//   },
+// });
+
+// export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+/// NEW 
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useState } from "react";
+// import {
+//   StyleSheet,
+//   Text,
+//   View,
+//   TouchableOpacity,
+//   ImageBackground,
+//   Animated,
+//   Easing,
+// } from "react-native";
+// import Icon from "react-native-vector-icons/FontAwesome";
+// import {
+//   FIELD_VALUE_FONT_SIZE,
+//   FIELD_NAME_TEXT,
+//   HEIGHT,
+//   WIDTH,
+// } from "../components/Items/";
+
+// const SAME_HEIGHT = HEIGHT * 0.05;
+// const Header = (props) => {
+//   useEffect(() => {
+//     console.log("Header loaded");
+//   }, []);
+
+//   const value = useState(new Animated.ValueXY({ x: 0, y: 0 }))[0];
+
+//   useEffect(() => {
+//     moveBar();
+//   }, []);
+
+//   function moveBar() {
+//     Animated.timing(value, {
+//       toValue: { x: -WIDTH, y: 0 },
+//       duration: 20000,
+//       useNativeDriver: false,
+//       easing: Easing.cubic,
+//     }).start(() => {
+//       Animated.timing(value, {
+//         toValue: { x: 0, y: 0 },
+//         duration: 20000,
+//         useNativeDriver: false,
+//         easing: Easing.linear,
+//       }).start(() => {
+//         moveBar();
+//       });
+//     });
+//   }
+
+//   return (
+//     <View style={[styles.container]}>
+//       <View
+//         style={{
+//           top: -50,
+//           height: 50,
+//           width: WIDTH,
+//           position: "absolute",
+//           backgroundColor: "#21D0E5",
+//         }}
+//       />
+//       <Animated.View style={value.getLayout()}>
+//         <ImageBackground
+//           source={require("../assets/sectionBorderWhite.png")}
+//           style={styles.image}
+//         >
+//           <TouchableOpacity
+//             style={styles.container_Button}
+//             onPress={() => props.openDrawer()}
+//           >
+//             <Icon
+//               name="arrow-left"
+//               color={"black"}
+//               size={SAME_HEIGHT}
+//               style={{ top: -2 }}
+//             />
+//           </TouchableOpacity>
+
+//           <View style={styles.container_Text}>
+//             <Text style={FIELD_NAME_TEXT}>{props.name}</Text>
+//           </View>
+//         </ImageBackground>
+//       </Animated.View>
+//     </View>
+//   );
+// };
+// Header.defaultProps = {
+//   name: "default",
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     height: SAME_HEIGHT,
+//     width: WIDTH,
+//     backgroundColor: "#5bcae2",
+//     flexDirection: "row",
+//     position: "relative",
+//   },
+//   image: {
+//     // flex: 1,
+//     width: "100%",
+//     // resizeMode: "cover",
+//     // justifyContent: "center",
+//     flexDirection: "row",
+//   },
+//   container_Button: {
+//     position: "absolute",
+//     left: 10,
+//     zIndex: 2,
+//   },
+//   container_Text: {
+//     justifyContent: "center",
+//     alignItems: "center",
+//     width: WIDTH,
+//   },
+// });
+
+// export default Header;
+
+// // const App = (props) => (
+// //   <View style={styles.container}>
+// // <ImageBackground
+// //   source={require("../assets/sectionBorderWhite.png")}
+// //   style={styles.image}
+// // >
+// //       <TouchableOpacity
+// //         style={styles.container_Button}
+// //         onPress={() => {
+// //           props.openDrawer();
+// //           console.log("prerere");
+// //         }}
+// //       >
+// //         <Icon
+// //           name="arrow-left"
+// //           color={"black"}
+// //           size={SAME_HEIGHT}
+// //           style={{ top: -2 }}
+// //         />
+// //       </TouchableOpacity>
+// //       <View style={styles.container_Text}>
+// //         <Text style={FIELD_NAME_TEXT}>{props.name}</Text>
+// //       </View>
+// //     </ImageBackground>
+// //   </View>
+// // );
+
+// // const styles = StyleSheet.create({
+// //   container: {
+// //     height: SAME_HEIGHT,
+// //     width: "100%",
+// //     // backgroundColor: "#5bcae2",
+// //     backgroundColor: "red",
+// //     flexDirection: "row",
+// //     position: "relative",
+// //   },
+// // image: {
+// //   // flex: 1,
+// //   width: "100%",
+// //   // resizeMode: "cover",
+// //   // justifyContent: "center",
+// //   flexDirection: "row",
+// // },
+// //   text: {
+// //     color: "grey",
+// //     fontSize: 30,
+// //     fontWeight: "bold",
+// //   },
+// //   container_Button: {
+// //     position: "absolute",
+// //     left: 10,
+// //     zIndex: 2,
+// //     backgroundColor: "red",
+// //   },
+// //   container_Text: {
+// //     justifyContent: "center",
+// //     alignItems: "center",
+// //     width: WIDTH,
+// //     zIndex: 5,
+// //   },
+// // });
+
+// // export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useState } from "react";
+// import {
+//   StyleSheet,
+//   Text,
+//   View,
+//   TouchableOpacity,
+//   ImageBackground,
+//   Animated,
+//   Easing,
+// } from "react-native";
+// import Icon from "react-native-vector-icons/FontAwesome";
+// import {
+//   FIELD_VALUE_FONT_SIZE,
+//   FIELD_NAME_TEXT,
+//   HEIGHT,
+//   WIDTH,
+// } from "../components/Items/";
+
+// const SAME_HEIGHT = HEIGHT * 0.05;
+// const Header = (props) => {
+//   useEffect(() => {
+//     console.log("Header loaded");
+//   }, []);
+
+//   const value = useState(new Animated.ValueXY({ x: 0, y: 0 }))[0];
+
+//   useEffect(() => {
+//     moveBar();
+//   }, []);
+
+//   function moveBar() {
+//     Animated.timing(value, {
+//       toValue: { x: -WIDTH, y: 0 },
+//       duration: 20000,
+//       useNativeDriver: false,
+//       easing: Easing.cubic,
+//     }).start(() => {
+//       Animated.timing(value, {
+//         toValue: { x: 0, y: 0 },
+//         duration: 20000,
+//         useNativeDriver: false,
+//         easing: Easing.linear,
+//       }).start(() => {
+//         moveBar();
+//       });
+//     });
+//   }
+
+//   return (
+//     <View style={[styles.container]}>
+//       <View
+//         style={{
+//           top: -50,
+//           height: 50,
+//           width: WIDTH,
+//           position: "absolute",
+//           backgroundColor: "#21D0E5",
+//         }}
+//       />
+//       <Animated.View style={value.getLayout()}>
+//         <ImageBackground
+//           source={require("../assets/sectionBorderWhite.png")}
+//           style={styles.image}
+//         >
+//           <TouchableOpacity
+//             style={styles.container_Button}
+//             onPress={() => props.openDrawer()}
+//           >
+//             <Icon
+//               name="arrow-left"
+//               color={"black"}
+//               size={SAME_HEIGHT}
+//               style={{ top: -2 }}
+//             />
+//           </TouchableOpacity>
+
+//           <View style={styles.container_Text}>
+//             <Text style={FIELD_NAME_TEXT}>{props.name}</Text>
+//           </View>
+//         </ImageBackground>
+//       </Animated.View>
+//     </View>
+//   );
+// };
+// Header.defaultProps = {
+//   name: "default",
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     height: SAME_HEIGHT,
+//     width: WIDTH,
+//     backgroundColor: "#5bcae2",
+//     flexDirection: "row",
+//     position: "relative",
+//   },
+//   image: {
+//     // flex: 1,
+//     width: "100%",
+//     // resizeMode: "cover",
+//     // justifyContent: "center",
+//     flexDirection: "row",
+//   },
+//   container_Button: {
+//     position: "absolute",
+//     left: 10,
+//     zIndex: 2,
+//   },
+//   container_Text: {
+//     justifyContent: "center",
+//     alignItems: "center",
+//     width: WIDTH,
+//   },
+// });
+
+// export default Header;
+
+// // const App = (props) => (
+// //   <View style={styles.container}>
+// // <ImageBackground
+// //   source={require("../assets/sectionBorderWhite.png")}
+// //   style={styles.image}
+// // >
+// //       <TouchableOpacity
+// //         style={styles.container_Button}
+// //         onPress={() => {
+// //           props.openDrawer();
+// //           console.log("prerere");
+// //         }}
+// //       >
+// //         <Icon
+// //           name="arrow-left"
+// //           color={"black"}
+// //           size={SAME_HEIGHT}
+// //           style={{ top: -2 }}
+// //         />
+// //       </TouchableOpacity>
+// //       <View style={styles.container_Text}>
+// //         <Text style={FIELD_NAME_TEXT}>{props.name}</Text>
+// //       </View>
+// //     </ImageBackground>
+// //   </View>
+// // );
+
+// // const styles = StyleSheet.create({
+// //   container: {
+// //     height: SAME_HEIGHT,
+// //     width: "100%",
+// //     // backgroundColor: "#5bcae2",
+// //     backgroundColor: "red",
+// //     flexDirection: "row",
+// //     position: "relative",
+// //   },
+// // image: {
+// //   // flex: 1,
+// //   width: "100%",
+// //   // resizeMode: "cover",
+// //   // justifyContent: "center",
+// //   flexDirection: "row",
+// // },
+// //   text: {
+// //     color: "grey",
+// //     fontSize: 30,
+// //     fontWeight: "bold",
+// //   },
+// //   container_Button: {
+// //     position: "absolute",
+// //     left: 10,
+// //     zIndex: 2,
+// //     backgroundColor: "red",
+// //   },
+// //   container_Text: {
+// //     justifyContent: "center",
+// //     alignItems: "center",
+// //     width: WIDTH,
+// //     zIndex: 5,
+// //   },
+// // });
+
+// // export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+// /// NEW 
+
+
+
+
+
+
+
+
+
+
+
+// // import React, { useEffect, useState } from "react";
+// // import {
+// //   StyleSheet,
+// //   Text,
+// //   View,
+// //   TouchableOpacity,
+// //   ImageBackground,
+// //   Animated,
+// //   Easing,
+// // } from "react-native";
+// // import Icon from "react-native-vector-icons/FontAwesome";
+// // import {
+// //   FIELD_VALUE_FONT_SIZE,
+// //   FIELD_NAME_TEXT,
+// //   HEIGHT,
+// //   WIDTH,
+// // } from "../components/Items/";
+
+// // const SAME_HEIGHT = HEIGHT * 0.05;
+// // const Header = (props) => {
+// //   useEffect(() => {
+// //     console.log("Header loaded");
+// //   }, []);
+
+// //   const value = useState(new Animated.ValueXY({ x: 0, y: 0 }))[0];
+
+// //   useEffect(() => {
+// //     moveBar();
+// //   }, []);
+
+// //   function moveBar() {
+// //     Animated.timing(value, {
+// //       toValue: { x: -WIDTH, y: 0 },
+// //       duration: 20000,
+// //       useNativeDriver: false,
+// //       easing: Easing.cubic,
+// //     }).start(() => {
+// //       Animated.timing(value, {
+// //         toValue: { x: 0, y: 0 },
+// //         duration: 20000,
+// //         useNativeDriver: false,
+// //         easing: Easing.linear,
+// //       }).start(() => {
+// //         moveBar();
+// //       });
+// //     });
+// //   }
+
+// //   return (
+// //     <View style={[styles.container]}>
+// //       <View
+// //         style={{
+// //           top: -50,
+// //           height: 50,
+// //           width: WIDTH,
+// //           position: "absolute",
+// //           backgroundColor: "#21D0E5",
+// //         }}
+// //       />
+// //       <Animated.View style={value.getLayout()}>
+// //         <ImageBackground
+// //           source={require("../assets/sectionBorderWhite.png")}
+// //           style={styles.image}
+// //         >
+// //           <TouchableOpacity
+// //             style={styles.container_Button}
+// //             onPress={() => props.openDrawer()}
+// //           >
+// //             <Icon
+// //               name="arrow-left"
+// //               color={"black"}
+// //               size={SAME_HEIGHT}
+// //               style={{ top: -2 }}
+// //             />
+// //           </TouchableOpacity>
+
+// //           <View style={styles.container_Text}>
+// //             <Text style={FIELD_NAME_TEXT}>{props.name}</Text>
+// //           </View>
+// //         </ImageBackground>
+// //       </Animated.View>
+// //     </View>
+// //   );
+// // };
+// // Header.defaultProps = {
+// //   name: "default",
+// // };
+
+// // const styles = StyleSheet.create({
+// //   container: {
+// //     height: SAME_HEIGHT,
+// //     width: WIDTH,
+// //     backgroundColor: "#5bcae2",
+// //     flexDirection: "row",
+// //     position: "relative",
+// //   },
+// //   image: {
+// //     // flex: 1,
+// //     width: "100%",
+// //     // resizeMode: "cover",
+// //     // justifyContent: "center",
+// //     flexDirection: "row",
+// //   },
+// //   container_Button: {
+// //     position: "absolute",
+// //     left: 10,
+// //     zIndex: 2,
+// //   },
+// //   container_Text: {
+// //     justifyContent: "center",
+// //     alignItems: "center",
+// //     width: WIDTH,
+// //   },
+// // });
+
+// // export default Header;
+
+// // // const App = (props) => (
+// // //   <View style={styles.container}>
+// // // <ImageBackground
+// // //   source={require("../assets/sectionBorderWhite.png")}
+// // //   style={styles.image}
+// // // >
+// // //       <TouchableOpacity
+// // //         style={styles.container_Button}
+// // //         onPress={() => {
+// // //           props.openDrawer();
+// // //           console.log("prerere");
+// // //         }}
+// // //       >
+// // //         <Icon
+// // //           name="arrow-left"
+// // //           color={"black"}
+// // //           size={SAME_HEIGHT}
+// // //           style={{ top: -2 }}
+// // //         />
+// // //       </TouchableOpacity>
+// // //       <View style={styles.container_Text}>
+// // //         <Text style={FIELD_NAME_TEXT}>{props.name}</Text>
+// // //       </View>
+// // //     </ImageBackground>
+// // //   </View>
+// // // );
+
+// // // const styles = StyleSheet.create({
+// // //   container: {
+// // //     height: SAME_HEIGHT,
+// // //     width: "100%",
+// // //     // backgroundColor: "#5bcae2",
+// // //     backgroundColor: "red",
+// // //     flexDirection: "row",
+// // //     position: "relative",
+// // //   },
+// // // image: {
+// // //   // flex: 1,
+// // //   width: "100%",
+// // //   // resizeMode: "cover",
+// // //   // justifyContent: "center",
+// // //   flexDirection: "row",
+// // // },
+// // //   text: {
+// // //     color: "grey",
+// // //     fontSize: 30,
+// // //     fontWeight: "bold",
+// // //   },
+// // //   container_Button: {
+// // //     position: "absolute",
+// // //     left: 10,
+// // //     zIndex: 2,
+// // //     backgroundColor: "red",
+// // //   },
+// // //   container_Text: {
+// // //     justifyContent: "center",
+// // //     alignItems: "center",
+// // //     width: WIDTH,
+// // //     zIndex: 5,
+// // //   },
+// // // });
+
+// // // export default App;

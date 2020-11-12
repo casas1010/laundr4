@@ -3,8 +3,7 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
-  "webpackServerPort": null
+  "expoServerNgrokUrl": "https://8n-37c.anonymous.laundr.exp.direct",
+  "packagerNgrokUrl": "https://packager.8n-37c.anonymous.laundr.exp.direct",
+  "ngrokPid": 33724
 }

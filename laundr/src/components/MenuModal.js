@@ -75,6 +75,7 @@ const MenuModal = (props) => {
               );
             }}
           />
+          {/* {props.children} */}
         </View>
       </TouchableOpacity>
     </Modal>

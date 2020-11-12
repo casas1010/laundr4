@@ -1,125 +1,301 @@
+// ADD PIN TO LOCATION
+import { connect } from "react-redux";
 import React, { useEffect, useState } from "react";
 import {
-  Button,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
+  FlatList,
   StyleSheet,
   Text,
-  TextInput,
-  TouchableWithoutFeedback,
   View,
   TouchableOpacity,
-  Image,
+  Linking,
   Dimensions,
 } from "react-native";
-import MapView from "react-native-maps";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { BUTTON } from "../../components/Items/";
+import MapView, { Marker } from "react-native-maps";
 import { Entypo } from "@expo/vector-icons";
 
-// ask if change is desired
-// https://docs.google.com/presentation/d/1V6_v9CR0jllyZVvGvCurM8qi4h8t2iv6e1NlW3EGPRA/edit#slide=id.p
+import {
+  getLatLongFromAddress,
+  verifyAddressIsInBounds,
+} from "../../components/LocationHelperFunctions";
+import Container from "../../components/Container";
+import {
+  HEIGHT,
+  WIDTH,
+  SHADOW,
+} from "../../components/Items/";
+import { GOOGLE_MAPS_KEY } from "../../key/";
+import SearchBar from "../../components/SearchBar";
+import LoaderModal from "../../components/LoaderModal";
 
-const HEIGHT = Dimensions.get("window").height;
-const WIDTH = Dimensions.get("window").width;
-const SHADOW = {
-  shadowColor: "#000",
-  shadowOffset: { width: 1, height: 1 },
-  shadowOpacity: 0.4,
-  shadowRadius: 3,
-  elevation: 5,
-};
-
+let acTimeout;
 const HomeScreen = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState("user");
-  const [initialRegion, setInitialRegion] = useState();
+
+  const [loading, setLoading] = useState(false);
+
+  const [initialRegion, setInitialRegion] = useState(undefined);
+  const [newRegion, setNewRegion] = useState();
+
+  const [userAddress, setUserAddress] = useState();
+  const [pickedAddressFromDropDown, setPickedAddressFromDropDown] = useState('');
   const [address, setAddress] = useState();
+  const [
+    autoCompletePossibleLocations,
+    setAutoCompletePossibleLocations,
+  ] = useState({ display: true, array: [] });
+  const [error, setError] = useState("");
 
-  // gets position code
   useEffect(() => {
-    getCurrentLocation();
-  }, [initialRegion]);
+    console.log("useEffect() HomeScreen []");
+    setUserLocation();
+  }, []);
+  const setUserLocation = async () => {
+    console.log("setUserLocation() initiated");
+    const userLocation = await props.location.address;
+    console.log("setting userAddress state variable:   ", userLocation);
+    setUserAddress(userLocation);
+    console.log("setting address state variable");
+    setAddress(userLocation);
+    setPickedAddressFromDropDown(userLocation || '')
+    console.log("setUserLocation() complete");
+  };
+  function goToInitialLocation() {
+    console.log("goToInitialLocation() initiated");
+    let initialRegion = props.location.location;
 
-  const getCurrentLocation = async () => {
-    await navigator.geolocation.getCurrentPosition(
-      (position) => {
-        let region = {
-          latitude: parseFloat(position.coords.latitude),
-          longitude: parseFloat(position.coords.longitude),
-          latitudeDelta: 0.03,
-          longitudeDelta: 0.03,
-        };
-        setInitialRegion(region);
-      },
-      (error) => console.log(error),
-      {
-        enableHighAccuracy: true,
-        timeout: 20000,
-        maximumAge: 1000,
-      }
-    );
+    this.mapView.animateToRegion(initialRegion, 2000);
+    console.log("goToInitialLocation() complete");
+  }
+  useEffect(() => {
+    console.log("HomeScreen useEffect() [address]");
+    clearTimeout(acTimeout);
+    acTimeout = setTimeout(function () {
+      console.log("inside useEffect!");
+      addresAutoComplete();
+    }, 1200);
+  }, [address]);
+
+  const addresAutoComplete = async () => {
+    console.log(`addresAutoComplete() initiated for address:  ${address} `);
+    if (address == "") {
+      console.log("address is empty");
+      console.log("exiting addresAutoComplete() without API call");
+      setAutoCompletePossibleLocations({ display: false, array: [] });
+      return;
+    }
+    if (address === userAddress) {
+      console.log(`address and clients address are the same`);
+      console.log("exiting addresAutoComplete() without API call");
+      setAutoCompletePossibleLocations({ display: false, array: [] });
+      return;
+    }
+    if (address == undefined) {
+      console.log(`address is undefined`);
+      console.log("exiting addresAutoComplete() without API call");
+      setAutoCompletePossibleLocations({ display: false, array: [] });
+      return;
+    }
+    if (userAddress == undefined) {
+      console.log(`userAddress is undefined`);
+      console.log("exiting addresAutoComplete() without API call");
+      setAutoCompletePossibleLocations({ display: false, array: [] });
+      return;
+    }
+
+
+    console.log("initiating API call for address:  ", address);
+    let possibleLocations = [];
+    let sanitizedAddress = address.replace(/ /g, "+");
+    let url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${sanitizedAddress}&components=country:us&key=${GOOGLE_MAPS_KEY}`;
+    await fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        for (let i = 0; i < data["predictions"].length; i++) {
+          possibleLocations.push(data["predictions"][i]["description"]);
+        }
+      })
+      .catch((err) => {
+        console.warn(err.message);
+      });
+    console.log("auto complete for input address & API complete");
+    console.log(`possibleLocations size:  `, possibleLocations.length);
+    console.log("updating the state variable autoCompletePossibleLocations");
+    // let obj = {
+    //   ...autoCompletePossibleLocations,
+    //   array: [...possibleLocations],
+    // };
+    // setAutoCompletePossibleLocations(obj);
+    setAutoCompletePossibleLocations({...autoCompletePossibleLocations,array:[...possibleLocations]});
   };
 
-  function goToInitialLocation() {
-    let initialRegion = Object.assign({}, initialRegion);
-    initialRegion["latitudeDelta"] = 0.005; // sets zoom level
-    initialRegion["longitudeDelta"] = 0.005; // sets zoom level
-    this.mapView.animateToRegion(initialRegion, 2000);
-  }
-  // gets position code
+  const setNewRegionHelper = async (adr) => {
+    console.log("setNewRegion() initiated");
+    // setLoading(true);
+    let latLongFromAddress = await getLatLongFromAddress(adr);
+    // setLoading(false);
+    console.log("latLongFromAddress:  ", latLongFromAddress);
+    let _newRegion = {
+      ...latLongFromAddress,
+      latitudeDelta: 0.03,
+      longitudeDelta: 0.03,
+    };
+    console.log("newRegion:   ", _newRegion);
+    // setInitialRegion(newRegion);
+    setNewRegion(_newRegion);
+  };
+
+  const newOrder = async () => {
+    console.log("newOrder() initiated");
+    console.log('pickedAddressFromDropDown:  ',pickedAddressFromDropDown)
+    if(pickedAddressFromDropDown==='' ||pickedAddressFromDropDown!==address ){
+      alert("Please enter an address, then pick a suggested address from the dropdown");
+      console.log("exiting newOrder()");
+      return
+    }
+    const location = await getLatLongFromAddress(pickedAddressFromDropDown);
+
+
+    const addressVerificatioBoolean = await verifyAddressIsInBounds(location);
+
+    console.log("addressVerificatioBoolean:   ", addressVerificatioBoolean);
+    if (!addressVerificatioBoolean) {
+      
+      console.log("user is out of range");
+      alert(
+        `Sorry!  You are currently out of Lanndr' active service area. Visit the site to request Landr at your location`
+      );
+      return;
+    }
+
+    console.log("user is in range!");
+    props.navigation.navigate("New Order Screen", { address: pickedAddressFromDropDown, location });
+  };
+
+  const displayAutoCompletePossibleLocations = () => {
+    console.log("displayAutoCompletePossibleLocations()");
+    return autoCompletePossibleLocations.display ? (
+      <FlatList
+        data={autoCompletePossibleLocations.array}
+        keyExtractor={(item) => item}
+        // extraData={address}
+        style={{
+          height: 180,
+          borderColor: "green",
+        }}
+        renderItem={({ item }) => {
+          console.log("printing item");
+          return (
+            <TouchableOpacity
+              onPress={() => {
+                console.log(`item pressed:   ${item}`);
+                setAddress(item);
+                setPickedAddressFromDropDown(item)
+                setAutoCompletePossibleLocations({ display: false, array: [] });
+                setNewRegionHelper(item);
+              }}
+            >
+              <Container style={{ margin: 5, backgroundColor: "#f8f9fa" }}>
+                <Text>{item}</Text>
+              </Container>
+            </TouchableOpacity>
+          );
+        }}
+      />
+    ) : null;
+  };
+
+  const searchBarOnFocus = () => {
+    console.log("onFocus has fired");
+    setAutoCompletePossibleLocations({
+      ...autoCompletePossibleLocations,
+      display: true,
+    });
+  };
+
+  const paymentButtonText = () => {
+    if (props.payment.lastFour !== null) {
+      return (
+        <>
+          <AntDesign name="creditcard" size={18} color="white" />
+          <Text> {props.payment.lastFour}</Text>
+        </>
+      );
+    }
+    return <Text>Add Card</Text>;
+  };
 
   return (
     <View style={styles.container}>
+      <LoaderModal loading={loading} />
       <MapView
         style={styles.mapStyle}
-        region={initialRegion}
-        followUserLocation={true}
+        region={newRegion}
         ref={(ref) => (this.mapView = ref)}
         zoomEnabled={true}
         showsUserLocation={true}
         onMapReady={goToInitialLocation}
         initialRegion={initialRegion}
-      />
+      >
+        {/* <Marker coordinate={newRegion} /> */}
+      </MapView>
+
       <View style={styles.topInputs_ButtonContainer}>
-        <Entypo
-          name="menu"
-          size={30}
-          color="black"
-          style={styles.menuIcon}
-          onPress={props.navigation.openDrawer}
-        />
+        
+          <TouchableOpacity onPress={props.navigation.openDrawer}>
+            <Entypo
+              name="menu"
+              size={50}
+              color="#01c9e2"
+              style={{ marginLeft: 10 }}
+            />
+          </TouchableOpacity>
 
-        <View style={styles.searchBoxContainer}>
-          <FontAwesome5
-            name="search-location"
-            size={20}
-            color="black"
-            style={styles.icon}
+          <SearchBar
+            term={address}
+            onTermChange={(txt_address) => {
+              setAutoCompletePossibleLocations({
+                ...autoCompletePossibleLocations,
+                display: true,
+              });
+              setAddress(txt_address);
+            }}
+            placeholder="Search Locations"
+            onFocus={searchBarOnFocus}
+            clear={()=>{
+              setAddress(''); 
+              setPickedAddressFromDropDown('')
+
+            }}
           />
-          <TextInput
-            value={address}
-            onChangeText={(address) => setAddress(address)}
-            placeholder="Address"
-            style={styles.addressTextInput}
-          />
-        </View>
+
+          {displayAutoCompletePossibleLocations()}
+        
       </View>
+
       <View style={styles.bottomButtonsContainer}>
-        <View style={styles.newOrderButton}>
-          <Button color="black" title="New Order" />
-        </View>
-
+        <BUTTON onPress={newOrder} text="New Order" />
         <View style={styles.bottomInnerButtonsContainer}>
-          <View style={[styles.noCard_FAQButton, { marginRight: WIDTH * 0.1 }]}>
-            <Button color="#5bcae2" title="No Card" />
-          </View>
-          <View style={[styles.noCard_FAQButton, { marginLeft: WIDTH * 0.1 }]}>
-            <Button color="#5bcae2" title="FAQ" />
-          </View>
+          <BUTTON
+            onPress={() => {
+              props.navigation.navigate("Payment");
+            }}
+            style={{ width: WIDTH * 0.4 }}
+          >
+            {paymentButtonText()}
+          </BUTTON>
+
+          <BUTTON
+            onPress={() => {
+              Linking.openURL("https://www.laundr.io/faq/");
+            }}
+            style={{ width: WIDTH * 0.4 }}
+            text="FAQ"
+          />
         </View>
       </View>
+
+      {/* </KeyboardAwareScrollView> */}
     </View>
   );
 };
@@ -147,7 +323,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     height: 50,
-    width: WIDTH * 0.95,
+    width: "100%",
     borderWidth: 1,
     borderRadius: 20,
     borderColor: "#f9f9f9",
@@ -160,7 +336,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   addressTextInput: {
-    width: "90%",
+    width: "85%",
     height: 45,
     paddingLeft: 10,
   },
@@ -202,4 +378,9 @@ const styles = StyleSheet.create({
     ...SHADOW,
   },
 });
-export default HomeScreen;
+
+function mapStateToProps({ location, payment }) {
+  return { location, payment };
+}
+// export default HomeScreen;
+export default connect(mapStateToProps)(HomeScreen);

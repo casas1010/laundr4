@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
@@ -6,58 +7,260 @@ import {
   View,
   TouchableOpacity,
   Image,
-  Dimensions,
   FlatList,
 } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { connect } from "react-redux";
+import * as actions from "../../actions";
+import Loader from "../../components/Loader";
 import Header from "../../components/Header";
 import GlobalStyles from "../../components/GlobalStyles";
+import Container from "../../components/Container";
 import {
+  BUTTON,
   WIDTH,
   FIELD_VALUE_TEXT,
   FIELD_NAME_TEXT,
 } from "../../components/Items/";
-import Container from "../../components/Container";
 import { PLANS } from "../../components/Data";
 
 const SubscriptionsScreen = (props) => {
-  const [price, setPrice] = useState();
-  const [plan, setPlan] = useState();
+  const [itemsIconColor, setItemsIconColor] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [view, setView] = useState(0);
 
   useEffect(() => {
     console.log("SubscriptionsScreen loaded");
+    setItemsColor();
+    onLoadViewDecider();
+    setLoading(false);
   }, []);
-  // WHAT IS THE WEIGHT OF THE STUDENT PLAN?
 
-  const setData = (item) => {
-    setPrice(item.price);
-    setPlan(item.planName);
-    console.log("item.planName: ", item.planName);
-    console.log("item.price: ", item.price);
+  const setItemsColor = () => {
+    console.log("Setting the colors");
+    let arr = {};
+
+    for (let element of PLANS) {
+      let ele = {
+        iconColorDisplay: "transparent",
+      };
+
+      arr[element.name] = ele;
+    }
+    // console.log('setItemsColor() arr:   ',arr)
+    setItemsIconColor({ ...arr });
   };
 
-  return (
-    <SafeAreaView style={GlobalStyles.droidSafeArea}>
-      <Header openDrawer={props.navigation.openDrawer} name="Subscriptions" />
+  const toggleItemInCart = (item) => {
+    let itemInCart = null;
 
+    if (!props.cart.length) {
+      console.log("first item in the cart");
+      itemInCart = item;
+      props.addItemToCart(item);
+    } else if (item.name === props.cart[0].name) {
+      console.log("item is duplicate, removing item from cart");
+      props.removeItemFromCart(item);
+    } else {
+      props.removeItemFromCart(props.cart[0]);
+      props.addItemToCart(item);
+      itemInCart = item;
+    }
+    toggleIconColor(itemInCart);
+    console.log("Cart: ", itemInCart);
+  };
+
+  const toggleIconColor = (item) => {
+    let obj = { ...itemsIconColor };
+
+    for (let itemName in obj) {
+      if (item === null) {
+        //   console.log('shopping cart empty')
+        obj[itemName]["iconColorDisplay"] = "transparent";
+        // console.log('item:  ',itemName)
+        // console.log(' icon color for  not-match item is :', obj[itemName]['iconColorDisplay']);
+      } else if (itemName == item.name) {
+        // console.log('match name: ', itemName);
+        // console.log('old icon color for the match item is :', obj[itemName]['iconColorDisplay']);
+        obj[itemName]["iconColorDisplay"] = "black";
+        // console.log('new icon color for the match item is :', obj[itemName]['iconColorDisplay']);
+      } else {
+        obj[itemName]["iconColorDisplay"] = "transparent";
+        // console.log('item:  ',itemName)
+        // console.log(' icon color for  not-match item is :', obj[itemName]['iconColorDisplay']);
+      }
+    }
+  };
+
+  const checkoutButton = () => {
+    if (props.cart.length) {
+      return (
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
+          <BUTTON
+            style={{ backgroundColor: "green" }}
+            onPress={() => {
+              console.log(props.cart);
+              props.navigation.navigate("Payment");
+            }}
+            text="Proceed to checkout"
+          />
+        </View>
+      );
+    }
+    return null;
+  };
+
+  const onLoadViewDecider = () => {
+    const { subscription } = props;
+    console.log("subscription.status:  ", subscription.status);
+    if (
+      subscription.status === "active" ||
+      subscription.status === "cancelled"
+    ) {
+      setView(1);
+      return;
+    }
+    setView(0);
+  };
+
+  const returnCurrentSubscriptionDetails = () => {
+    if (view == 1) {
+      return (
+        <Container>
+          <View style={styles.fieldContainer}>
+            <View style={styles.fieldNameContainer}>
+              <Text style={styles.fieldNameTxT}>Subscription plan:</Text>
+            </View>
+            <View
+              style={[
+                styles.fieldValueContainer,
+                {
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                },
+              ]}
+            >
+              <Text style={styles.fieldValueTxT}>
+                {props.subscription.plan}
+              </Text>
+            </View>
+          </View>
+          {/*  */}
+          <View style={styles.fieldContainer}>
+            <View style={styles.fieldNameContainer}>
+              <Text style={styles.fieldNameTxT}>Subscription status:</Text>
+            </View>
+            <View
+              style={[
+                styles.fieldValueContainer,
+                {
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                },
+              ]}
+            >
+              <Text style={styles.fieldValueTxT}>
+                {props.subscription.status}
+              </Text>
+            </View>
+          </View>
+          {/*  */}
+          <View style={styles.fieldContainer}>
+            <View style={styles.fieldNameContainer}>
+              <Text style={styles.fieldNameTxT}>Date of last renewal:</Text>
+            </View>
+            <View
+              style={[
+                styles.fieldValueContainer,
+                {
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                },
+              ]}
+            >
+              <Text style={styles.fieldValueTxT}>
+                {props.subscription.periodStart.slice(0, 10)}
+              </Text>
+            </View>
+          </View>
+          {/*  */}
+          <View style={styles.fieldContainer}>
+            <View style={styles.fieldNameContainer}>
+              <Text style={styles.fieldNameTxT}>Date of next renewal:</Text>
+            </View>
+            <View
+              style={[
+                styles.fieldValueContainer,
+                {
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                },
+              ]}
+            >
+              <Text style={styles.fieldValueTxT}>
+                {props.subscription.periodEnd.slice(0, 10)}
+              </Text>
+            </View>
+          </View>
+          {/*  */}
+        </Container>
+      );
+    }
+  };
+
+  return loading ? (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Loader />
+    </View>
+  ) : (
+    <SafeAreaView style={GlobalStyles.droidSafeArea}>
+      <Header
+        openDrawer={() => props.navigation.navigate("Home")}
+        name={view == 0 ? "Subscriptions" : "Subscription Details"}
+      />
+      {returnCurrentSubscriptionDetails()}
       <FlatList
         horizontal={false}
         data={PLANS}
-        keyExtractor={(item) => item.planName}
+        ListFooterComponent={checkoutButton}
+        keyExtractor={(item) => item.name}
         renderItem={({ item }) => {
-          if (item.planName !== "Student") {
+          if (item.name !== "Student") {
             return (
-              <TouchableOpacity onPress={() => setData(item)}>
+              <TouchableOpacity
+                onPress={() => {
+                  toggleItemInCart(item);
+                  console.log(itemsIconColor[item.name]["iconColorDisplay"]);
+                }}
+              >
                 <Container
-                  style={{ alignItems: "center", justifyContent: "center" }}
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    position: "relative",
+                  }}
                 >
-                  <Text style={FIELD_NAME_TEXT}>{item.planName}</Text>
+                  <Icon
+                    name="check"
+                    color={itemsIconColor[item.name]["iconColorDisplay"]}
+                    size={36}
+                    style={{ position: "absolute", left: "5%" }}
+                  />
+
+                  <Text style={FIELD_NAME_TEXT}>{item.name}</Text>
                   <Text
                     style={[
                       FIELD_VALUE_TEXT,
                       { textAlign: "center", color: "#01c9e2" },
                     ]}
                   >
-                    {item.price} /Week
+                    ${item.price} /Week
                   </Text>
                   <Text style={styles.cardDetails}>
                     {item.weight} lbs monthly
@@ -68,23 +271,39 @@ const SubscriptionsScreen = (props) => {
           }
           return (
             <TouchableOpacity
-              style={styles.studentCardContainer}
-              onPress={() => setData(item)}
+              // style={styles.studentCardContainer}
+              onPress={() => toggleItemInCart(item)}
             >
-              <View>
-                <Text style={styles.footerTitle}>The Student Plan!</Text>
-                <Text style={styles.footerDetails}>
-                  {item.price}/wk with valid student ID
-                </Text>
-              </View>
-
-              <View style={styles.studentImageContainer}>
-                <Image
-                  style={styles.studentImage}
-                  resizeMode="contain"
-                  source={require("../../assets/Minimalist.png")}
+              <Container
+                style={{
+  
+                  ...styles.studentCardContainer,
+                }}
+              >
+                <Icon
+                  name="check"
+                  color={itemsIconColor[item.name]["iconColorDisplay"]}
+                  size={36}
+                  style={{ position: "absolute", left: "5%" }}
                 />
-              </View>
+                <View
+                  style={{ alignItems: "center", justifyContent: "center" }}
+                >
+                  <Text style={styles.footerTitle}>Student</Text>
+                  <Text style={[styles.footerDetails]}>{item.price}/wk</Text>
+                  <Text style={[styles.footerDetails]}>
+                    with valid student ID
+                  </Text>
+                </View>
+
+                <View style={styles.studentImageContainer}>
+                  <Image
+                    style={styles.studentImage}
+                    resizeMode="contain"
+                    source={require("../../assets/Minimalist.png")}
+                  />
+                </View>
+              </Container>
             </TouchableOpacity>
           );
         }}
@@ -94,7 +313,6 @@ const SubscriptionsScreen = (props) => {
 };
 
 const styles = StyleSheet.create({
-
   cardPrice: {
     fontWeight: "bold",
     color: "#01c9e2",
@@ -112,7 +330,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
   },
-  innerFooter: {},
+  fieldValueContainer: {
+    width: "50%",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+  fieldContainer: {
+    flexDirection: "row",
+    marginBottom: 5,
+    marginTop: 5,
+  },
+  fieldNameContainer: {
+    width: "50%",
+    // backgroundColor:'red',
+  },
   footerTitle: {
     fontWeight: "bold",
     color: "white",
@@ -127,6 +358,17 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
   },
+  checkoutButton: {
+    backgroundColor: "red",
+    height: 80,
+    width: 80,
+    borderRadius: 80,
+    backgroundColor: "green",
+  },
 });
 
-export default SubscriptionsScreen;
+function mapStateToProps({ cart, subscription }) {
+  return { cart, subscription };
+}
+
+export default connect(mapStateToProps, actions)(SubscriptionsScreen);
